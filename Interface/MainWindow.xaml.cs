@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpGL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace NeOMecS
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void OpenGLControl_OpenGLDraw(object sender, SharpGL.WPF.OpenGLRoutedEventArgs args)
+        {
+            
         }
     }
 }

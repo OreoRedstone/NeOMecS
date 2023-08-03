@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeOMecS"
+        xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Grid>
+            <Label Content="Boo" />
+        </Grid>
+        <sharpGL:OpenGLControl OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="True" FrameRate="30" Width="400" />
     </Grid>
 </Window>
