@@ -1,4 +1,5 @@
-﻿using SharpGL;
+﻿using NeOMecS.Physics;
+using SharpGL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace NeOMecS
 
         private void OpenGLControl_OpenGLDraw(object sender, SharpGL.WPF.OpenGLRoutedEventArgs args)
         {
-            
+            Simulation.SimulateStep();
         }
     }
 }

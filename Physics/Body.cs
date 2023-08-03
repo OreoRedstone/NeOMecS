@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeOMecS.Simulation
+namespace NeOMecS.Physics
 {
     class Body
     {
@@ -41,9 +41,10 @@ namespace NeOMecS.Simulation
             acceleration = newAcceleration;
         }
 
-        public void UpdatePosition(double timeStep)
+        public void UpdateVelocityAndPosition(double timeStep)
         {
-            position = Vector2.AddVectors(Vector2.ScalarMultiply(acceleration, timeStep), position);
+            velocity += acceleration * timeStep;
+            position += velocity * timeStep;
         }
     }
 }

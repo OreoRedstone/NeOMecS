@@ -59,14 +59,25 @@ namespace NeOMecS.Utilities
             get => new Vector2(0, -1);
         }
 
-        ///<returns>The input vector multiplied by the scalar value.</returns>
-        public static Vector2 ScalarMultiply(Vector2 vector, double scalar)
+        ///<returns>
+        ///The input vector multiplied by the scalar value.
+        ///</returns>
+        public static Vector2 operator *(Vector2 vector, double scalar)
         {
-            Vector2 result = new Vector2(vector.x * scalar, vector.y * scalar);
-            return result;
+            return new Vector2(vector.x * scalar, vector.y * scalar);
         }
 
-        ///<returns>The magnitude of the input vector.</returns>
+        ///<returns>
+        ///The input vector divided by the scalar value.
+        ///</returns>
+        public static Vector2 operator /(Vector2 vector, double scalar)
+        {
+            return new Vector2(vector.x / scalar, vector.y / scalar);
+        }
+
+        ///<returns>
+        ///The magnitude of the input vector.
+        ///</returns>
         public static double GetMagnitude(Vector2 vector)
         {
             double sqrMagnitude = Math.Pow(vector.x, 2) + Math.Pow(vector.y, 2);
@@ -74,7 +85,9 @@ namespace NeOMecS.Utilities
             return magnitude;
         }
 
-        ///<returns>The vector in the same direction as the input, but with a magnitude of 1.</returns>
+        ///<returns>
+        ///The vector in the same direction as the input, but with a magnitude of 1.
+        ///</returns>
         public static Vector2 GetNormalised(Vector2 vector)
         {
             double magnitude = GetMagnitude(vector);
@@ -82,24 +95,28 @@ namespace NeOMecS.Utilities
             return normalised;
         }
 
-        ///<returns>The vector sum of a and b.</returns>
-        public static Vector2 AddVectors(Vector2 a, Vector2 b)
+        ///<returns>
+        ///The vector sum of a and b.
+        ///</returns>
+        public static Vector2 operator +(Vector2 a, Vector2 b)
         {
-            Vector2 vector = new Vector2(a.x + b.x, a.y + b.y);
-            return vector;
+            return new Vector2(a.x + b.x, a.y + b.y);
         }
 
-        ///<returns>The vector a - b.</returns>
-        public static Vector2 SubtractVectors(Vector2 a, Vector2 b)
+        ///<returns>
+        ///The vector a - b.
+        ///</returns>
+        public static Vector2 operator -(Vector2 a, Vector2 b)
         {
-            Vector2 vector = new Vector2(a.x - b.x, a.y - b.y);
-            return vector;
+            return new Vector2(a.x - b.x, a.y - b.y);
         }
 
-        ///<returns>The distance between a and b.</returns>
+        ///<returns>
+        ///The distance between a and b.
+        ///</returns>
         public static double GetDistance(Vector2 a, Vector2 b)
         {
-            double distance = GetMagnitude(SubtractVectors(a, b));
+            double distance = GetMagnitude(a - b);
             return distance;
         }
     }
