@@ -47,5 +47,10 @@ namespace NeOMecS.Physics
         {
             return bodies.ToArray();
         }
+
+        public static void AddBody(Body body)
+        {
+            bodies.Add(body);
+        }
     }
 }

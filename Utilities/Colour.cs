@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace NeOMecS.Utilities
 {
-    class Colour
+    public class Colour
     {
         public int red;
         public int blue;
