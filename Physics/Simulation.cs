@@ -7,7 +7,7 @@ using NeOMecS.Utilities;
 
 namespace NeOMecS.Physics
 {
-    static class Simulation
+    public static class Simulation
     {
         private static double gravitationalConstant = 1;
         private static List<Body> bodies = new List<Body>();
