@@ -10,6 +10,7 @@ namespace NeOMecS.Physics
     public class Body
     {
         private string name;
+        private string parent;
         private double radius;
         private Colour colour;
         private Vector2 position;
@@ -34,6 +35,11 @@ namespace NeOMecS.Physics
             return position;
         }
 
+        public double GetRadius()
+        {
+            return radius;
+        }
+
         public double GetMass()
         {
             return mass;
@@ -53,6 +59,11 @@ namespace NeOMecS.Physics
         public string GetName()
         {
             return name;
+        }
+
+        public Colour GetColour()
+        {
+            return colour;
         }
     }
 }

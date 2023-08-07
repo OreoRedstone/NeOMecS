@@ -1,4 +1,5 @@
 ﻿using NeOMecS.Physics;
+using NeOMecS.Utilities;
 using SharpGL;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace NeOMecS.Interface
     /// </summary>
     public partial class MainWindow : Window
     {
+        Renderer renderer = new Renderer();
         private Body? selectedObject;
 
         public MainWindow()
@@ -31,7 +33,7 @@ namespace NeOMecS.Interface
 
         private void OpenGLControl_OpenGLDraw(object sender, SharpGL.WPF.OpenGLRoutedEventArgs args)
         {
-            Simulation.SimulateStep();
+            renderer.RenderFrame(sender, args);
         }
 
         /// <summary>

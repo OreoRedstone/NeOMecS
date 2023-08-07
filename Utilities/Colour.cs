@@ -21,5 +21,14 @@ namespace NeOMecS.Utilities
             this.blue = blue;
             this.green = green;
         }
+
+        public float[] GetAsFloatArray()
+        {
+            float[] colour = new float[3];
+            colour[0] = red;
+            colour[1] = blue;
+            colour[2] = green;
+            return colour;
+        }
     }
 }
