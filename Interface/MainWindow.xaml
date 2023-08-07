@@ -19,12 +19,13 @@
             <RowDefinition Height="20"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
 
 
-        <sharpGL:OpenGLControl Grid.Column="2" Grid.Row="2" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="False" FrameRate="30"/>
+        <sharpGL:OpenGLControl Grid.Column="2" Grid.RowSpan="2" Grid.Row="2" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="False" FrameRate="30"/>
         <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" FontWeight="SemiBold">
             Solar System
         </TextBlock>
@@ -61,7 +62,13 @@
                 <TextBlock Text="   Neptune" Grid.Row="9" VerticalAlignment="Center"/>
             </Grid>
         </ScrollViewer>
-        <ScrollViewer Grid.Column="3" Grid.Row="2" Margin="0, 5, 0, 5" VerticalScrollBarVisibility="Auto">
+        <Button Grid.Column="1" Grid.Row="3" Width="20" Margin="5" HorizontalAlignment="Right">
+            <Path Data="M0.5,0 L0.5,1 M0,0.5 L1,0.5"
+          StrokeThickness="1"
+          Stretch="Fill"
+          Stroke="Black" />
+        </Button>
+        <ScrollViewer Grid.Column="3" Grid.RowSpan="2" Grid.Row="2" Margin="0, 5, 0, 5" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5"/>
