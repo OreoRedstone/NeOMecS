@@ -9,16 +9,16 @@ namespace NeOMecS.Physics
 {
     public class Body
     {
-        private string name;
+        public string name { get; private set; }
         private string parent;
-        private double radius;
-        private Colour colour;
-        private Vector2 position;
+        public double radius { get; private set; }
+        public Colour colour { get; private set; }
+        public Vector2 position { get; private set; }
         private Vector2 velocity;
         private Vector2 acceleration;
-        private double mass;
+        public double mass { get; private set; }
 
-        public Body(string name, double radius, Colour colour, Vector2 position, Vector2 velocity, Vector2 acceleration, double mass)
+        public Body(string name, double radius, Colour colour, Vector2 position, Vector2 velocity, Vector2 acceleration, double mass, string parent)
         {
             this.name = name;
             this.radius = radius;
@@ -27,22 +27,8 @@ namespace NeOMecS.Physics
             this.velocity = velocity;
             this.acceleration = acceleration;
             this.mass = mass;
+            this.parent = parent;
             Simulation.AddBody(this);
-        }
-
-        public Vector2 GetPosition()
-        {
-            return position;
-        }
-
-        public double GetRadius()
-        {
-            return radius;
-        }
-
-        public double GetMass()
-        {
-            return mass;
         }
 
         public void UpdateAcceleration(Vector2 newAcceleration)
@@ -54,16 +40,6 @@ namespace NeOMecS.Physics
         {
             velocity += acceleration * timeStep;
             position += velocity * timeStep;
-        }
-
-        public string GetName()
-        {
-            return name;
-        }
-
-        public Colour GetColour()
-        {
-            return colour;
         }
     }
 }

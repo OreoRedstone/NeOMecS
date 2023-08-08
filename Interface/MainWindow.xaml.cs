@@ -1,6 +1,7 @@
 ﻿using NeOMecS.Physics;
 using NeOMecS.Utilities;
 using SharpGL;
+using SharpGL.WPF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,11 +30,17 @@ namespace NeOMecS.Interface
         public MainWindow()
         {
             InitializeComponent();
+            Body earth = new Body("Earth", 100, new Colour(0, 1, 0), new Vector2(0, 0), Vector2.Zero, Vector2.Zero, 1, "Sun");
         }
 
-        private void OpenGLControl_OpenGLDraw(object sender, SharpGL.WPF.OpenGLRoutedEventArgs args)
+        private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
         {
             renderer.RenderFrame(sender, args);
+        }
+
+        private void OpenGLControl_Resized(object sender, OpenGLRoutedEventArgs args)
+        {
+            renderer.OnResize(sender, args);
         }
 
         /// <summary>
@@ -54,9 +61,9 @@ namespace NeOMecS.Interface
 
                     //Creates a new textblock, configuring it to the right text, alignment, name, grid and row.
                     TextBlock text = new TextBlock();
-                    text.Text = body.GetName();
+                    text.Text = body.name;
+                    text.Name = body.name;
                     text.VerticalAlignment = VerticalAlignment.Center;
-                    text.Name = body.GetName();
                     BodySidebarGrid.Children.Add(text);
                     text.SetValue(Grid.RowProperty, i);
 
@@ -64,6 +71,12 @@ namespace NeOMecS.Interface
                     i++;
                 } 
             }
+        }
+
+        public Vector2 GetRenderWindowSize()
+        {
+            Vector2 size = new Vector2(RenderWindow.ActualWidth, RenderWindow.ActualHeight);
+            return size;
         }
     }
 }

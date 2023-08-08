@@ -25,7 +25,7 @@
 
 
 
-        <sharpGL:OpenGLControl Grid.Column="2" Grid.RowSpan="2" Grid.Row="2" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="False" FrameRate="30"/>
+        <sharpGL:OpenGLControl x:Name="RenderWindow" Grid.Column="2" Grid.RowSpan="2" Grid.Row="2" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="False" FrameRate="30" Resized="OpenGLControl_Resized"/>
         <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" FontWeight="SemiBold">
             Solar System
         </TextBlock>
