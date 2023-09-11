@@ -4,6 +4,7 @@ using SharpGL;
 using SharpGL.WPF;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,66 +18,148 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NeOMecS.Interface
+namespace NeOMecS.Interface;
+
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    Renderer renderer = new Renderer();
+    private Body? selectedObject;
+    private List<Key> pressedKeys = new List<Key>();
+    private Stopwatch timeSinceLastFrame;
+
+    public MainWindow()
     {
-        Renderer renderer = new Renderer();
-        private Body? selectedObject;
+        timeSinceLastFrame = new();
+        timeSinceLastFrame.Start();
+        InitializeComponent();
+        var earth = new Body("Earth", 1, new Colour(0, 1, 1), new Vector2(-10, 0), Vector2.Up * 0000, Vector2.Zero, 1, "Sun");
+        Simulation.AddBody(earth);
 
-        public MainWindow()
+        var sun = new Body("Sun", 10, new Colour(1, 0, 0), new Vector2(10, 0), Vector2.Down * 0, Vector2.Zero, 1, "");
+        Simulation.AddBody(sun);
+
+        UpdateBodySidebar(Simulation.GetBodiesAsArray());
+
+        if(Simulation.GetBodiesAsArray().Length > 0)
         {
-            InitializeComponent();
-            Body earth = new Body("Earth", 100, new Colour(0, 1, 0), new Vector2(0, 0), Vector2.Zero, Vector2.Zero, 1, "Sun");
+            selectedObject = Simulation.GetBodiesAsArray()[0];
         }
+    }
 
-        private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
+    private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
+    {
+        Vector2 cameraMoveAmount = Vector2.Zero;
+        foreach (var key in pressedKeys)
         {
-            renderer.RenderFrame(sender, args);
-        }
-
-        private void OpenGLControl_Resized(object sender, OpenGLRoutedEventArgs args)
-        {
-            renderer.OnResize(sender, args);
-        }
-
-        /// <summary>
-        /// This function updates the left sidebar of the main form to fit the array of bodies passed in.
-        /// </summary>
-        public void UpdateBodySidebar(Body[] bodies)
-        {
-            BodySidebarGrid.Children.Clear();
-            int i = 0;
-            foreach (Body body in bodies)
+            switch (key)
             {
-                if (body != null)
-                {
-                    //Creates a new row, configuring it to the correct grid and height.
-                    RowDefinition row = new RowDefinition();
-                    row.Height = new GridLength(20);
-                    BodySidebarGrid.RowDefinitions.Add(new RowDefinition());
-
-                    //Creates a new textblock, configuring it to the right text, alignment, name, grid and row.
-                    TextBlock text = new TextBlock();
-                    text.Text = body.name;
-                    text.Name = body.name;
-                    text.VerticalAlignment = VerticalAlignment.Center;
-                    BodySidebarGrid.Children.Add(text);
-                    text.SetValue(Grid.RowProperty, i);
-
-                    //Increases the row count.
-                    i++;
-                } 
+                case Key.W:
+                    cameraMoveAmount += Vector2.Up;
+                    break;
+                case Key.S:
+                    cameraMoveAmount += Vector2.Down;
+                    break;
+                case Key.D:
+                    cameraMoveAmount += Vector2.Right;
+                    break;
+                case Key.A:
+                    cameraMoveAmount += Vector2.Left;
+                    break;
+                default:
+                    break;
             }
         }
-
-        public Vector2 GetRenderWindowSize()
+        renderer.cameraPosition += Vector2.GetNormalised(cameraMoveAmount) * 0.00001 * timeSinceLastFrame.ElapsedTicks;
+        if(!(timeSinceLastFrame.ElapsedMilliseconds > 1000))
         {
-            Vector2 size = new Vector2(RenderWindow.ActualWidth, RenderWindow.ActualHeight);
-            return size;
+            Simulation.SimulateStep(timeSinceLastFrame.ElapsedMilliseconds);
         }
+        UpdateInfoSidebar(selectedObject);
+        renderer.RenderFrame(sender, args);
+        timeSinceLastFrame.Restart();
+    }
+
+    private void OpenGLControl_Resized(object sender, OpenGLRoutedEventArgs args)
+    {
+        renderer.OnResize(sender, args);
+    }
+
+    /// <summary>
+    /// This function updates the left sidebar of the main form to fit the array of bodies passed in.
+    /// </summary>
+    public void UpdateBodySidebar(Body[] bodies)
+    {
+        BodySidebarGrid.Children.Clear();
+        int i = 0;
+        foreach (Body body in bodies)
+        {
+            if (body == null) continue;
+
+            //Creates a new row, configuring it to the correct grid and height.
+            var row = new RowDefinition
+            {
+                Height = new GridLength(20)
+            };
+            BodySidebarGrid.RowDefinitions.Add(new RowDefinition());
+
+            //Creates a new textblock, configuring it to the right text, alignment, name, grid and row.
+            var text = new TextBlock
+            {
+                Text = body.name,
+                Name = body.name,
+                VerticalAlignment = VerticalAlignment.Center,
+                Tag = body
+            };
+            text.MouseLeftButtonUp += new MouseButtonEventHandler(TextBlockClickCall);
+            BodySidebarGrid.Children.Add(text);
+            text.SetValue(Grid.RowProperty, i);
+
+            //Increases the row count.
+            i++;
+        }
+    }
+    
+    private void TextBlockClickCall(object sender, MouseButtonEventArgs e)
+    {
+        TextBlock block = sender as TextBlock;
+        Body body = block.Tag as Body;
+        selectedObject = body;
+    }
+
+
+    private void UpdateInfoSidebar(Body body)
+    {
+        InfoSidebarTitle.Text = body.name;
+        InfoSidebarMass.Text = body.mass.ToString();
+        InfoSidebarSpeed.Text = body.velocity.Magnitude.ToString();
+        InfoSidebarVelocityX.Text = body.velocity.x.ToString();
+        InfoSidebarVelocityY.Text = body.velocity.y.ToString();
+        InfoSidebarAccelerationX.Text = body.acceleration.x.ToString();
+        InfoSidebarAccelerationY.Text = body.acceleration.y.ToString();
+    }
+
+    public Vector2 GetRenderWindowSize()
+    {
+        var size = new Vector2(RenderWindow.ActualWidth, RenderWindow.ActualHeight);
+        return size;
+    }
+
+    private void AddNewBody(object sender, RoutedEventArgs e)
+    {
+        new Body("Placeholder", 1, new Colour(255, 255, 255), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), 1, "");
+    }
+
+    private void Window_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (pressedKeys.Contains(e.Key)) return;
+        pressedKeys.Add(e.Key);
+    }
+
+    private void Window_KeyUp(object sender, KeyEventArgs e)
+    {
+        pressedKeys.Remove(e.Key);
     }
 }

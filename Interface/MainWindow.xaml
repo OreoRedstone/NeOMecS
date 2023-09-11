@@ -1,4 +1,6 @@
 ﻿<Window x:Class="NeOMecS.Interface.MainWindow"
+        KeyDown="Window_KeyDown"
+        KeyUp="Window_KeyUp"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -25,14 +27,14 @@
 
 
 
-        <sharpGL:OpenGLControl x:Name="RenderWindow" Grid.Column="2" Grid.RowSpan="2" Grid.Row="2" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="False" FrameRate="30" Resized="OpenGLControl_Resized"/>
+        <sharpGL:OpenGLControl x:Name="RenderWindow" Grid.Column="2" Grid.RowSpan="2" Grid.Row="2" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="True" FrameRate="60" Resized="OpenGLControl_Resized"/>
         <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" FontWeight="SemiBold">
             Solar System
         </TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">
             Celestial Objects
         </TextBlock>
-        <TextBlock Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">
+        <TextBlock x:Name="InfoSidebarTitle" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">
             Venus
         </TextBlock>
         <ScrollViewer Grid.Column="1" Grid.Row="2" Margin="0, 5, 0, 5" VerticalScrollBarVisibility="Auto">
@@ -62,7 +64,7 @@
                 <TextBlock Text="   Neptune" Grid.Row="9" VerticalAlignment="Center"/>
             </Grid>
         </ScrollViewer>
-        <Button Grid.Column="1" Grid.Row="3" Width="20" Margin="5" HorizontalAlignment="Right">
+        <Button Grid.Column="1" Grid.Row="3" Width="20" Margin="5" HorizontalAlignment="Right" Click="AddNewBody">
             <Path Data="M0.5,0 L0.5,1 M0,0.5 L1,0.5"
           StrokeThickness="1"
           Stretch="Fill"
@@ -80,14 +82,28 @@
                     <RowDefinition Height="20"/>
                     <RowDefinition Height="20"/>
                     <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
                 <TextBlock Grid.Column="1" Grid.Row="1" Text="Mass:"/>
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="5" HorizontalAlignment="Right"/>
+                <TextBlock x:Name="InfoSidebarMass" Grid.Column="1" Grid.Row="1" Text="5" HorizontalAlignment="Right"/>
                 <TextBlock Grid.Column="1" Grid.Row="2" Text="Speed:"/>
-                <TextBlock Grid.Column="1" Grid.Row="2" Text="10" HorizontalAlignment="Right"/>
-                <TextBlock Grid.Column="1" Grid.Row="3" Text="Acceleration:"/>
-                <TextBlock Grid.Column="1" Grid.Row="3" Text="0.01" HorizontalAlignment="Right"/>
+                <TextBlock x:Name="InfoSidebarSpeed" Grid.Column="1" Grid.Row="2" Text="10" HorizontalAlignment="Right"/>
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="Velocity:"/>
+                <TextBlock Padding="50,0,0,0" Grid.Column="1" Grid.Row="4" Text="X:" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="InfoSidebarVelocityX" Grid.Column="1" Grid.Row="4" Text="0.01" HorizontalAlignment="Right"/>
+                <TextBlock Padding="50,0,0,0" Grid.Column="1" Grid.Row="5" Text="Y:"/>
+                <TextBlock x:Name="InfoSidebarVelocityY" Grid.Column="1" Grid.Row="5" Text="0.01" HorizontalAlignment="Right"/>
+                <TextBlock Grid.Column="1" Grid.Row="6" Text="Acceleration:"/>
+                <TextBlock Padding="50,0,0,0" Grid.Column="1" Grid.Row="7" Text="X:" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="InfoSidebarAccelerationX" Grid.Column="1" Grid.Row="7" Text="0.01" HorizontalAlignment="Right"/>
+                <TextBlock Padding="50,0,0,0" Grid.Column="1" Grid.Row="8" Text="Y:"/>
+                <TextBlock x:Name="InfoSidebarAccelerationY" Grid.Column="1" Grid.Row="8" Text="0.01" HorizontalAlignment="Right"/>
             </Grid>
         </ScrollViewer>
         <Menu Grid.Column="0" Grid.ColumnSpan="5">
