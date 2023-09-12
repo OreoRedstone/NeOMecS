@@ -44,6 +44,16 @@ public partial class MainWindow : Window
         {
             selectedObject = bodies[0];
         }
+        
+        var dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+        dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+        dispatcherTimer.Interval = TimeSpan.FromMilliseconds(17);
+        dispatcherTimer.Start();
+    }
+
+    private void dispatcherTimer_Tick(object? sender, EventArgs e)
+    {
+        Simulation.SimulateStep(17);
     }
 
     private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
@@ -69,10 +79,10 @@ public partial class MainWindow : Window
                     break;
             }
         }
-        renderer.cameraPosition += Vector2.GetNormalised(cameraMoveAmount) * 0.00001 * timeSinceLastFrame.ElapsedTicks;
+        renderer.cameraPosition += Vector2.GetNormalised(cameraMoveAmount) * timeSinceLastFrame.ElapsedMilliseconds;
         if(!(timeSinceLastFrame.ElapsedMilliseconds > 1000))
         {
-            Simulation.SimulateStep(timeSinceLastFrame.ElapsedMilliseconds);
+            //Simulation.SimulateStep(timeSinceLastFrame.ElapsedMilliseconds);
         }
         UpdateInfoSidebar(selectedObject);
         renderer.RenderFrame(sender, args);
@@ -106,7 +116,7 @@ public partial class MainWindow : Window
             var text = new TextBlock
             {
                 Text = body.name,
-                Name = body.name,
+                Name = body.name.Replace(" ", "_"),
                 VerticalAlignment = VerticalAlignment.Center,
                 Tag = body.guid
             };
@@ -131,7 +141,7 @@ public partial class MainWindow : Window
     {
         InfoSidebarTitle.Text = body.name;
         InfoSidebarMass.Text = body.mass.ToString();
-        InfoSidebarSpeed.Text = body.velocity.Magnitude.ToString();
+        InfoSidebarSpeed.Text = Vector2.GetMagnitude(body.velocity).ToString();
         InfoSidebarPositionX.Text = body.position.x.ToString();
         InfoSidebarPositionY.Text = body.position.y.ToString();
         InfoSidebarVelocityX.Text = body.velocity.x.ToString();
@@ -148,7 +158,9 @@ public partial class MainWindow : Window
 
     private void AddNewBody(object sender, RoutedEventArgs e)
     {
-        new Body("Placeholder", 1, new Colour(255, 255, 255), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), 1, "");
+        var body = new Body("Placeholder", 1, new Colour(255, 255, 255), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), 1, "");
+        Simulation.AddBody(body);
+        UpdateBodySidebar(Simulation.GetBodiesAsArray());
     }
 
     private void Window_KeyDown(object sender, KeyEventArgs e)

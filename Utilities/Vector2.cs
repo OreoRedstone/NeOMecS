@@ -98,11 +98,6 @@ public class Vector2
         return magnitude;
     }
 
-    public double Magnitude
-    {
-        get => GetMagnitude(this);
-    }
-
     ///<returns>
     ///The vector in the same direction as the input, but with a magnitude of 1.
     ///</returns>
@@ -115,19 +110,12 @@ public class Vector2
         return normalised;
     }
 
-    public Vector2 Normalized
-    {
-        get => GetNormalised(this);
-    }
-
     ///<returns>
     ///The vector sum of a and b.
     ///</returns>
     public static Vector2 operator +(Vector2 a, Vector2 b)
     {
-        a.x += b.x;
-        a.y += b.y;
-        return a;
+        return new Vector2(a.x + b.x, a.y + b.y);
     }
 
     ///<returns>
@@ -135,9 +123,7 @@ public class Vector2
     ///</returns>
     public static Vector2 operator -(Vector2 a, Vector2 b)
     {
-        a.x -= b.x;
-        a.y -= b.y;
-        return a;
+        return new Vector2(a.x - b.x, a.y - b.y);
     }
 
     ///<returns>

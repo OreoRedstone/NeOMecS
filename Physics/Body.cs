@@ -23,8 +23,6 @@ public class Body
 
     public Body(string name, double radius, Colour colour, Vector2 position, Vector2 velocity, Vector2 acceleration, double mass, string parent)
     {
-        guid = Guid.NewGuid().ToString();
-
         this.name = name;
         this.radius = radius;
         this.colour = colour;
@@ -33,30 +31,63 @@ public class Body
         this.acceleration = acceleration;
         this.mass = mass;
         this.parent = parent;
+
+        guid = Guid.NewGuid().ToString();
     }
 
     public void UpdateAcceleration(Vector2 newAcceleration)
     {
-        var closestBody = Simulation.GetBodiesAsArray().Where(b => b != this).Min(b => Vector2.GetDistance(b.position, position) - b.radius) - radius;
-        if (closestBody < 100) return;
+        /*
+        double closestBody = 0;
+        try
+        {
+            closestBody = Simulation.GetBodiesAsArray().Where(b => b != this).Min(b => Vector2.GetDistance(b.position, position) - b.radius) - radius;
+        }
+        catch (Exception)
+        {
+
+        }
+
+        if (closestBody < 1)
+        {
+            acceleration = Vector2.Zero;
+            return;
+        }
+        */
         acceleration = newAcceleration;
     }
 
     public void UpdateVelocityAndPosition(double elapsedSeconds)
     {
-        var closestBody = Simulation.GetBodiesAsArray().Where(b => b != this).Min(b => Vector2.GetDistance(b.position, position) - b.radius - radius);
-        if (closestBody < 100) return;
+        /*
+        double closestBody = 0;
+        try
+        {
+            closestBody = Simulation.GetBodiesAsArray().Where(b => b != this).Min(b => Vector2.GetDistance(b.position, position) - b.radius) - radius;
+        }
+        catch (Exception)
+        {
 
-        velocity += acceleration * elapsedSeconds;
+        }
 
-        position += velocity * elapsedSeconds;
+        if (closestBody < 1)
+        {
+            velocity = Vector2.Zero;
+            return;
+        }
+        */
+        var deltaVelocity = acceleration * elapsedSeconds;
+        velocity += deltaVelocity;
+
+        var deltaPosition = velocity * elapsedSeconds;
+        position += deltaPosition;
     }
 
     public void UpdatePositionForCollision(Body other)
     {
         if(position == other.position)
         {
-            position -= velocity.Normalized * radius / 2;
+            position += Vector2.GetNormalised(velocity) * radius / -2;
         }
         else
         {

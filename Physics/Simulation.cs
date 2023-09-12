@@ -10,7 +10,7 @@ namespace NeOMecS.Physics;
 
 public static class Simulation
 {
-    private static double gravitationalConstant = 1;
+    private static double gravitationalConstant = 0.1;
     private static List<Body> bodies = new List<Body>();
     private static double simSpeed = 1;
 
@@ -18,12 +18,12 @@ public static class Simulation
     {
         foreach (Body body in bodies)
         {
-            var acceleration = new Vector2(0, 0);
+            var acceleration = Vector2.Zero;
             foreach (Body other in bodies)
             {
                 if (body == other) continue;
 
-                if (Vector2.GetDistance(body.position, other.position) < body.radius + other.radius)
+                if (Vector2.GetDistance(body.position, other.position) < (body.radius + other.radius))
                 {
                     body.UpdatePositionForCollision(other);
 
@@ -46,7 +46,7 @@ public static class Simulation
         }
         foreach (Body body in bodies)
         {
-            body.UpdateVelocityAndPosition(elapsedMilliseconds / 1000.0 / simSpeed);
+            body.UpdateVelocityAndPosition(elapsedMilliseconds / simSpeed);
         }
     }
 
@@ -58,11 +58,12 @@ public static class Simulation
     public static void Reset()
     {
         bodies.Clear();
-        var earth = new Body("Earth", 1, new Colour(0, 1, 1), new Vector2(-10, 0), Vector2.Zero, Vector2.Zero, 0, "Sun");
-        AddBody(earth);
 
-        var sun = new Body("Sun", 10, new Colour(1, 0, 0), new Vector2(10, 0), Vector2.Zero, Vector2.Zero, 0, "");
+        var sun = new Body("The Sun", 10, new Colour(1, 0, 0), new Vector2(10, 0), Vector2.Zero, Vector2.Zero, 100, "");
         AddBody(sun);
+
+        var earth = new Body("Earth", 1, new Colour(0, 1, 1), new Vector2(-10, 0), Vector2.Zero, Vector2.Zero, 1, "The Sun");
+        AddBody(earth);
     }
 
     public static void AddBody(Body body)
