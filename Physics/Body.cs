@@ -10,6 +10,8 @@ namespace NeOMecS.Physics;
 
 public class Body
 {
+    public string guid;
+
     public string name { get; private set; }
     private string parent;
     public double radius { get; private set; }
@@ -21,6 +23,8 @@ public class Body
 
     public Body(string name, double radius, Colour colour, Vector2 position, Vector2 velocity, Vector2 acceleration, double mass, string parent)
     {
+        guid = Guid.NewGuid().ToString();
+
         this.name = name;
         this.radius = radius;
         this.colour = colour;
@@ -52,7 +56,7 @@ public class Body
     {
         if(position == other.position)
         {
-            position = position - velocity.Normalized * radius / 2;
+            position -= velocity.Normalized * radius / 2;
         }
         else
         {

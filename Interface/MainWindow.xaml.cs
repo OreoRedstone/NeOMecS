@@ -35,17 +35,14 @@ public partial class MainWindow : Window
         timeSinceLastFrame = new();
         timeSinceLastFrame.Start();
         InitializeComponent();
-        var earth = new Body("Earth", 1, new Colour(0, 1, 1), new Vector2(-10, 0), Vector2.Up * 0000, Vector2.Zero, 1, "Sun");
-        Simulation.AddBody(earth);
 
-        var sun = new Body("Sun", 10, new Colour(1, 0, 0), new Vector2(10, 0), Vector2.Down * 0, Vector2.Zero, 1, "");
-        Simulation.AddBody(sun);
+        Simulation.Reset();
+        var bodies = Simulation.GetBodiesAsArray();
+        UpdateBodySidebar(bodies);
 
-        UpdateBodySidebar(Simulation.GetBodiesAsArray());
-
-        if(Simulation.GetBodiesAsArray().Length > 0)
+        if (bodies.Length > 0)
         {
-            selectedObject = Simulation.GetBodiesAsArray()[0];
+            selectedObject = bodies[0];
         }
     }
 
@@ -111,7 +108,7 @@ public partial class MainWindow : Window
                 Text = body.name,
                 Name = body.name,
                 VerticalAlignment = VerticalAlignment.Center,
-                Tag = body
+                Tag = body.guid
             };
             text.MouseLeftButtonUp += new MouseButtonEventHandler(TextBlockClickCall);
             BodySidebarGrid.Children.Add(text);
@@ -124,8 +121,8 @@ public partial class MainWindow : Window
     
     private void TextBlockClickCall(object sender, MouseButtonEventArgs e)
     {
-        TextBlock block = sender as TextBlock;
-        Body body = block.Tag as Body;
+        TextBlock block = (TextBlock)sender;
+        Body body = Simulation.GetBodiesAsArray().Single(b => b.guid == block.Tag.ToString());
         selectedObject = body;
     }
 
@@ -135,6 +132,8 @@ public partial class MainWindow : Window
         InfoSidebarTitle.Text = body.name;
         InfoSidebarMass.Text = body.mass.ToString();
         InfoSidebarSpeed.Text = body.velocity.Magnitude.ToString();
+        InfoSidebarPositionX.Text = body.position.x.ToString();
+        InfoSidebarPositionY.Text = body.position.y.ToString();
         InfoSidebarVelocityX.Text = body.velocity.x.ToString();
         InfoSidebarVelocityY.Text = body.velocity.y.ToString();
         InfoSidebarAccelerationX.Text = body.acceleration.x.ToString();
@@ -161,5 +160,17 @@ public partial class MainWindow : Window
     private void Window_KeyUp(object sender, KeyEventArgs e)
     {
         pressedKeys.Remove(e.Key);
+    }
+
+    private void Reset_Button_Click(object sender, RoutedEventArgs e)
+    {
+        Simulation.Reset();
+        var bodies = Simulation.GetBodiesAsArray();
+        UpdateBodySidebar(bodies);
+
+        if (bodies.Length > 0)
+        {
+            selectedObject = bodies[0];
+        }
     }
 }

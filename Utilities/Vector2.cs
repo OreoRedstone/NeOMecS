@@ -73,7 +73,9 @@ public class Vector2
     ///</returns>
     public static Vector2 operator *(Vector2 vector, double scalar)
     {
-        return new Vector2(vector.x * scalar, vector.y * scalar);
+        vector.x *= scalar;
+        vector.y *= scalar;
+        return vector;
     }
 
     ///<returns>
@@ -81,7 +83,9 @@ public class Vector2
     ///</returns>
     public static Vector2 operator /(Vector2 vector, double scalar)
     {
-        return new Vector2(vector.x / scalar, vector.y / scalar);
+        vector.x /= scalar;
+        vector.y /= scalar;
+        return vector;
     }
 
     ///<returns>
@@ -105,9 +109,9 @@ public class Vector2
     public static Vector2 GetNormalised(Vector2 vector)
     {
         double magnitude = GetMagnitude(vector);
-        if (magnitude == 0) return Vector2.Zero; 
+        if (magnitude == 0) return Zero;
 
-        Vector2 normalised = new Vector2(vector.x / magnitude, vector.y / magnitude);
+        Vector2 normalised = vector / magnitude;
         return normalised;
     }
 

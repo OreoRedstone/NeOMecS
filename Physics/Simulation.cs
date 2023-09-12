@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using NeOMecS.Utilities;
 
@@ -9,9 +10,9 @@ namespace NeOMecS.Physics;
 
 public static class Simulation
 {
-    private static double gravitationalConstant = 0.000000000001;
+    private static double gravitationalConstant = 1;
     private static List<Body> bodies = new List<Body>();
-    private static double simSpeed = 0.0000001;
+    private static double simSpeed = 1;
 
     public static void SimulateStep(long elapsedMilliseconds)
     {
@@ -45,13 +46,23 @@ public static class Simulation
         }
         foreach (Body body in bodies)
         {
-            body.UpdateVelocityAndPosition(elapsedMilliseconds / 1000 / simSpeed);
+            body.UpdateVelocityAndPosition(elapsedMilliseconds / 1000.0 / simSpeed);
         }
     }
 
     public static Body[] GetBodiesAsArray()
     {
         return bodies.ToArray();
+    }
+
+    public static void Reset()
+    {
+        bodies.Clear();
+        var earth = new Body("Earth", 1, new Colour(0, 1, 1), new Vector2(-10, 0), Vector2.Zero, Vector2.Zero, 0, "Sun");
+        AddBody(earth);
+
+        var sun = new Body("Sun", 10, new Colour(1, 0, 0), new Vector2(10, 0), Vector2.Zero, Vector2.Zero, 0, "");
+        AddBody(sun);
     }
 
     public static void AddBody(Body body)
