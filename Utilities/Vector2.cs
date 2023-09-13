@@ -73,9 +73,7 @@ public class Vector2
     ///</returns>
     public static Vector2 operator *(Vector2 vector, double scalar)
     {
-        vector.x *= scalar;
-        vector.y *= scalar;
-        return vector;
+        return new Vector2(vector.x * scalar, vector.y * scalar);
     }
 
     ///<returns>
@@ -83,9 +81,7 @@ public class Vector2
     ///</returns>
     public static Vector2 operator /(Vector2 vector, double scalar)
     {
-        vector.x /= scalar;
-        vector.y /= scalar;
-        return vector;
+        return new Vector2(vector.x / scalar, vector.y / scalar);
     }
 
     ///<returns>

@@ -25,13 +25,14 @@ namespace NeOMecS.Interface;
 /// </summary>
 public partial class MainWindow : Window
 {
-    Renderer renderer = new Renderer();
+    Renderer renderer;
     private Body? selectedObject;
     private List<Key> pressedKeys = new List<Key>();
     private Stopwatch timeSinceLastFrame;
 
     public MainWindow()
     {
+        renderer =  new Renderer();
         timeSinceLastFrame = new();
         timeSinceLastFrame.Start();
         InitializeComponent();
@@ -79,7 +80,7 @@ public partial class MainWindow : Window
                     break;
             }
         }
-        renderer.cameraPosition += Vector2.GetNormalised(cameraMoveAmount) * timeSinceLastFrame.ElapsedMilliseconds;
+        renderer.cameraTargetPosition += Vector2.GetNormalised(cameraMoveAmount) * timeSinceLastFrame.ElapsedMilliseconds * renderer.targetScale * 0.5;
         if(!(timeSinceLastFrame.ElapsedMilliseconds > 1000))
         {
             //Simulation.SimulateStep(timeSinceLastFrame.ElapsedMilliseconds);
@@ -140,14 +141,14 @@ public partial class MainWindow : Window
     private void UpdateInfoSidebar(Body body)
     {
         InfoSidebarTitle.Text = body.name;
-        InfoSidebarMass.Text = body.mass.ToString();
-        InfoSidebarSpeed.Text = Vector2.GetMagnitude(body.velocity).ToString();
-        InfoSidebarPositionX.Text = body.position.x.ToString();
-        InfoSidebarPositionY.Text = body.position.y.ToString();
-        InfoSidebarVelocityX.Text = body.velocity.x.ToString();
-        InfoSidebarVelocityY.Text = body.velocity.y.ToString();
-        InfoSidebarAccelerationX.Text = body.acceleration.x.ToString();
-        InfoSidebarAccelerationY.Text = body.acceleration.y.ToString();
+        InfoSidebarMass.Text = Math.Round(body.mass, 1).ToString();
+        InfoSidebarSpeed.Text = Math.Round(Vector2.GetMagnitude(body.velocity), 1).ToString();
+        InfoSidebarPositionX.Text = Math.Round(body.position.x, 1).ToString();
+        InfoSidebarPositionY.Text = Math.Round(body.position.y, 1).ToString();
+        InfoSidebarVelocityX.Text = Math.Round(body.velocity.x, 1).ToString();
+        InfoSidebarVelocityY.Text = Math.Round(body.velocity.y, 1)  .ToString();
+        InfoSidebarAccelerationX.Text = Math.Round(body.acceleration.x, 1).ToString();
+        InfoSidebarAccelerationY.Text = Math.Round(body.acceleration.y, 1).ToString();
     }
 
     public Vector2 GetRenderWindowSize()
@@ -184,5 +185,11 @@ public partial class MainWindow : Window
         {
             selectedObject = bodies[0];
         }
+    }
+
+    private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        renderer.targetScale += e.Delta / -200.0;
+        if(renderer.targetScale < 1) renderer.targetScale = 1;
     }
 }

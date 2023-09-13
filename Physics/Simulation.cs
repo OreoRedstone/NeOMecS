@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using NeOMecS.Utilities;
 
 namespace NeOMecS.Physics;
 
 public static class Simulation
 {
-    private static double gravitationalConstant = 0.1;
+    private static double gravitationalConstant = 1;
     private static List<Body> bodies = new List<Body>();
     private static double simSpeed = 1;
 
@@ -46,7 +47,7 @@ public static class Simulation
         }
         foreach (Body body in bodies)
         {
-            body.UpdateVelocityAndPosition(elapsedMilliseconds / simSpeed);
+            body.UpdateVelocityAndPosition(elapsedMilliseconds / 1000.0 / simSpeed);
         }
     }
 
@@ -59,11 +60,14 @@ public static class Simulation
     {
         bodies.Clear();
 
-        var sun = new Body("The Sun", 10, new Colour(1, 0, 0), new Vector2(10, 0), Vector2.Zero, Vector2.Zero, 100, "");
+        var sun = new Body("The Sun", 100, new Colour(1, 0, 0), new Vector2(100, 0), Vector2.Zero, Vector2.Zero, 100000000, "");
         AddBody(sun);
 
-        var earth = new Body("Earth", 1, new Colour(0, 1, 1), new Vector2(-10, 0), Vector2.Zero, Vector2.Zero, 1, "The Sun");
+        var earth = new Body("Earth", 10, new Colour(0, 1, 1), new Vector2(-1000, 0), Vector2.Up * 200, Vector2.Zero, 1000, "The Earth");
         AddBody(earth);
+
+        var moon = new Body("Moon", 5, new Colour(1, 1, 1), new Vector2(-1020, 0), Vector2.Up * 190, Vector2.Zero, 0.001, "The Sun");
+        AddBody(moon);
     }
 
     public static void AddBody(Body body)

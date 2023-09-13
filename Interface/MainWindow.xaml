@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:NeOMecS"
         xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF"
         mc:Ignorable="d" FontFamily="Segoe UI Light" FontSize="14"
-        Title="Newtonian Orbital Mechanics Simulation" Height="450" Width="800" MinWidth="650" MinHeight="300">
+        Title="Newtonian Orbital Mechanics Simulation" Height="450" Width="800" MinWidth="650" MinHeight="300" MouseWheel="Window_MouseWheel">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -27,7 +27,7 @@
 
 
 
-        <sharpGL:OpenGLControl x:Name="RenderWindow" Grid.Column="2" Grid.RowSpan="2" Grid.Row="2" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="True" FrameRate="60" Resized="OpenGLControl_Resized"/>
+        <sharpGL:OpenGLControl x:Name="RenderWindow" Grid.Column="2" Grid.RowSpan="2" Grid.Row="2" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="True" FrameRate="144" Resized="OpenGLControl_Resized"/>
         <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" FontWeight="SemiBold">
             Solar System
         </TextBlock>

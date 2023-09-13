@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,14 +16,23 @@ namespace NeOMecS.Interface;
 
 class Renderer
 {
-    private Vector2 size = new Vector2();
-    public Vector2 cameraPosition = Vector2.Zero;
+    private Stopwatch frameTimer = new Stopwatch();
+    private double scale = 1;
+    public double targetScale = 1;
+    private Vector2 windowSize = new Vector2();
+    private Vector2 cameraPosition = Vector2.Zero;
+    public Vector2 cameraTargetPosition = Vector2.Zero;
 
     public void RenderFrame(object sender, OpenGLRoutedEventArgs args)
     {
+        if (!frameTimer.IsRunning) frameTimer.Start();
         OpenGL gl = args.OpenGL;
         gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
         gl.ClearColor(0, 0, 0, 0);
+
+        scale += (targetScale - scale) * 0.0000008 * frameTimer.ElapsedTicks;
+        cameraPosition += (cameraTargetPosition - cameraPosition) * 0.0000008 * frameTimer.ElapsedTicks;
+        frameTimer.Restart();
 
         RecalculateMatrix(gl);
 
@@ -36,7 +46,7 @@ class Renderer
     {
         OpenGL gl = args.OpenGL;
 
-        size = ((MainWindow)Application.Current.MainWindow).GetRenderWindowSize();
+        windowSize = ((MainWindow)Application.Current.MainWindow).GetRenderWindowSize();
     }
 
     public void DrawCircle(OpenGL gl, Body body, int segments)
@@ -59,10 +69,10 @@ class Renderer
     private void RecalculateMatrix(OpenGL gl)
     {
         System.Numerics.Matrix4x4 projMatrix = System.Numerics.Matrix4x4.CreateOrthographicOffCenter(
-            (float)(cameraPosition.x - (size.x / 2)),
-            (float)(cameraPosition.x + (size.x / 2)),
-            (float)(cameraPosition.y - (size.y / 2)),
-            (float)(cameraPosition.y + (size.y / 2)),
+            (float)(cameraPosition.x - (scale * windowSize.x / 2)),
+            (float)(cameraPosition.x + (scale * windowSize.x / 2)),
+            (float)(cameraPosition.y - (scale * windowSize.y / 2)),
+            (float)(cameraPosition.y + (scale * windowSize.y / 2)),
             -1, 1);
 
         //Converting from the matrix to the double[] because apparently that's necessary.
