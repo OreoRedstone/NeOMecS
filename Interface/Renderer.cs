@@ -39,6 +39,8 @@ class Renderer
         foreach (Body body in Simulation.GetBodiesAsArray())
         {
             DrawCircle(gl, body, 100);
+            DrawLine(gl, body.position, body.position + body.acceleration * 0.1);
+            DrawLine(gl, body.position, body.position + body.velocity * 0.25);
         }
     }
 
@@ -47,6 +49,15 @@ class Renderer
         OpenGL gl = args.OpenGL;
 
         windowSize = ((MainWindow)Application.Current.MainWindow).GetRenderWindowSize();
+    }
+
+    public void DrawLine(OpenGL gl, Vector2 start, Vector2 end)
+    {
+        gl.Color(new Colour(1, 1, 1).GetAsFloatArray());
+        gl.Begin(OpenGL.GL_LINES);
+        gl.Vertex(start.x, start.y);
+        gl.Vertex(end.x, end.y);
+        gl.End();
     }
 
     public void DrawCircle(OpenGL gl, Body body, int segments)

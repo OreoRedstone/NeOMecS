@@ -67,7 +67,7 @@ public static class Simulation
         AddBody(earth);
 
         var moon = new Body("Moon", 5, new Colour(1, 1, 1), new Vector2(-1020, 0), Vector2.Up * 190, Vector2.Zero, 0.001, "The Sun");
-        AddBody(moon);
+        //AddBody(moon);
     }
 
     public static void AddBody(Body body)
