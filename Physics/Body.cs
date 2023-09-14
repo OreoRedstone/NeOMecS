@@ -17,7 +17,7 @@ public class Body
     public double radius { get; private set; }
     public Colour colour { get; private set; }
     public Vector2 position { get; private set; }
-    public Vector2 velocity { get; private set; }
+    public Vector2 velocity { get; set; }
     public Vector2 acceleration { get; private set; }
     public double mass { get; private set; }
 

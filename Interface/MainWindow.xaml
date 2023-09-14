@@ -53,6 +53,7 @@
                     <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="Sol" Text="Sol" Grid.Row="0" VerticalAlignment="Center"/>
+                <Button Grid.Row="0" HorizontalAlignment="Right" Click="FollowButtonClickCall">Follow</Button>
                 <TextBlock Text="   Mercury" Grid.Row="1" VerticalAlignment="Center"/>
                 <TextBlock Text="   Venus" Grid.Row="2" VerticalAlignment="Center"/>
                 <TextBlock Text="   Earth" Grid.Row="3" VerticalAlignment="Center"/>

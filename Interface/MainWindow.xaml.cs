@@ -27,12 +27,15 @@ public partial class MainWindow : Window
 {
     Renderer renderer;
     private Body? selectedObject;
+    public Body? followedObject;
+    private List<Button> followButtons;
     private List<Key> pressedKeys = new List<Key>();
     private Stopwatch timeSinceLastFrame;
 
     public MainWindow()
     {
         renderer =  new Renderer();
+        followButtons = new();
         timeSinceLastFrame = new();
         timeSinceLastFrame.Start();
         InitializeComponent();
@@ -44,17 +47,19 @@ public partial class MainWindow : Window
         if (bodies.Length > 0)
         {
             selectedObject = bodies[0];
+            followedObject = bodies[0];
+            followButtons[0].Visibility = Visibility.Hidden;
         }
         
         var dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
         dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-        dispatcherTimer.Interval = TimeSpan.FromMilliseconds(17);
+        dispatcherTimer.Interval = TimeSpan.FromMilliseconds(10);
         dispatcherTimer.Start();
     }
 
     private void dispatcherTimer_Tick(object? sender, EventArgs e)
     {
-        Simulation.SimulateStep(17);
+        Simulation.SimulateStep(10);
     }
 
     private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
@@ -80,7 +85,23 @@ public partial class MainWindow : Window
                     break;
             }
         }
-        renderer.cameraTargetPosition += Vector2.GetNormalised(cameraMoveAmount) * timeSinceLastFrame.ElapsedMilliseconds * renderer.targetScale * 0.5;
+
+        if(Vector2.GetMagnitude(cameraMoveAmount) != 0 || followedObject == null)
+        {
+            foreach (var button in followButtons)
+            {
+                button.Visibility = Visibility.Visible;
+            }
+            followedObject = null;
+
+            renderer.cameraTargetPosition += Vector2.GetNormalised(cameraMoveAmount) * timeSinceLastFrame.ElapsedMilliseconds * renderer.targetScale * 0.5;
+        }
+        else
+        {
+            renderer.cameraPosition = followedObject.position;
+            renderer.cameraTargetPosition = followedObject.position;
+        }
+
         if(!(timeSinceLastFrame.ElapsedMilliseconds > 1000))
         {
             //Simulation.SimulateStep(timeSinceLastFrame.ElapsedMilliseconds);
@@ -100,6 +121,7 @@ public partial class MainWindow : Window
     /// </summary>
     public void UpdateBodySidebar(Body[] bodies)
     {
+        followButtons.Clear();
         BodySidebarGrid.Children.Clear();
         int i = 0;
         foreach (Body body in bodies)
@@ -119,12 +141,26 @@ public partial class MainWindow : Window
                 Text = body.name,
                 Name = body.name.Replace(" ", "_"),
                 VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left,
                 Tag = body.guid
             };
             text.MouseLeftButtonUp += new MouseButtonEventHandler(TextBlockClickCall);
             BodySidebarGrid.Children.Add(text);
             text.SetValue(Grid.RowProperty, i);
 
+            var followButton = new Button
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(1),
+                Content = "Follow",
+                Tag = body.guid
+            };
+            BodySidebarGrid.Children.Add(followButton);
+            followButton.Click += new RoutedEventHandler(FollowButtonClickCall);
+            followButton.SetValue(Grid.RowProperty, i);
+            followButtons.Add(followButton);
+            
             //Increases the row count.
             i++;
         }
@@ -137,6 +173,22 @@ public partial class MainWindow : Window
         selectedObject = body;
     }
 
+    private void FollowButtonClickCall(object sender, RoutedEventArgs e)
+    {
+        foreach (var button in followButtons)
+        {
+            if(button == sender)
+            {
+                button.Visibility = Visibility.Hidden;
+                Body body = Simulation.GetBodiesAsArray().Single(b => b.guid == button.Tag.ToString());
+                followedObject = body;
+            }
+            else
+            {
+                button.Visibility = Visibility.Visible;
+            }
+        }
+    }
 
     private void UpdateInfoSidebar(Body body)
     {
@@ -192,4 +244,5 @@ public partial class MainWindow : Window
         renderer.targetScale += e.Delta / -200.0;
         if(renderer.targetScale < 1) renderer.targetScale = 1;
     }
+
 }

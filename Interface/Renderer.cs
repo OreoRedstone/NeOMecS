@@ -20,7 +20,7 @@ class Renderer
     private double scale = 1;
     public double targetScale = 1;
     private Vector2 windowSize = new Vector2();
-    private Vector2 cameraPosition = Vector2.Zero;
+    public Vector2 cameraPosition = Vector2.Zero;
     public Vector2 cameraTargetPosition = Vector2.Zero;
 
     public void RenderFrame(object sender, OpenGLRoutedEventArgs args)

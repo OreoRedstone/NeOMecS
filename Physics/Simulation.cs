@@ -24,9 +24,9 @@ public static class Simulation
             {
                 if (body == other) continue;
 
-                if (Vector2.GetDistance(body.position, other.position) < (body.radius + other.radius))
+                if (Vector2.GetDistance(body.position, other.position) - (body.radius + other.radius) < 100)
                 {
-                    body.UpdatePositionForCollision(other);
+                    //body.UpdatePositionForCollision(other);
 
                     continue;
                 }
@@ -67,7 +67,7 @@ public static class Simulation
         AddBody(earth);
 
         var moon = new Body("Moon", 5, new Colour(1, 1, 1), new Vector2(-1020, 0), Vector2.Up * 190, Vector2.Zero, 0.001, "The Sun");
-        //AddBody(moon);
+        AddBody(moon);
     }
 
     public static void AddBody(Body body)
