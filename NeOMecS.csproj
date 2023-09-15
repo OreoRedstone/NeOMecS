@@ -8,7 +8,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\pauseImage.png" />
+    <None Remove="Images\playImage.png" />
+    <None Remove="Images\stopImage.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="SharpGL.WPF" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\pauseImage.png" />
+    <Resource Include="Images\playImage.png" />
+    <Resource Include="Images\stopImage.png" />
   </ItemGroup>
 
 </Project>

@@ -65,24 +65,27 @@ public partial class MainWindow : Window
     private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
     {
         Vector2 cameraMoveAmount = Vector2.Zero;
-        foreach (var key in pressedKeys)
+        if(RenderWindow.IsKeyboardFocused)
         {
-            switch (key)
+            foreach (var key in pressedKeys)
             {
-                case Key.W:
-                    cameraMoveAmount += Vector2.Up;
-                    break;
-                case Key.S:
-                    cameraMoveAmount += Vector2.Down;
-                    break;
-                case Key.D:
-                    cameraMoveAmount += Vector2.Right;
-                    break;
-                case Key.A:
-                    cameraMoveAmount += Vector2.Left;
-                    break;
-                default:
-                    break;
+                switch (key)
+                {
+                    case Key.W:
+                        cameraMoveAmount += Vector2.Up;
+                        break;
+                    case Key.S:
+                        cameraMoveAmount += Vector2.Down;
+                        break;
+                    case Key.D:
+                        cameraMoveAmount += Vector2.Right;
+                        break;
+                    case Key.A:
+                        cameraMoveAmount += Vector2.Left;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -148,15 +151,23 @@ public partial class MainWindow : Window
             BodySidebarGrid.Children.Add(text);
             text.SetValue(Grid.RowProperty, i);
 
+            var followText = new TextBlock
+            {
+                Text = "Follow",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
             var followButton = new Button
             {
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(1),
-                Content = "Follow",
-                Tag = body.guid
+                Margin = new Thickness(1,1,2,1),
+                Background = Brushes.White,
+                Tag = body.guid,
+                Content = followText
             };
             BodySidebarGrid.Children.Add(followButton);
+            
             followButton.Click += new RoutedEventHandler(FollowButtonClickCall);
             followButton.SetValue(Grid.RowProperty, i);
             followButtons.Add(followButton);
@@ -241,8 +252,13 @@ public partial class MainWindow : Window
 
     private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
     {
+        if (!RenderWindow.IsKeyboardFocused) return;
         renderer.targetScale += e.Delta / -200.0;
         if(renderer.targetScale < 1) renderer.targetScale = 1;
     }
 
+    private void RenderWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        RenderWindow.Focus();
+    }
 }
