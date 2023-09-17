@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeOMecS.Utilities;
 
-public class Vector2
+public class Vector2 : IEquatable<Vector2>
 {
     public double x;
     public double y;
+    public Vector2 Normalised => GetNormalised(this);
+    public double Magnitude => GetMagnitude(this);
 
     /// <summary>
     /// The default initialiser for Vector2.
@@ -31,57 +27,69 @@ public class Vector2
     /// <summary>
     /// The vector equivalent of zero.
     /// </summary>
-    public static Vector2 Zero
-    {
-        get => new Vector2(0, 0);
-    }
+    public static Vector2 Zero => new(0, 0);
 
     /// <summary>
     /// The vector representing (-1, 0).
     /// </summary>
-    public static Vector2 Left
-    {
-        get => new Vector2(-1, 0);
-    }
+    public static Vector2 Left => new(-1, 0);
 
     /// <summary>
     /// The vector representing (1, 0).
     /// </summary>
-    public static Vector2 Right
-    {
-        get => new Vector2(1, 0);
-    }
+    public static Vector2 Right => new(1, 0);
 
     /// <summary>
     /// The vector representing (0, 1).
     /// </summary>
-    public static Vector2 Up
-    {
-        get => new Vector2(0, 1);
-    }
+    public static Vector2 Up => new(0, 1);
 
     /// <summary>
     /// The vector representing (0, -1).
     /// </summary>
-    public static Vector2 Down
-    {
-        get => new Vector2(0, -1);
-    }
+    public static Vector2 Down => new(0, -1);
+
+    ///<returns>
+    ///The vector sum of a and b.
+    ///</returns>
+    public static Vector2 operator +(Vector2 a, Vector2 b) => new(a.x + b.x, a.y + b.y);
+
+    ///<returns>
+    ///The vector a - b.
+    ///</returns>
+    public static Vector2 operator -(Vector2 a, Vector2 b) => new(a.x - b.x, a.y - b.y);
 
     ///<returns>
     ///The input vector multiplied by the scalar value.
     ///</returns>
-    public static Vector2 operator *(Vector2 vector, double scalar)
-    {
-        return new Vector2(vector.x * scalar, vector.y * scalar);
-    }
+    public static Vector2 operator *(Vector2 vector, double scalar) => new (vector.x* scalar, vector.y* scalar);
 
     ///<returns>
     ///The input vector divided by the scalar value.
     ///</returns>
-    public static Vector2 operator /(Vector2 vector, double scalar)
+    public static Vector2 operator /(Vector2 vector, double scalar) => new(vector.x / scalar, vector.y / scalar);
+
+    // override object.Equals
+    public override bool Equals(object? obj)
     {
-        return new Vector2(vector.x / scalar, vector.y / scalar);
+        if (obj == null || GetType() != obj.GetType()) return false;
+
+        Vector2 vecObj = (Vector2)obj;
+
+        return x == vecObj.x && y == vecObj.y;
+    }
+
+    public bool Equals(Vector2? other)
+    {
+        if(other == null) return false;
+
+        return x == other.x && y == other.y;
+    }
+
+    // override object.GetHashCode
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(x, y);
     }
 
     ///<returns>
@@ -99,27 +107,11 @@ public class Vector2
     ///</returns>
     public static Vector2 GetNormalised(Vector2 vector)
     {
-        double magnitude = GetMagnitude(vector);
+        double magnitude = vector.Magnitude;
         if (magnitude == 0) return Zero;
 
         Vector2 normalised = vector / magnitude;
         return normalised;
-    }
-
-    ///<returns>
-    ///The vector sum of a and b.
-    ///</returns>
-    public static Vector2 operator +(Vector2 a, Vector2 b)
-    {
-        return new Vector2(a.x + b.x, a.y + b.y);
-    }
-
-    ///<returns>
-    ///The vector a - b.
-    ///</returns>
-    public static Vector2 operator -(Vector2 a, Vector2 b)
-    {
-        return new Vector2(a.x - b.x, a.y - b.y);
     }
 
     ///<returns>
