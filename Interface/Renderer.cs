@@ -48,7 +48,14 @@ class Renderer
     {
         OpenGL gl = args.OpenGL;
 
-        windowSize = ((MainWindow)Application.Current.MainWindow).GetRenderWindowSize();
+        try
+        {
+            windowSize = ((SimulationWindow)Application.Current.MainWindow).GetRenderWindowSize();
+        }
+        catch (Exception)
+        {
+            
+        }
     }
 
     public void DrawLine(OpenGL gl, Vector2 start, Vector2 end)

@@ -28,7 +28,7 @@ public static class Simulation
                 {
                     //body.UpdatePositionForCollision(other);
 
-                    continue;
+                    //continue;
                 }
 
                 //This finds the vector pointing from body to other, then normalises it.

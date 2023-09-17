@@ -23,7 +23,7 @@ namespace NeOMecS.Interface;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class SimulationWindow : Window
 {
     Renderer renderer;
     private Body? selectedObject;
@@ -32,7 +32,7 @@ public partial class MainWindow : Window
     private List<Key> pressedKeys = new List<Key>();
     private Stopwatch timeSinceLastFrame;
 
-    public MainWindow()
+    public SimulationWindow(SaveState state)
     {
         renderer =  new Renderer();
         followButtons = new();
@@ -220,13 +220,6 @@ public partial class MainWindow : Window
         return size;
     }
 
-    private void AddNewBody(object sender, RoutedEventArgs e)
-    {
-        var body = new Body("Placeholder", 1, new Colour(255, 255, 255), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), 1, "");
-        Simulation.AddBody(body);
-        UpdateBodySidebar(Simulation.GetBodiesAsArray());
-    }
-
     private void Window_KeyDown(object sender, KeyEventArgs e)
     {
         if (pressedKeys.Contains(e.Key)) return;
@@ -260,5 +253,18 @@ public partial class MainWindow : Window
     private void RenderWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
         RenderWindow.Focus();
+    }
+
+    private void AddNewBodyButton_Click(object sender, RoutedEventArgs e)
+    {
+        AddBodyWindow window = new AddBodyWindow();
+        window.Show();
+        window.Activate();
+
+        /*
+        var body = new Body("Placeholder", 1, new Colour(255, 255, 255), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), 1, "");
+        Simulation.AddBody(body);
+        UpdateBodySidebar(Simulation.GetBodiesAsArray());
+        */
     }
 }
