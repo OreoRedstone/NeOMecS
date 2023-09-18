@@ -54,5 +54,10 @@ namespace NeOMecS.Interface
             window.Show();
             Close();
         }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
