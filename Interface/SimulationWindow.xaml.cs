@@ -65,7 +65,7 @@ public partial class SimulationWindow : Window
     private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
     {
         Vector2 cameraMoveAmount = Vector2.Zero;
-        if(RenderWindow.IsKeyboardFocused)
+        if(RenderWindow.IsKeyboardFocused || RenderWindow.IsMouseOver)
         {
             foreach (var key in pressedKeys)
             {
@@ -101,8 +101,11 @@ public partial class SimulationWindow : Window
         }
         else
         {
-            renderer.cameraPosition = followedObject.position;
             renderer.cameraTargetPosition = followedObject.position;
+            if (Vector2.GetDistance(renderer.cameraPosition, followedObject.position) < 10)
+            {
+                renderer.cameraPosition = followedObject.position;
+            }
         }
 
         if(!(timeSinceLastFrame.ElapsedMilliseconds > 1000))
@@ -145,29 +148,13 @@ public partial class SimulationWindow : Window
                 Name = body.name.Replace(" ", "_"),
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Tag = body.guid
+                Tag = body.guid,
+                Foreground = Brushes.White
             };
             text.MouseLeftButtonUp += new MouseButtonEventHandler(TextBlockClickCall);
             BodySidebarGrid.Children.Add(text);
             text.SetValue(Grid.RowProperty, i);
 
-            /*
-            var followText = new TextBlock
-            {
-                Text = "Follow",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            var followButton = new Button
-            {
-                HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(1,1,2,1),
-                Background = Brushes.White,
-                Tag = body.guid,
-                Content = followText
-            };
-            */
             var followButton = new Button
             {
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -257,7 +244,7 @@ public partial class SimulationWindow : Window
 
     private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-        if (!RenderWindow.IsKeyboardFocused) return;
+        if (!(RenderWindow.IsKeyboardFocused || RenderWindow.IsMouseOver)) return;
         renderer.targetScale += e.Delta / -200.0;
         if(renderer.targetScale < 1) renderer.targetScale = 1;
     }

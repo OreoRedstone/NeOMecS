@@ -7,127 +7,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeOMecS"
         xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF"
-        mc:Ignorable="d" FontFamily="Segoe UI Light" FontSize="14"
+        mc:Ignorable="d" FontFamily="Segoe UI Light" FontSize="14" FontWeight="Bold"
         WindowStartupLocation="CenterScreen"
         Title="Newtonian Orbital Mechanics Simulation" Height="450" Width="800" MinWidth="650" MinHeight="300" MouseWheel="Window_MouseWheel">
-    <Grid>
+    <Grid Background="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="*" MaxWidth="200"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*" MaxWidth="200"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
-
-
-        <sharpGL:OpenGLControl x:Name="RenderWindow" Focusable="True" Grid.Column="2" Grid.RowSpan="2" Grid.Row="2" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="True" FrameRate="144" Resized="OpenGLControl_Resized" MouseLeftButtonUp="RenderWindow_MouseLeftButtonUp"/>
-        
-        <Grid Grid.Column="2" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="30"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" FontWeight="SemiBold">
-            Solar System
-            </TextBlock>
-
-            <Button Grid.Column="1" Style="{DynamicResource PlayButton}" Margin="1"/>
-            <Button Grid.Column="2" Style="{DynamicResource PauseButton}" Margin="1"/>
-            <Button Grid.Column="3" Style="{DynamicResource StopButton}" Margin="1"/>
-        </Grid>
-        <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">
-            Celestial Objects
-        </TextBlock>
-        <TextBlock x:Name="InfoSidebarTitle" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">
-            Venus
-        </TextBlock>
-        <ScrollViewer Grid.Column="1" Grid.Row="2" Margin="0, 5, 0, 5" VerticalScrollBarVisibility="Auto">
-            <Grid x:Name="BodySidebarGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                </Grid.RowDefinitions>
-                <TextBlock x:Name="Sol" Text="Sol" Grid.Row="0" VerticalAlignment="Center"/>
-                <Button Margin="1,1,2,1" Grid.Row="0" HorizontalAlignment="Right" Click="FollowButtonClickCall" Background="White">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Follow</TextBlock>
-                </Button>
-                <TextBlock Text="   Mercury" Grid.Row="1" VerticalAlignment="Center"/>
-                <Button Margin="1,1,2,1" Style="{DynamicResource ButtonBlackOutline}" Grid.Row="1" Content="Follow" HorizontalAlignment="Right" Width="40"/>
-                <TextBlock Text="   Venus" Grid.Row="2" VerticalAlignment="Center"/>
-                <TextBlock Text="   Earth" Grid.Row="3" VerticalAlignment="Center"/>
-                <TextBlock Text="       The Moon" Grid.Row="4" VerticalAlignment="Center"/>
-                <TextBlock Text="   Mars" Grid.Row="5" VerticalAlignment="Center"/>
-                <TextBlock Text="   Jupiter" Grid.Row="6" VerticalAlignment="Center"/>
-                <TextBlock Text="   Saturn" Grid.Row="7" VerticalAlignment="Center"/>
-                <TextBlock Text="   Uranus" Grid.Row="8" VerticalAlignment="Center"/>
-                <TextBlock Text="   Neptune" Grid.Row="9" VerticalAlignment="Center"/>
-            </Grid>
-        </ScrollViewer>
-
-        <Button x:Name="AddNewBodyButton" Style="{DynamicResource AddBodyButton}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="20" Margin="5" Click="AddNewBodyButton_Click"/>
-        <ScrollViewer Grid.Column="3" Grid.RowSpan="2" Grid.Row="2" Margin="0, 5, 0, 5" VerticalScrollBarVisibility="Auto">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="5"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="Mass:"/>
-                <TextBlock x:Name="InfoSidebarMass" Grid.Column="1" Grid.Row="1" Text="5" HorizontalAlignment="Right"/>
-                <TextBlock Grid.Column="1" Grid.Row="2" Text="Speed:"/>
-                <TextBlock x:Name="InfoSidebarSpeed" Grid.Column="1" Grid.Row="2" Text="10" HorizontalAlignment="Right"/>
-                <TextBlock Grid.Column="1" Grid.Row="3" Text="Position:"/>
-                <TextBlock Padding="50,0,0,0" Grid.Column="1" Grid.Row="4" Text="X:" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="InfoSidebarPositionX" Grid.Column="1" Grid.Row="4" Text="0.01" HorizontalAlignment="Right"/>
-                <TextBlock Padding="50,0,0,0" Grid.Column="1" Grid.Row="5" Text="Y:"/>
-                <TextBlock x:Name="InfoSidebarPositionY" Grid.Column="1" Grid.Row="5" Text="0.01" HorizontalAlignment="Right"/>
-                <TextBlock Grid.Column="1" Grid.Row="6" Text="Velocity:"/>
-                <TextBlock Padding="50,0,0,0" Grid.Column="1" Grid.Row="7" Text="X:" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="InfoSidebarVelocityX" Grid.Column="1" Grid.Row="7" Text="0.01" HorizontalAlignment="Right"/>
-                <TextBlock Padding="50,0,0,0" Grid.Column="1" Grid.Row="8" Text="Y:"/>
-                <TextBlock x:Name="InfoSidebarVelocityY" Grid.Column="1" Grid.Row="8" Text="0.01" HorizontalAlignment="Right"/>
-                <TextBlock Grid.Column="1" Grid.Row="9" Text="Acceleration:"/>
-                <TextBlock Padding="50,0,0,0" Grid.Column="1" Grid.Row="10" Text="X:" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="InfoSidebarAccelerationX" Grid.Column="1" Grid.Row="10" Text="0.01" HorizontalAlignment="Right"/>
-                <TextBlock Padding="50,0,0,0" Grid.Column="1" Grid.Row="11" Text="Y:"/>
-                <TextBlock x:Name="InfoSidebarAccelerationY" Grid.Column="1" Grid.Row="11" Text="0.01" HorizontalAlignment="Right"/>
-            </Grid>
-        </ScrollViewer>
-        <Menu Grid.Column="0" Grid.ColumnSpan="5">
+        <!--Menu-->
+        <Menu Grid.Column="0" Grid.ColumnSpan="5" Background="Black" Foreground="White">
             <MenuItem Header="File">
                 <MenuItem Header="New"/>
                 <MenuItem Header="Open"/>
@@ -142,21 +40,158 @@
                 <MenuItem Header="Load Preset"/>
             </MenuItem>
         </Menu>
+
+        <!--Left Panel-->
+        <Border Grid.Row="1" Grid.Column="1" Background="#262626" CornerRadius="8" Margin="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Foreground="White" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Text="Celestial Bodies"/>
+
+                <ScrollViewer Grid.Row="1" Margin="0, 5, 0, 5" VerticalScrollBarVisibility="Auto">
+                    <Grid x:Name="BodySidebarGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="Sol" Text="Sol" Grid.Row="0" VerticalAlignment="Center"/>
+                        <Button Margin="1,1,2,1" Grid.Row="0" HorizontalAlignment="Right" Click="FollowButtonClickCall" Background="White">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Follow</TextBlock>
+                        </Button>
+                        <TextBlock Text="   Mercury" Grid.Row="1" VerticalAlignment="Center"/>
+                        <Button Margin="1,1,2,1" Style="{DynamicResource ButtonBlackOutline}" Grid.Row="1" Content="Follow" HorizontalAlignment="Right" Width="40"/>
+                        <TextBlock Text="   Venus" Grid.Row="2" VerticalAlignment="Center"/>
+                        <TextBlock Text="   Earth" Grid.Row="3" VerticalAlignment="Center"/>
+                        <TextBlock Text="       The Moon" Grid.Row="4" VerticalAlignment="Center"/>
+                        <TextBlock Text="   Mars" Grid.Row="5" VerticalAlignment="Center"/>
+                        <TextBlock Text="   Jupiter" Grid.Row="6" VerticalAlignment="Center"/>
+                        <TextBlock Text="   Saturn" Grid.Row="7" VerticalAlignment="Center"/>
+                        <TextBlock Text="   Uranus" Grid.Row="8" VerticalAlignment="Center"/>
+                        <TextBlock Text="   Neptune" Grid.Row="9" VerticalAlignment="Center"/>
+                    </Grid>
+                </ScrollViewer>
+
+                <Button x:Name="AddNewBodyButton" Style="{DynamicResource AddBodyButton}" Grid.Row="3" HorizontalAlignment="Left" Width="20" Margin="5" Click="AddNewBodyButton_Click"/>
+            </Grid>
+        </Border>
+
+        <GridSplitter Grid.Row ="1" Grid.Column="1" Background="Transparent" Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
+
+        <!--Center Panel-->
+        <Border Grid.Row="1" Grid.Column="2" Background="#262626" CornerRadius="8" Margin="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" FontWeight="SemiBold" Text="System"/>
+
+                    <Button Grid.Column="1" Style="{DynamicResource PlayButton}" Margin="1"/>
+                    <Button Grid.Column="2" Style="{DynamicResource PauseButton}" Margin="1"/>
+                    <Button Grid.Column="3" Style="{DynamicResource StopButton}" Margin="1"/>
+                </Grid>
+
+                <Border Grid.Row="1" Margin="5" CornerRadius="8" BorderThickness="3" BorderBrush="Black" Background="Black">
+                    <sharpGL:OpenGLControl x:Name="RenderWindow" Focusable="True" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="False" FrameRate="144" Resized="OpenGLControl_Resized" MouseLeftButtonUp="RenderWindow_MouseLeftButtonUp"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <GridSplitter Grid.Row ="1" Grid.Column="3" Background="Transparent" Width="5" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+
+        <!--Right Panel-->
+        <Border Grid.Row="1" Grid.Column="3" Background="#262626" CornerRadius="8" Margin="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="InfoSidebarTitle" Grid.Row="0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Text="Venus"/>
+
+                <ScrollViewer Grid.Row="1" Margin="0, 5, 0, 5" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
+                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="1" Text="Mass:"/>
+                        <TextBlock Foreground="White" x:Name="InfoSidebarMass" Grid.Column="1" Grid.Row="1" Text="5" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="2" Text="Speed:"/>
+                        <TextBlock Foreground="White" x:Name="InfoSidebarSpeed" Grid.Column="1" Grid.Row="2" Text="10" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="3" Text="Position:"/>
+                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="4" Text="X:" HorizontalAlignment="Left"/>
+                        <TextBlock Foreground="White" x:Name="InfoSidebarPositionX" Grid.Column="1" Grid.Row="4" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="5" Text="Y:"/>
+                        <TextBlock Foreground="White" x:Name="InfoSidebarPositionY" Grid.Column="1" Grid.Row="5" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="6" Text="Velocity:"/>
+                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="7" Text="X:" HorizontalAlignment="Left"/>
+                        <TextBlock Foreground="White" x:Name="InfoSidebarVelocityX" Grid.Column="1" Grid.Row="7" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="8" Text="Y:"/>
+                        <TextBlock Foreground="White" x:Name="InfoSidebarVelocityY" Grid.Column="1" Grid.Row="8" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="9" Text="Acceleration:"/>
+                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="10" Text="X:" HorizontalAlignment="Left"/>
+                        <TextBlock Foreground="White" x:Name="InfoSidebarAccelerationX" Grid.Column="1" Grid.Row="10" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="11" Text="Y:"/>
+                        <TextBlock Foreground="White" x:Name="InfoSidebarAccelerationY" Grid.Column="1" Grid.Row="11" Text="0.01" HorizontalAlignment="Right"/>
+                    </Grid>
+                </ScrollViewer>
+
+
+            </Grid>
+        </Border>
     </Grid>
 
     <Window.Resources>
         <Style x:Key="ButtonBlackOutline" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Background" Value="White"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -179,15 +214,15 @@
         <Style x:Key="AddBodyButton" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Background" Value="White"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -212,15 +247,15 @@
         <Style x:Key="PlayButton" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Background" Value="White"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -233,7 +268,7 @@
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <Polygon Points="0,0 16,10, 0,21" Stroke="Black" Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}" />
+                        <Polygon Points="0,0 16,10, 0,21" Stroke="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}" Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -241,15 +276,15 @@
         <Style x:Key="PauseButton" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Background" Value="White"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -278,15 +313,15 @@
         <Style x:Key="StopButton" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Background" Value="White"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
