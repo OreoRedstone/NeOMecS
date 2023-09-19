@@ -151,6 +151,7 @@ public partial class SimulationWindow : Window
             BodySidebarGrid.Children.Add(text);
             text.SetValue(Grid.RowProperty, i);
 
+            /*
             var followText = new TextBlock
             {
                 Text = "Follow",
@@ -166,12 +167,23 @@ public partial class SimulationWindow : Window
                 Tag = body.guid,
                 Content = followText
             };
+            */
+            var followButton = new Button
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Center,
+                Style = (Style)FindResource("ButtonBlackOutline"),
+                Content = "Follow",
+                Margin = new Thickness(1, 1, 2, 1),
+                Tag = body.guid
+            };
+
             BodySidebarGrid.Children.Add(followButton);
             
             followButton.Click += new RoutedEventHandler(FollowButtonClickCall);
             followButton.SetValue(Grid.RowProperty, i);
             followButtons.Add(followButton);
-            
+
             //Increases the row count.
             i++;
         }
@@ -257,14 +269,10 @@ public partial class SimulationWindow : Window
 
     private void AddNewBodyButton_Click(object sender, RoutedEventArgs e)
     {
+        if (Application.Current.Windows.Cast<Window>().OfType<AddBodyWindow>().Any()) return;
+
         AddBodyWindow window = new AddBodyWindow();
         window.Show();
         window.Activate();
-
-        /*
-        var body = new Body("Placeholder", 1, new Colour(255, 255, 255), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), 1, "");
-        Simulation.AddBody(body);
-        UpdateBodySidebar(Simulation.GetBodiesAsArray());
-        */
     }
 }

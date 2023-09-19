@@ -45,8 +45,7 @@
                           Direction="330"
                           Color="Black"
                           Opacity="1"
-                          BlurRadius="4"
-                           />
+                          BlurRadius="4"/>
                 </TextBox.Effect>
                 <TextBox.FocusVisualStyle>
                     <Style>
