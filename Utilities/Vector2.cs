@@ -63,6 +63,7 @@ public class Vector2 : IEquatable<Vector2>
     ///The input vector multiplied by the scalar value.
     ///</returns>
     public static Vector2 operator *(Vector2 vector, double scalar) => new (vector.x* scalar, vector.y* scalar);
+    public static Vector2 operator *(double scalar, Vector2 vector) => new(vector.x * scalar, vector.y * scalar);
 
     ///<returns>
     ///The input vector divided by the scalar value.
@@ -121,5 +122,10 @@ public class Vector2 : IEquatable<Vector2>
     {
         double distance = GetMagnitude(a - b);
         return distance;
+    }
+
+    public static double DotProduct(Vector2 a, Vector2 b)
+    {
+        return (a.x * b.x) + (a.y * b.y);
     }
 }

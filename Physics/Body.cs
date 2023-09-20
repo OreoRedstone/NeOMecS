@@ -37,48 +37,16 @@ public class Body
 
     public void UpdateAcceleration(Vector2 newAcceleration)
     {
-        /*
-        double closestBody = 0;
-        try
-        {
-            closestBody = Simulation.GetBodiesAsArray().Where(b => b != this).Min(b => Vector2.GetDistance(b.position, position) - b.radius) - radius;
-        }
-        catch (Exception)
-        {
-
-        }
-
-        if (closestBody < 1)
-        {
-            acceleration = Vector2.Zero;
-            return;
-        }
-        */
         acceleration = newAcceleration;
     }
 
-    public void UpdateVelocityAndPosition(double elapsedSeconds)
+    public void ApplyImpulse(Vector2 impulse)
     {
-        /*
-        double closestBody = 0;
-        try
-        {
-            closestBody = Simulation.GetBodiesAsArray().Where(b => b != this).Min(b => Vector2.GetDistance(b.position, position) - b.radius) - radius;
-        }
-        catch (Exception)
-        {
+        velocity += impulse / mass;
+    }
 
-        }
-
-        if (closestBody < 1)
-        {
-            velocity = Vector2.Zero;
-            return;
-        }
-        */
-        var deltaVelocity = acceleration * elapsedSeconds;
-        velocity += deltaVelocity;
-
+    public void UpdatePosition(double elapsedSeconds)
+    {
         var deltaPosition = velocity * elapsedSeconds;
         position += deltaPosition;
     }

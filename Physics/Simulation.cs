@@ -19,16 +19,21 @@ public static class Simulation
     {
         foreach (Body body in bodies)
         {
-            var acceleration = Vector2.Zero;
+            var force = Vector2.Zero;
             foreach (Body other in bodies)
             {
                 if (body == other) continue;
 
-                if (Vector2.GetDistance(body.position, other.position) - (body.radius + other.radius) < 100)
+                if (Vector2.GetDistance(body.position, other.position) - (body.radius + other.radius) < 10)
                 {
-                    //body.UpdatePositionForCollision(other);
+                    // COLLISION HANDLING
+                    double coefficientOfRestitution = 1;
+                    Vector2 normalVector = (other.position - body.position).Normalised;
+                    double impulse = Vector2.DotProduct(-(1 + coefficientOfRestitution) * (body.velocity - other.velocity), normalVector) / Vector2.DotProduct(normalVector, normalVector * ((1 / body.mass) + (1 / other.mass)));
+                    body.ApplyImpulse(impulse * normalVector);
+                    other.ApplyImpulse(-impulse * normalVector);
 
-                    //continue;
+                    continue;
                 }
 
                 //This finds the vector pointing from body to other, then normalises it.
@@ -38,16 +43,26 @@ public static class Simulation
                 double distanceSquared = Math.Pow(Vector2.GetDistance(body.position, other.position), 2);
 
                 //Multiplies all the values together in accordance with the equation.
-                Vector2 thisAccel = direction * other.mass * gravitationalConstant / distanceSquared;
+                Vector2 thisForce = direction * body.mass * other.mass * gravitationalConstant / distanceSquared;
 
                 //Adds the current acceleration onto the running total.
-                acceleration += thisAccel;
+                force += thisForce;
             }
-            body.UpdateAcceleration(acceleration);
+            body.ApplyImpulse(force * (elapsedMilliseconds / 1000.0 / simSpeed));
+            body.UpdateAcceleration(force / body.mass);
+        }
+
+        foreach (Body body in bodies)
+        {
+            foreach (Body other in bodies)
+            {
+                if (body == other) continue;
+                
+            }
         }
         foreach (Body body in bodies)
         {
-            body.UpdateVelocityAndPosition(elapsedMilliseconds / 1000.0 / simSpeed);
+            body.UpdatePosition(elapsedMilliseconds / 1000.0 / simSpeed);
         }
     }
 
@@ -60,6 +75,7 @@ public static class Simulation
     {
         bodies.Clear();
 
+        /*
         var sun = new Body("The Sun", 100, new Colour(1, 0, 0), new Vector2(100, 0), Vector2.Zero, Vector2.Zero, 100000000, "");
         AddBody(sun);
 
@@ -68,6 +84,11 @@ public static class Simulation
 
         var moon = new Body("Moon", 5, new Colour(1, 1, 1), new Vector2(-1020, 0), Vector2.Up * 190, Vector2.Zero, 0.001, "The Sun");
         AddBody(moon);
+        */
+        var bodyA = new Body("BodyA", 100, new Colour(1, 0, 0), new Vector2(1000, 0), Vector2.Up * 100, Vector2.Zero, 1000000000, "");
+        var bodyB = new Body("BodyB", 100, new Colour(0, 1, 0), new Vector2(-1000, 0), Vector2.Zero, Vector2.Zero, 1000000000, "");
+        AddBody(bodyA);
+        AddBody(bodyB);
     }
 
     public static void AddBody(Body body)
