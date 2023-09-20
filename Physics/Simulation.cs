@@ -19,7 +19,7 @@ public static class Simulation
     {
         foreach (Body body in bodies)
         {
-            var force = Vector2.Zero;
+            var acceleration = Vector2.Zero;
             foreach (Body other in bodies)
             {
                 if (body == other) continue;
@@ -43,26 +43,16 @@ public static class Simulation
                 double distanceSquared = Math.Pow(Vector2.GetDistance(body.position, other.position), 2);
 
                 //Multiplies all the values together in accordance with the equation.
-                Vector2 thisForce = direction * body.mass * other.mass * gravitationalConstant / distanceSquared;
+                Vector2 thisAccel = direction * other.mass * gravitationalConstant / distanceSquared;
 
                 //Adds the current acceleration onto the running total.
-                force += thisForce;
+                acceleration += thisAccel;
             }
-            body.ApplyImpulse(force * (elapsedMilliseconds / 1000.0 / simSpeed));
-            body.UpdateAcceleration(force / body.mass);
-        }
-
-        foreach (Body body in bodies)
-        {
-            foreach (Body other in bodies)
-            {
-                if (body == other) continue;
-                
-            }
+            body.UpdateAcceleration(acceleration);
         }
         foreach (Body body in bodies)
         {
-            body.UpdatePosition(elapsedMilliseconds / 1000.0 / simSpeed);
+            body.UpdateVelocityAndPosition(elapsedMilliseconds / 1000.0 / simSpeed);
         }
     }
 
