@@ -139,8 +139,9 @@ public partial class SimulationWindow : Window
             {
                 Height = new GridLength(20)
             };
-            BodySidebarGrid.RowDefinitions.Add(new RowDefinition());
+            BodySidebarGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(20)});
 
+            /*
             //Creates a new textblock, configuring it to the right text, alignment, name, grid and row.
             var text = new TextBlock
             {
@@ -170,15 +171,45 @@ public partial class SimulationWindow : Window
             followButton.Click += new RoutedEventHandler(FollowButtonClickCall);
             followButton.SetValue(Grid.RowProperty, i);
             followButtons.Add(followButton);
+            */
 
+            var bodyEntry = new Button
+            {
+                Content = body.name,
+                Name = body.name.Replace(" ", "_"),
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Tag = body.guid,
+                Style = (Style)FindResource("LeftPanelBodyButton"),
+                Margin = new Thickness(1)
+            };
+            bodyEntry.Click += new RoutedEventHandler(LeftPanelBodyButtonCall);
+            BodySidebarGrid.Children.Add(bodyEntry);
+            bodyEntry.SetValue(Grid.RowProperty, i);
+
+            var followButton = new Button
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Center,
+                Style = (Style)FindResource("LeftPanelBodyButton"),
+                Content = "Follow",
+                Margin = new Thickness(1),
+                Tag = body.guid
+            };
+
+            BodySidebarGrid.Children.Add(followButton);
+
+            followButton.Click += new RoutedEventHandler(FollowButtonClickCall);
+            followButton.SetValue(Grid.RowProperty, i);
+            followButtons.Add(followButton);
             //Increases the row count.
             i++;
         }
     }
     
-    private void TextBlockClickCall(object sender, MouseButtonEventArgs e)
+    private void LeftPanelBodyButtonCall(object sender, RoutedEventArgs e)
     {
-        TextBlock block = (TextBlock)sender;
+        Button block = (Button)sender;
         Body body = Simulation.GetBodiesAsArray().Single(b => b.guid == block.Tag.ToString());
         selectedObject = body;
     }
