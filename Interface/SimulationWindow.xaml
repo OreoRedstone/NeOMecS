@@ -81,12 +81,13 @@
                         <ColumnDefinition Width="30"/>
                         <ColumnDefinition Width="30"/>
                         <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="2"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" FontWeight="SemiBold" Text="System"/>
 
-                    <Button Grid.Column="1" Style="{DynamicResource PlayButton}" Margin="1"/>
-                    <Button Grid.Column="2" Style="{DynamicResource PauseButton}" Margin="1"/>
-                    <Button Grid.Column="3" Style="{DynamicResource StopButton}" Margin="1"/>
+                    <Button Grid.Column="1" Style="{DynamicResource PlayButton}"  Margin="3,6,3,0" VerticalAlignment="Stretch"/>
+                    <Button Grid.Column="2" Style="{DynamicResource PauseButton}" Margin="3,6,3,0" VerticalAlignment="Stretch"/>
+                    <Button Grid.Column="3" Style="{DynamicResource StopButton}" Margin="3,6,3,0" VerticalAlignment="Stretch"/>
                 </Grid>
 
                 <Border Grid.Row="1" Margin="5" CornerRadius="8" BorderThickness="3" BorderBrush="Black" Background="Black">
@@ -192,14 +193,14 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Background" Value="#777777"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="#444444"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderBrush" Value="#666666"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -225,18 +226,18 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Background" Value="#777777"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="#444444"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderBrush" Value="#666666"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <Border CornerRadius="8" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -245,7 +246,7 @@
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <Polygon Points="0,0 16,10, 0,21" Stroke="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}" Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}"/>
+                        <Polygon VerticalAlignment="Center" Stretch="Uniform" Margin="5" Points="0,0 16,10, 0,21" Stroke="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}" Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -254,18 +255,18 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Background" Value="#777777"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="#444444"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderBrush" Value="#666666"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <Border CornerRadius="8" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -277,11 +278,11 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="3"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Rectangle Grid.Column="0" Width="7" Height="20"  Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}"/>
-                            <Rectangle Grid.Column="2" Width="7" Height="20"  Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}"/>
+                            <Rectangle Grid.Column="0" Width="6" Height="15"  Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}"/>
+                            <Rectangle Grid.Column="2" Width="6" Height="15"  Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}"/>
                         </Grid>
                     </DataTemplate>
                 </Setter.Value>
@@ -291,18 +292,18 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Background" Value="#777777"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="#444444"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderBrush" Value="#666666"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <Border CornerRadius="8" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -311,7 +312,7 @@
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}"/>
+                        <Rectangle Width="15" Height="15" Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -345,6 +346,5 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
     </Window.Resources>
 </Window>
