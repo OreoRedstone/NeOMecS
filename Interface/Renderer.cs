@@ -2,7 +2,9 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -41,6 +43,7 @@ class Renderer
             DrawCircle(gl, body, 100);
             DrawLine(gl, body.position, body.position + body.acceleration * 0.1);
             DrawLine(gl, body.position, body.position + body.velocity * 0.25);
+            DrawText(gl, body);
         }
     }
 
@@ -56,6 +59,14 @@ class Renderer
         {
             
         }
+    }
+
+    public void DrawText(OpenGL gl, Body body)
+    {
+        int x = Convert.ToInt32(((body.position.x + body.radius - cameraPosition.x) * 1.1 / scale) + windowSize.x / 2);
+        int y = Convert.ToInt32(((body.position.y - cameraPosition.y) / scale) + windowSize.y / 2);
+
+        gl.DrawText(x, y, 1, 1, 1, "Segoe UI", 15, body.name);
     }
 
     public void DrawLine(OpenGL gl, Vector2 start, Vector2 end)
