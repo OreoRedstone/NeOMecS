@@ -225,6 +225,13 @@ public partial class SimulationWindow : Window
             InfoSidebarVelocityX.SetValue(TextBox.IsReadOnlyProperty, false);
             InfoSidebarVelocityY.SetValue(TextBox.IsReadOnlyProperty, false);
 
+            InfoSidebarTitle.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+            InfoSidebarMass.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+            InfoSidebarPositionX.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+            InfoSidebarPositionY.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+            InfoSidebarVelocityX.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+            InfoSidebarVelocityY.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+
             body.name = InfoSidebarTitle.Text;
             body.mass = Convert.ToDouble(InfoSidebarMass.Text);
             body.position.x = Convert.ToDouble(InfoSidebarPositionX.Text);
@@ -260,6 +267,13 @@ public partial class SimulationWindow : Window
 
     private void UpdateInfoSidebarValues(Body body)
     {
+        InfoSidebarTitle.SetValue(Border.BorderThicknessProperty, new Thickness(0));
+        InfoSidebarMass.SetValue(Border.BorderThicknessProperty, new Thickness(0));
+        InfoSidebarPositionX.SetValue(Border.BorderThicknessProperty, new Thickness(0));
+        InfoSidebarPositionY.SetValue(Border.BorderThicknessProperty, new Thickness(0));
+        InfoSidebarVelocityX.SetValue(Border.BorderThicknessProperty, new Thickness(0));
+        InfoSidebarVelocityY.SetValue(Border.BorderThicknessProperty, new Thickness(0));
+
         InfoSidebarTitle.SetValue(TextBox.IsReadOnlyProperty, false);
         InfoSidebarMass.SetValue(TextBox.IsReadOnlyProperty, false);
         InfoSidebarPositionX.SetValue(TextBox.IsReadOnlyProperty, false);
