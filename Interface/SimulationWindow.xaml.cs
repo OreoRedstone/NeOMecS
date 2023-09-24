@@ -31,6 +31,10 @@ public partial class SimulationWindow : Window
     private List<Button> followButtons;
     private List<Key> pressedKeys = new List<Key>();
     private Stopwatch timeSinceLastFrame;
+    public bool isPaused = true;
+
+    private Body previouslySelectedBody;
+    private Body[] previousBodies = { };
 
     public SimulationWindow(SaveState state)
     {
@@ -55,10 +59,14 @@ public partial class SimulationWindow : Window
         dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
         dispatcherTimer.Interval = TimeSpan.FromMilliseconds(10);
         dispatcherTimer.Start();
+
+        UpdateInfoSidebarValues(selectedObject);
     }
 
     private void dispatcherTimer_Tick(object? sender, EventArgs e)
     {
+        Simulation.CalculateAccelerations();
+        if(isPaused) return;
         Simulation.SimulateStep(10);
     }
 
@@ -129,6 +137,7 @@ public partial class SimulationWindow : Window
     {
         followButtons.Clear();
         BodySidebarGrid.Children.Clear();
+        BodySidebarGrid.RowDefinitions.Clear();
         int i = 0;
         foreach (Body body in bodies)
         {
@@ -140,38 +149,6 @@ public partial class SimulationWindow : Window
                 Height = new GridLength(20)
             };
             BodySidebarGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(20)});
-
-            /*
-            //Creates a new textblock, configuring it to the right text, alignment, name, grid and row.
-            var text = new TextBlock
-            {
-                Text = body.name,
-                Name = body.name.Replace(" ", "_"),
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Tag = body.guid,
-                Foreground = Brushes.White
-            };
-            text.MouseLeftButtonUp += new MouseButtonEventHandler(TextBlockClickCall);
-            BodySidebarGrid.Children.Add(text);
-            text.SetValue(Grid.RowProperty, i);
-
-            var followButton = new Button
-            {
-                HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Center,
-                Style = (Style)FindResource("ButtonBlackOutline"),
-                Content = "Follow",
-                Margin = new Thickness(1, 1, 2, 1),
-                Tag = body.guid
-            };
-
-            BodySidebarGrid.Children.Add(followButton);
-            
-            followButton.Click += new RoutedEventHandler(FollowButtonClickCall);
-            followButton.SetValue(Grid.RowProperty, i);
-            followButtons.Add(followButton);
-            */
 
             var bodyEntry = new Button
             {
@@ -233,15 +210,79 @@ public partial class SimulationWindow : Window
 
     private void UpdateInfoSidebar(Body body)
     {
+        if(body != previouslySelectedBody)
+        {
+            UpdateInfoSidebarValues(body);
+        }
+
+
+        if(isPaused)
+        {
+            InfoSidebarTitle.SetValue(TextBox.IsReadOnlyProperty, false);
+            InfoSidebarMass.SetValue(TextBox.IsReadOnlyProperty, false);
+            InfoSidebarPositionX.SetValue(TextBox.IsReadOnlyProperty, false);
+            InfoSidebarPositionY.SetValue(TextBox.IsReadOnlyProperty, false);
+            InfoSidebarVelocityX.SetValue(TextBox.IsReadOnlyProperty, false);
+            InfoSidebarVelocityY.SetValue(TextBox.IsReadOnlyProperty, false);
+
+            body.name = InfoSidebarTitle.Text;
+            body.mass = Convert.ToDouble(InfoSidebarMass.Text);
+            body.position.x = Convert.ToDouble(InfoSidebarPositionX.Text);
+            body.position.y = Convert.ToDouble(InfoSidebarPositionY.Text);
+            body.velocity.x = Convert.ToDouble(InfoSidebarVelocityX.Text);
+            body.velocity.y = Convert.ToDouble(InfoSidebarVelocityY.Text);
+
+            bool shouldUpdate = false;
+            foreach (var currentBody in Simulation.GetBodiesAsArray())
+            {
+                bool currentBodyHasMatch = false;
+                foreach (var displayedBodyButton in BodySidebarGrid.Children)
+                {
+                    var displayedBodyName = ((Button)displayedBodyButton).Content;
+                    if (displayedBodyName == currentBody.name) currentBodyHasMatch = true;
+                }
+                if (!currentBodyHasMatch) shouldUpdate = true;
+            }
+
+            if(shouldUpdate)
+            {
+                UpdateBodySidebar(Simulation.GetBodiesAsArray());
+            }
+        }
+        else
+        {
+            UpdateInfoSidebarValues(body);
+        }
+
+        previouslySelectedBody = body;
+        previousBodies = Simulation.GetBodiesAsArray();
+    }
+
+    private void UpdateInfoSidebarValues(Body body)
+    {
+        InfoSidebarTitle.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarMass.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarPositionX.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarPositionY.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarVelocityX.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarVelocityY.SetValue(TextBox.IsReadOnlyProperty, false);
+
         InfoSidebarTitle.Text = body.name;
         InfoSidebarMass.Text = Math.Round(body.mass, 1).ToString();
         InfoSidebarSpeed.Text = Math.Round(Vector2.GetMagnitude(body.velocity), 1).ToString();
         InfoSidebarPositionX.Text = Math.Round(body.position.x, 1).ToString();
         InfoSidebarPositionY.Text = Math.Round(body.position.y, 1).ToString();
         InfoSidebarVelocityX.Text = Math.Round(body.velocity.x, 1).ToString();
-        InfoSidebarVelocityY.Text = Math.Round(body.velocity.y, 1)  .ToString();
+        InfoSidebarVelocityY.Text = Math.Round(body.velocity.y, 1).ToString();
         InfoSidebarAccelerationX.Text = Math.Round(body.acceleration.x, 1).ToString();
         InfoSidebarAccelerationY.Text = Math.Round(body.acceleration.y, 1).ToString();
+
+        InfoSidebarTitle.SetValue(TextBox.IsReadOnlyProperty, true);
+        InfoSidebarMass.SetValue(TextBox.IsReadOnlyProperty, true);
+        InfoSidebarPositionX.SetValue(TextBox.IsReadOnlyProperty, true);
+        InfoSidebarPositionY.SetValue(TextBox.IsReadOnlyProperty, true);
+        InfoSidebarVelocityX.SetValue(TextBox.IsReadOnlyProperty, true);
+        InfoSidebarVelocityY.SetValue(TextBox.IsReadOnlyProperty, true);
     }
 
     public Vector2 GetRenderWindowSize()
@@ -292,5 +333,20 @@ public partial class SimulationWindow : Window
         AddBodyWindow window = new AddBodyWindow();
         window.Show();
         window.Activate();
+    }
+
+    private void PlayButton_Click(object sender, RoutedEventArgs e)
+    {
+        isPaused = false;
+    }
+
+    private void PauseButton_Click(object sender, RoutedEventArgs e)
+    {
+        isPaused = true;
+    }
+
+    private void StopButton_Click(object sender, RoutedEventArgs e)
+    {
+
     }
 }

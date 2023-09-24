@@ -19,7 +19,6 @@ public static class Simulation
     {
         foreach (Body body in bodies)
         {
-            var acceleration = Vector2.Zero;
             foreach (Body other in bodies)
             {
                 if (body == other) continue;
@@ -35,6 +34,22 @@ public static class Simulation
 
                     continue;
                 }
+            }
+        }
+        foreach (Body body in bodies)
+        {
+            body.UpdateVelocityAndPosition(elapsedMilliseconds / 1000.0 / simSpeed);
+        }
+    }
+
+    public static void CalculateAccelerations()
+    {
+        foreach (Body body in bodies)
+        {
+            var acceleration = Vector2.Zero;
+            foreach (Body other in bodies)
+            {
+                if (body == other) continue;
 
                 //This finds the vector pointing from body to other, then normalises it.
                 Vector2 direction = Vector2.GetNormalised(other.position - body.position);
@@ -49,10 +64,6 @@ public static class Simulation
                 acceleration += thisAccel;
             }
             body.UpdateAcceleration(acceleration);
-        }
-        foreach (Body body in bodies)
-        {
-            body.UpdateVelocityAndPosition(elapsedMilliseconds / 1000.0 / simSpeed);
         }
     }
 

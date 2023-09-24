@@ -63,7 +63,7 @@ class Renderer
 
     public void DrawText(OpenGL gl, Body body)
     {
-        int x = Convert.ToInt32(((body.position.x + body.radius - cameraPosition.x) * 1.1 / scale) + windowSize.x / 2);
+        int x = Convert.ToInt32(((body.position.x + body.radius * 1.1 - cameraPosition.x) / scale) + windowSize.x / 2);
         int y = Convert.ToInt32(((body.position.y - cameraPosition.y) / scale) + windowSize.y / 2);
 
         gl.DrawText(x, y, 1, 1, 1, "Segoe UI", 15, body.name);

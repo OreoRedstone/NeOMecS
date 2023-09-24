@@ -12,14 +12,14 @@ public class Body
 {
     public string guid;
 
-    public string name { get; private set; }
+    public string name;
     private string parent;
-    public double radius { get; private set; }
-    public Colour colour { get; private set; }
-    public Vector2 position { get; private set; }
-    public Vector2 velocity { get; set; }
-    public Vector2 acceleration { get; private set; }
-    public double mass { get; private set; }
+    public double radius;
+    public Colour colour;
+    public Vector2 position;
+    public Vector2 velocity;
+    public Vector2 acceleration;
+    public double mass;
 
     public Body(string name, double radius, Colour colour, Vector2 position, Vector2 velocity, Vector2 acceleration, double mass, string parent)
     {
