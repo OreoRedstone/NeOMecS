@@ -96,4 +96,16 @@ public static class Simulation
     {
         bodies.Add(body);
     }
+
+    public static SimState GetState()
+    {
+        return new SimState(simSpeed, bodies.ToArray(), Vector2.Zero, gravitationalConstant);
+    }
+
+    public static void LoadState(SimState state)
+    {
+        simSpeed = state.simSpeed;
+        bodies = state.bodies.ToList();
+        gravitationalConstant = state.gravitationalConstant;
+    }
 }

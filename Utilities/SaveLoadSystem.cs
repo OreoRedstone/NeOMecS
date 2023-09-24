@@ -8,14 +8,14 @@ namespace NeOMecS.Utilities
 {
     public static class SaveLoadSystem
     {
-        public static int Save(SaveState state)
+        public static int Save(SimState state)
         {
             return -1;
         }
 
-        public static SaveState Load(string path)
+        public static SimState Load(string path)
         {
-            SaveState state = new SaveState();
+            SimState state = new SimState();
             return state;
         }
     }

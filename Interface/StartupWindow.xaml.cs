@@ -49,7 +49,7 @@ namespace NeOMecS.Interface
 
         private void NewSimulationButton_Click(object sender, RoutedEventArgs e)
         {
-            var window = new SimulationWindow(new SaveState());
+            var window = new SimulationWindow(new SimState());
             Application.Current.MainWindow = window;
             window.Show();
             Close();

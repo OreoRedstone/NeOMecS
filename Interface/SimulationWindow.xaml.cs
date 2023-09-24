@@ -31,12 +31,12 @@ public partial class SimulationWindow : Window
     private List<Button> followButtons;
     private List<Key> pressedKeys = new List<Key>();
     private Stopwatch timeSinceLastFrame;
-    public bool isPaused = true;
+    public SimulationPlayState playState = SimulationPlayState.Stopped;
+    private SimState stoppedState;
 
     private Body previouslySelectedBody;
-    private Body[] previousBodies = { };
 
-    public SimulationWindow(SaveState state)
+    public SimulationWindow(SimState state)
     {
         renderer =  new Renderer();
         followButtons = new();
@@ -66,7 +66,7 @@ public partial class SimulationWindow : Window
     private void dispatcherTimer_Tick(object? sender, EventArgs e)
     {
         Simulation.CalculateAccelerations();
-        if(isPaused) return;
+        if(playState != SimulationPlayState.Playing) return;
         Simulation.SimulateStep(10);
     }
 
@@ -216,7 +216,7 @@ public partial class SimulationWindow : Window
         }
 
 
-        if(isPaused)
+        if(playState == SimulationPlayState.Paused || playState == SimulationPlayState.Stopped)
         {
             InfoSidebarTitle.SetValue(TextBox.IsReadOnlyProperty, false);
             InfoSidebarMass.SetValue(TextBox.IsReadOnlyProperty, false);
@@ -262,7 +262,6 @@ public partial class SimulationWindow : Window
         }
 
         previouslySelectedBody = body;
-        previousBodies = Simulation.GetBodiesAsArray();
     }
 
     private void UpdateInfoSidebarValues(Body body)
@@ -344,23 +343,36 @@ public partial class SimulationWindow : Window
     {
         if (Application.Current.Windows.Cast<Window>().OfType<AddBodyWindow>().Any()) return;
 
-        AddBodyWindow window = new AddBodyWindow();
+        AddBodyWindow window = new();
         window.Show();
         window.Activate();
     }
 
     private void PlayButton_Click(object sender, RoutedEventArgs e)
     {
-        isPaused = false;
+        if(playState == SimulationPlayState.Stopped)
+        {
+            UpdateStoppedState(Simulation.GetState());
+        }
+        playState = SimulationPlayState.Playing;
     }
 
     private void PauseButton_Click(object sender, RoutedEventArgs e)
     {
-        isPaused = true;
+        playState = SimulationPlayState.Paused;
     }
 
     private void StopButton_Click(object sender, RoutedEventArgs e)
     {
-
+        Simulation.LoadState(stoppedState);
+        playState = SimulationPlayState.Stopped;
     }
+
+    private void UpdateStoppedState(SimState state)
+    {
+        stoppedState = state;
+    }
+
 }
+
+public enum SimulationPlayState { Playing, Paused, Stopped }
