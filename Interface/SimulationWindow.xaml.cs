@@ -158,7 +158,7 @@ public partial class SimulationWindow : Window
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Tag = body.guid,
                 Style = (Style)FindResource("LeftPanelBodyButton"),
-                Margin = new Thickness(1)
+                Margin = new Thickness(1),
             };
             bodyEntry.Click += new RoutedEventHandler(LeftPanelBodyButtonCall);
             BodySidebarGrid.Children.Add(bodyEntry);
@@ -171,7 +171,7 @@ public partial class SimulationWindow : Window
                 Style = (Style)FindResource("LeftPanelBodyButton"),
                 Content = "Follow",
                 Margin = new Thickness(1),
-                Tag = body.guid
+                Tag = body.guid,
             };
 
             BodySidebarGrid.Children.Add(followButton);
@@ -313,18 +313,6 @@ public partial class SimulationWindow : Window
     private void Window_KeyUp(object sender, KeyEventArgs e)
     {
         pressedKeys.Remove(e.Key);
-    }
-
-    private void Reset_Button_Click(object sender, RoutedEventArgs e)
-    {
-        Simulation.Reset();
-        var bodies = Simulation.GetBodiesAsArray();
-        UpdateBodySidebar(bodies);
-
-        if (bodies.Length > 0)
-        {
-            selectedObject = bodies[0];
-        }
     }
 
     private void Window_MouseWheel(object sender, MouseWheelEventArgs e)

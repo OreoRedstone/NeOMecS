@@ -17,13 +17,18 @@ public static class Simulation
 
     public static void SimulateStep(long elapsedMilliseconds)
     {
-        foreach (Body body in bodies)
+        for (int i = 0; i < bodies.Count - 1; i++)
         {
-            foreach (Body other in bodies)
+            var body = bodies[i];
+            for (int j = 1; j < bodies.Count; j++)
             {
-                if (body == other) continue;
+                if (j <= i) continue;
+                var other = bodies[j];
 
-                if (Vector2.GetDistance(body.position, other.position) - (body.radius + other.radius) < 10)
+                body.UpdatePosition(elapsedMilliseconds / 1000.0 / simSpeed);
+                other.UpdatePosition(elapsedMilliseconds / 1000.0 / simSpeed);
+
+                if (Vector2.GetDistance(body.position, other.position) - (body.radius + other.radius) < 1)
                 {
                     // COLLISION HANDLING
                     double coefficientOfRestitution = 1;
@@ -34,11 +39,10 @@ public static class Simulation
 
                     continue;
                 }
+
+                body.UpdateVelocity(elapsedMilliseconds / 1000.0 / simSpeed);
+                other.UpdateVelocity(elapsedMilliseconds / 1000.0 / simSpeed);
             }
-        }
-        foreach (Body body in bodies)
-        {
-            body.UpdateVelocityAndPosition(elapsedMilliseconds / 1000.0 / simSpeed);
         }
     }
 

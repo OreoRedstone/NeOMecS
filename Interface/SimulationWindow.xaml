@@ -131,19 +131,19 @@
                         </Grid.RowDefinitions>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="1" Text="Mass:"/>
-                        <TextBox Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarMass" Grid.Column="1" Grid.Row="1" Text="5" HorizontalAlignment="Right"/>
+                        <TextBox BorderBrush="#666666" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarMass" Grid.Column="1" Grid.Row="1" Text="5" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="2" Text="Speed:"/>
                         <TextBlock Foreground="White" x:Name="InfoSidebarSpeed" Grid.Column="1" Grid.Row="2" Text="10" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="3" Text="Position:"/>
                         <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="4" Text="X:" HorizontalAlignment="Left"/>
-                        <TextBox Margin="0,0,0,1" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarPositionX" Grid.Column="1" Grid.Row="4" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBox BorderBrush="#666666" Margin="0,0,0,1" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarPositionX" Grid.Column="1" Grid.Row="4" Text="0.01" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="5" Text="Y:"/>
-                        <TextBox Margin="0,1,0,0" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarPositionY" Grid.Column="1" Grid.Row="5" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBox BorderBrush="#666666" Margin="0,1,0,0" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarPositionY" Grid.Column="1" Grid.Row="5" Text="0.01" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="6" Text="Velocity:"/>
                         <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="7" Text="X:" HorizontalAlignment="Left"/>
-                        <TextBox Margin="0,0,0,1" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarVelocityX" Grid.Column="1" Grid.Row="7" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBox BorderBrush="#666666" Margin="0,0,0,1" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarVelocityX" Grid.Column="1" Grid.Row="7" Text="0.01" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="8" Text="Y:"/>
-                        <TextBox Margin="0,1,0,0" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarVelocityY" Grid.Column="1" Grid.Row="8" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBox BorderBrush="#666666" Margin="0,1,0,0" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarVelocityY" Grid.Column="1" Grid.Row="8" Text="0.01" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="9" Text="Acceleration:"/>
                         <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="10" Text="X:" HorizontalAlignment="Left"/>
                         <TextBlock Foreground="White" x:Name="InfoSidebarAccelerationX" Grid.Column="1" Grid.Row="10" Text="0.01" HorizontalAlignment="Right"/>

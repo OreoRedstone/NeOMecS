@@ -45,10 +45,14 @@ public class Body
         velocity += impulse / mass;
     }
 
-    public void UpdateVelocityAndPosition(double elapsedSeconds)
+    public void UpdateVelocity(double elapsedSeconds)
     {
         var deltaVelocity = acceleration * elapsedSeconds;
         velocity += deltaVelocity;
+    }
+
+    public void UpdatePosition(double elapsedSeconds)
+    {
         var deltaPosition = velocity * elapsedSeconds;
         position += deltaPosition;
     }
