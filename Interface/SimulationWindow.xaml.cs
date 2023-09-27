@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace NeOMecS.Interface;
 
@@ -32,14 +33,7 @@ public partial class SimulationWindow : Window
     private List<Key> pressedKeys = new List<Key>();
     private Stopwatch timeSinceLastFrame;
     public SimulationPlayState playState = SimulationPlayState.Stopped;
-    private SimState stoppedState
-    {
-        get { return stoppedState; }
-        set
-        { 
-            stoppedState = value;
-        }
-    }
+    private SimState stoppedState { get; set; }
 
     private Body previouslySelectedBody;
 
@@ -64,7 +58,7 @@ public partial class SimulationWindow : Window
             followButtons[0].Visibility = Visibility.Hidden;
         }
         
-        var dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+        var dispatcherTimer = new DispatcherTimer();
         dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
         dispatcherTimer.Interval = TimeSpan.FromMilliseconds(10);
         dispatcherTimer.Start();
@@ -74,13 +68,13 @@ public partial class SimulationWindow : Window
 
     private void dispatcherTimer_Tick(object? sender, EventArgs e)
     {
-        Simulation.simulation = SimulationPhysics.CalculateAccelerations(Simulation.simulation);
         if(playState != SimulationPlayState.Playing) return;
         Simulation.simulation = SimulationPhysics.SimulateStep(Simulation.simulation, 10);
     }
 
     private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
     {
+        Simulation.simulation = SimulationPhysics.CalculateAccelerations(Simulation.simulation);
         Vector2 cameraMoveAmount = Vector2.Zero;
         if(RenderWindow.IsKeyboardFocused || RenderWindow.IsMouseOver)
         {
@@ -349,7 +343,7 @@ public partial class SimulationWindow : Window
     {
         if(playState == SimulationPlayState.Stopped)
         {
-            stoppedState = Simulation.simulation;
+            stoppedState = new SimState(Simulation.simulation.simSpeed, Simulation.simulation.bodies, Simulation.simulation.cameraPosition, Simulation.simulation.gravitationalConstant);
         }
         playState = SimulationPlayState.Playing;
     }
@@ -361,7 +355,7 @@ public partial class SimulationWindow : Window
 
     private void StopButton_Click(object sender, RoutedEventArgs e)
     {
-        Simulation.simulation = stoppedState;
+        Simulation.simulation = new SimState(stoppedState);
         playState = SimulationPlayState.Stopped;
     }
 }

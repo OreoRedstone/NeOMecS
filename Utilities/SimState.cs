@@ -9,10 +9,10 @@ namespace NeOMecS.Utilities
 {
     public class SimState
     {
-        public readonly double simSpeed;
-        public readonly List<Body> bodies;
-        public readonly Vector2 cameraPosition;
-        public readonly double gravitationalConstant;
+        public double simSpeed;
+        public List<Body> bodies;
+        public Vector2 cameraPosition;
+        public double gravitationalConstant;
 
         public SimState()
         {
@@ -22,10 +22,10 @@ namespace NeOMecS.Utilities
             gravitationalConstant = 1;
         }
 
-        public SimState(double simSpeed, Body[] bodies, Vector2 cameraPosition, double gravitationalConstant)
+        public SimState(double simSpeed, List<Body> bodies, Vector2 cameraPosition, double gravitationalConstant)
         {
             this.simSpeed = simSpeed;
-            this.bodies = bodies.ToList();
+            this.bodies = bodies;
             this.cameraPosition = cameraPosition;
             this.gravitationalConstant = gravitationalConstant;
         }
@@ -33,6 +33,14 @@ namespace NeOMecS.Utilities
         public void AddBody(Body body)
         {
             bodies.Add(body);
+        }
+
+        public SimState(SimState other)
+        {
+            this.simSpeed = other.simSpeed;
+            this.bodies = other.bodies;
+            this.cameraPosition = other.cameraPosition;
+            this.gravitationalConstant = other.gravitationalConstant;
         }
     }
 }
