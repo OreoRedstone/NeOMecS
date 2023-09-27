@@ -110,7 +110,7 @@ public partial class SimulationWindow : Window
         else
         {
             renderer.cameraTargetPosition = followedObject.position;
-            if (Vector2.GetDistance(renderer.cameraPosition, followedObject.position) < 10)
+            if (Vector2.GetDistance(renderer.cameraPosition, followedObject.position) < followedObject.velocity.Magnitude)
             {
                 renderer.cameraPosition = followedObject.position;
             }
@@ -340,7 +340,7 @@ public partial class SimulationWindow : Window
     {
         if(playState == SimulationPlayState.Stopped)
         {
-            UpdateStoppedState(Simulation.GetState());
+            stoppedState = Simulation.GetState();
         }
         playState = SimulationPlayState.Playing;
     }
@@ -355,12 +355,6 @@ public partial class SimulationWindow : Window
         Simulation.LoadState(stoppedState);
         playState = SimulationPlayState.Stopped;
     }
-
-    private void UpdateStoppedState(SimState state)
-    {
-        stoppedState = state;
-    }
-
 }
 
 public enum SimulationPlayState { Playing, Paused, Stopped }
