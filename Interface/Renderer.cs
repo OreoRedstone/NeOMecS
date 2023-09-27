@@ -38,7 +38,7 @@ class Renderer
 
         RecalculateMatrix(gl);
 
-        foreach (Body body in Simulation.GetBodiesAsArray())
+        foreach (Body body in Simulation.simulation.bodies)
         {
             DrawCircle(gl, body, 100);
             DrawLine(gl, body.position, body.position + body.acceleration * 0.1);

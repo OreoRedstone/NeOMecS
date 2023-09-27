@@ -32,7 +32,14 @@ public partial class SimulationWindow : Window
     private List<Key> pressedKeys = new List<Key>();
     private Stopwatch timeSinceLastFrame;
     public SimulationPlayState playState = SimulationPlayState.Stopped;
-    private SimState stoppedState;
+    private SimState stoppedState
+    {
+        get { return stoppedState; }
+        set
+        { 
+            stoppedState = value;
+        }
+    }
 
     private Body previouslySelectedBody;
 
@@ -44,11 +51,13 @@ public partial class SimulationWindow : Window
         timeSinceLastFrame.Start();
         InitializeComponent();
 
-        Simulation.Reset();
-        var bodies = Simulation.GetBodiesAsArray();
+        Simulation.simulation.AddBody(new Body("Earth", 10, new Colour(0, 1, 0), new Vector2(1000, 0), new Vector2(0, 300), Vector2.Zero, 100000000, ""));
+        Simulation.simulation.AddBody(new Body("The Sun", 100, new Colour(1, 0, 0), new Vector2(0, 0), Vector2.Zero, Vector2.Zero, 10000000000, ""));
+
+        var bodies = Simulation.simulation.bodies;
         UpdateBodySidebar(bodies);
 
-        if (bodies.Length > 0)
+        if (bodies.Count > 0)
         {
             selectedObject = bodies[0];
             followedObject = bodies[0];
@@ -65,9 +74,9 @@ public partial class SimulationWindow : Window
 
     private void dispatcherTimer_Tick(object? sender, EventArgs e)
     {
-        Simulation.CalculateAccelerations();
+        Simulation.simulation = SimulationPhysics.CalculateAccelerations(Simulation.simulation);
         if(playState != SimulationPlayState.Playing) return;
-        Simulation.SimulateStep(10);
+        Simulation.simulation = SimulationPhysics.SimulateStep(Simulation.simulation, 10);
     }
 
     private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
@@ -133,7 +142,7 @@ public partial class SimulationWindow : Window
     /// <summary>
     /// This function updates the left sidebar of the main form to fit the array of bodies passed in.
     /// </summary>
-    public void UpdateBodySidebar(Body[] bodies)
+    public void UpdateBodySidebar(List<Body> bodies)
     {
         followButtons.Clear();
         BodySidebarGrid.Children.Clear();
@@ -187,7 +196,7 @@ public partial class SimulationWindow : Window
     private void LeftPanelBodyButtonCall(object sender, RoutedEventArgs e)
     {
         Button block = (Button)sender;
-        Body body = Simulation.GetBodiesAsArray().Single(b => b.guid == block.Tag.ToString());
+        Body body = Simulation.simulation.bodies.Single(b => b.guid == block.Tag.ToString());
         selectedObject = body;
     }
 
@@ -198,7 +207,7 @@ public partial class SimulationWindow : Window
             if(button == sender)
             {
                 button.Visibility = Visibility.Hidden;
-                Body body = Simulation.GetBodiesAsArray().Single(b => b.guid == button.Tag.ToString());
+                Body body = Simulation.simulation.bodies.Single(b => b.guid == button.Tag.ToString());
                 followedObject = body;
             }
             else
@@ -240,7 +249,7 @@ public partial class SimulationWindow : Window
             body.velocity.y = Convert.ToDouble(InfoSidebarVelocityY.Text);
 
             bool shouldUpdate = false;
-            foreach (var currentBody in Simulation.GetBodiesAsArray())
+            foreach (var currentBody in Simulation.simulation.bodies)
             {
                 bool currentBodyHasMatch = false;
                 foreach (var displayedBodyButton in BodySidebarGrid.Children)
@@ -253,7 +262,7 @@ public partial class SimulationWindow : Window
 
             if(shouldUpdate)
             {
-                UpdateBodySidebar(Simulation.GetBodiesAsArray());
+                UpdateBodySidebar(Simulation.simulation.bodies);
             }
         }
         else
@@ -340,7 +349,7 @@ public partial class SimulationWindow : Window
     {
         if(playState == SimulationPlayState.Stopped)
         {
-            stoppedState = Simulation.GetState();
+            stoppedState = Simulation.simulation;
         }
         playState = SimulationPlayState.Playing;
     }
@@ -352,7 +361,7 @@ public partial class SimulationWindow : Window
 
     private void StopButton_Click(object sender, RoutedEventArgs e)
     {
-        Simulation.LoadState(stoppedState);
+        Simulation.simulation = stoppedState;
         playState = SimulationPlayState.Stopped;
     }
 }

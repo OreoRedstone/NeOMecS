@@ -40,8 +40,8 @@ namespace NeOMecS.Interface
                 var parent = "";
 
                 var body = new Body(name, radius, colour, position, velocity, acceleration, mass, parent);
-                Simulation.AddBody(body);
-                ((SimulationWindow)Application.Current.MainWindow).UpdateBodySidebar(Simulation.GetBodiesAsArray());
+                Simulation.simulation.AddBody(body);
+                ((SimulationWindow)Application.Current.MainWindow).UpdateBodySidebar(Simulation.simulation.bodies);
                 Close();
             }
             catch (FormatException)
