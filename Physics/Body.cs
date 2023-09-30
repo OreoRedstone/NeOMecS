@@ -35,6 +35,19 @@ public class Body
         guid = Guid.NewGuid().ToString();
     }
 
+    public Body(Body other)
+    {
+        this.guid = other.guid;
+        this.name = other.name;
+        this.radius = other.radius;
+        this.colour = other.colour;
+        this.position = other.position;
+        this.velocity = other.velocity;
+        this.acceleration = other.acceleration;
+        this.mass = other.mass;
+        this.parent = other.parent;
+    }
+
     public void UpdateAcceleration(Vector2 newAcceleration)
     {
         acceleration = newAcceleration;

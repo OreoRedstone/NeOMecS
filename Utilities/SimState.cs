@@ -38,9 +38,13 @@ namespace NeOMecS.Utilities
         public SimState(SimState other)
         {
             this.simSpeed = other.simSpeed;
-            this.bodies = other.bodies;
             this.cameraPosition = other.cameraPosition;
             this.gravitationalConstant = other.gravitationalConstant;
+            this.bodies = new List<Body>();
+            foreach (Body body in other.bodies)
+            {
+                this.bodies.Add(new Body(body));
+            }
         }
     }
 }
