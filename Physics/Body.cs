@@ -37,15 +37,15 @@ public class Body
 
     public Body(Body other)
     {
-        this.guid = other.guid;
-        this.name = other.name;
-        this.radius = other.radius;
-        this.colour = other.colour;
-        this.position = other.position;
-        this.velocity = other.velocity;
-        this.acceleration = other.acceleration;
-        this.mass = other.mass;
-        this.parent = other.parent;
+        guid = other.guid;
+        name = other.name;
+        radius = other.radius;
+        colour = other.colour;
+        position = other.position;
+        velocity = other.velocity;
+        acceleration = other.acceleration;
+        mass = other.mass;
+        parent = other.parent;
     }
 
     public void UpdateAcceleration(Vector2 newAcceleration)

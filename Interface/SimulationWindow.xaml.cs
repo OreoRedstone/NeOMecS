@@ -343,7 +343,8 @@ public partial class SimulationWindow : Window
     {
         if(playState == SimulationPlayState.Stopped)
         {
-            stoppedState = new SimState(Simulation.simulation.simSpeed, Simulation.simulation.bodies, Simulation.simulation.cameraPosition, Simulation.simulation.gravitationalConstant);
+            Simulation.simulation.cameraPosition = renderer.cameraTargetPosition;
+            stoppedState = new SimState(Simulation.simulation);
         }
         playState = SimulationPlayState.Playing;
     }
@@ -355,7 +356,8 @@ public partial class SimulationWindow : Window
 
     private void StopButton_Click(object sender, RoutedEventArgs e)
     {
-        Simulation.simulation = new SimState(stoppedState);
+        Simulation.simulation = stoppedState;
+        renderer.cameraTargetPosition = Simulation.simulation.cameraPosition;
         playState = SimulationPlayState.Stopped;
     }
 }
