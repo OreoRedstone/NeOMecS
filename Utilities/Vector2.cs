@@ -128,4 +128,19 @@ public class Vector2 : IEquatable<Vector2>
     {
         return (a.x * b.x) + (a.y * b.y);
     }
+
+    public static double Angle(Vector2 a, Vector2 b)
+    {
+        return Math.Acos(DotProduct(a, b) / (a.Magnitude / b.Magnitude));
+    }
+
+    public static Vector2 PolarToVector2(double r, double theta)
+    {
+        return PolarToVector2(r, theta, Vector2.Zero);
+    }
+
+    public static Vector2 PolarToVector2(double r, double theta, Vector2 center)
+    {
+        return new Vector2(r * Math.Cos(theta), r * Math.Sin(theta)) + center;
+    }
 }
