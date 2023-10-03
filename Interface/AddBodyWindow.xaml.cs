@@ -37,11 +37,10 @@ namespace NeOMecS.Interface
                 var velocity = new Vector2(Convert.ToDouble(BodyVelocityXBox.Text), Convert.ToDouble(BodyVelocityYBox.Text)); 
                 var acceleration = Vector2.Zero;
                 var mass = Convert.ToDouble(BodyMassBox.Text);
-                var parent = "";
 
-                var body = new Body(name, radius, colour, position, velocity, acceleration, mass, parent);
-                Simulation.simulation.AddBody(body);
-                ((SimulationWindow)Application.Current.MainWindow).UpdateBodySidebar(Simulation.simulation.bodies);
+                var body = new Body(name, radius, colour, position, velocity, acceleration, mass);
+                Simulation.simulation.universe.AddBody(body);
+                ((SimulationWindow)Application.Current.MainWindow).UpdateBodySidebar(Simulation.simulation.universe.bodies);
                 Close();
             }
             catch (FormatException)

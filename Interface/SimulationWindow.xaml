@@ -128,6 +128,7 @@
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="1" Text="Mass:"/>
@@ -149,6 +150,8 @@
                         <TextBlock Foreground="White" x:Name="InfoSidebarAccelerationX" Grid.Column="1" Grid.Row="10" Text="0.01" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="11" Text="Y:"/>
                         <TextBlock Foreground="White" x:Name="InfoSidebarAccelerationY" Grid.Column="1" Grid.Row="11" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="12" Text="Parent:" HorizontalAlignment="Left"/>
+                        <TextBlock Foreground="White" x:Name="InfoSidebarParent" Grid.Column="1" Grid.Row="12" Text="Universe" HorizontalAlignment="Right"/>
                     </Grid>
                 </ScrollViewer>
 

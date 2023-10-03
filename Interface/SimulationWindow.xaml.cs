@@ -45,10 +45,10 @@ public partial class SimulationWindow : Window
         timeSinceLastFrame.Start();
         InitializeComponent();
 
-        Simulation.simulation.AddBody(new Body("Earth", 10, new Colour(0, 1, 0), new Vector2(1000, 0), new Vector2(0, 300), Vector2.Zero, 100000000, ""));
-        Simulation.simulation.AddBody(new Body("The Sun", 100, new Colour(1, 0, 0), new Vector2(0, 0), Vector2.Zero, Vector2.Zero, 10000000000, ""));
+        Simulation.simulation.universe.AddBody(new Body("Earth", 10, new Colour(0, 1, 0), new Vector2(1000, 0), new Vector2(0, 300), Vector2.Zero, 100000000));
+        Simulation.simulation.universe.AddBody(new Body("The Sun", 100, new Colour(1, 0, 0), new Vector2(0, 0), Vector2.Zero, Vector2.Zero, 10000000000));
 
-        var bodies = Simulation.simulation.bodies;
+        var bodies = Simulation.simulation.universe.bodies;
         UpdateBodySidebar(bodies);
 
         if (bodies.Count > 0)
@@ -190,7 +190,7 @@ public partial class SimulationWindow : Window
     private void LeftPanelBodyButtonCall(object sender, RoutedEventArgs e)
     {
         Button block = (Button)sender;
-        Body body = Simulation.simulation.bodies.Single(b => b.guid == block.Tag.ToString());
+        Body body = Simulation.simulation.universe.bodies.Single(b => b.guid == block.Tag.ToString());
         selectedObject = body;
     }
 
@@ -201,7 +201,7 @@ public partial class SimulationWindow : Window
             if(button == sender)
             {
                 button.Visibility = Visibility.Hidden;
-                Body body = Simulation.simulation.bodies.Single(b => b.guid == button.Tag.ToString());
+                Body body = Simulation.simulation.universe.bodies.Single(b => b.guid == button.Tag.ToString());
                 followedObject = body;
             }
             else
@@ -243,12 +243,12 @@ public partial class SimulationWindow : Window
             body.velocity.y = Convert.ToDouble(InfoSidebarVelocityY.Text);
 
             bool shouldUpdate = false;
-            foreach (var currentBody in Simulation.simulation.bodies)
+            foreach (var currentBody in Simulation.simulation.universe.bodies)
             {
                 bool currentBodyHasMatch = false;
                 foreach (var displayedBodyButton in BodySidebarGrid.Children)
                 {
-                    var displayedBodyName = ((Button)displayedBodyButton).Content;
+                    var displayedBodyName = (string)((Button)displayedBodyButton).Content;
                     if (displayedBodyName == currentBody.name) currentBodyHasMatch = true;
                 }
                 if (!currentBodyHasMatch) shouldUpdate = true;
@@ -256,7 +256,7 @@ public partial class SimulationWindow : Window
 
             if(shouldUpdate)
             {
-                UpdateBodySidebar(Simulation.simulation.bodies);
+                UpdateBodySidebar(Simulation.simulation.universe.bodies);
             }
         }
         else
@@ -292,6 +292,7 @@ public partial class SimulationWindow : Window
         InfoSidebarVelocityY.Text = Math.Round(body.velocity.y, 1).ToString();
         InfoSidebarAccelerationX.Text = Math.Round(body.acceleration.x, 1).ToString();
         InfoSidebarAccelerationY.Text = Math.Round(body.acceleration.y, 1).ToString();
+        InfoSidebarParent.Text = body.parent.name;
 
         InfoSidebarTitle.SetValue(TextBox.IsReadOnlyProperty, true);
         InfoSidebarMass.SetValue(TextBox.IsReadOnlyProperty, true);

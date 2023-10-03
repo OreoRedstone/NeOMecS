@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using NeOMecS.Interface;
 using NeOMecS.Utilities;
 
 namespace NeOMecS.Physics;
@@ -13,13 +14,13 @@ public static class SimulationPhysics
 {
     public static SimState SimulateStep(SimState state, long elapsedMilliseconds)
     {
-        for (int i = 0; i < state.bodies.Count - 1; i++)
+        for (int i = 0; i < state.universe.bodies.Count - 1; i++)
         {
-            var body = state.bodies[i];
-            for (int j = 1; j < state.bodies.Count; j++)
+            var body = state.universe.bodies[i];
+            for (int j = 1; j < state.universe.bodies.Count; j++)
             {
                 if (j <= i) continue;
-                var other = state.bodies[j];
+                var other = state.universe.bodies[j];
 
                 body.UpdatePosition(elapsedMilliseconds / 1000.0 / state.simSpeed);
                 other.UpdatePosition(elapsedMilliseconds / 1000.0 / state.simSpeed);
@@ -46,10 +47,11 @@ public static class SimulationPhysics
 
     public static SimState CalculateAccelerations(SimState state)
     {
-        foreach (Body body in state.bodies)
+        foreach (Body body in state.universe.bodies)
         {
-            var acceleration = Vector2.Zero;
-            foreach (Body other in state.bodies)
+            var accelerations = new Dictionary<Body, Vector2>();
+            var totalAccel = Vector2.Zero;
+            foreach (Body other in state.universe.bodies)
             {
                 if (body == other) continue;
 
@@ -60,12 +62,22 @@ public static class SimulationPhysics
                 double distanceSquared = Math.Pow(Vector2.GetDistance(body.position, other.position), 2);
 
                 //Multiplies all the values together in accordance with the equation.
-                Vector2 thisAccel = direction * other.mass * state.gravitationalConstant / distanceSquared;
+                Vector2 thisAccel = direction * other.mass * state.universe.gravitationalConstant / distanceSquared;
 
                 //Adds the current acceleration onto the running total.
-                acceleration += thisAccel;
+                accelerations.Add(other, thisAccel);
+                totalAccel += thisAccel;
             }
-            body.UpdateAcceleration(acceleration);
+            body.UpdateAcceleration(totalAccel);
+
+            var greatestAccel = new KeyValuePair<Body, Vector2>();
+            foreach (var entry in accelerations)
+            {
+                if (greatestAccel.Value == null) greatestAccel = entry;
+                if (entry.Value.Magnitude > greatestAccel.Value.Magnitude) greatestAccel = entry;
+            }
+            if (greatestAccel.Value.Magnitude / totalAccel.Magnitude > 0.99) body.parent = greatestAccel.Key;
+            else body.parent = Simulation.simulation.universe;
         }
 
         return state;

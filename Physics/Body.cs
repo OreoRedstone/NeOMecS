@@ -1,4 +1,5 @@
-﻿using NeOMecS.Utilities;
+﻿using NeOMecS.Interface;
+using NeOMecS.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -8,12 +9,11 @@ using System.Threading.Tasks;
 
 namespace NeOMecS.Physics;
 
-public class Body
+public class Body : ParentableObject
 {
     public string guid;
 
-    public string name;
-    private string parent;
+    public ParentableObject parent;
     public double radius;
     public Colour colour;
     public Vector2 position;
@@ -21,7 +21,7 @@ public class Body
     public Vector2 acceleration;
     public double mass;
 
-    public Body(string name, double radius, Colour colour, Vector2 position, Vector2 velocity, Vector2 acceleration, double mass, string parent)
+    public Body(string name, double radius, Colour colour, Vector2 position, Vector2 velocity, Vector2 acceleration, double mass)
     {
         this.name = name;
         this.radius = radius;
@@ -30,7 +30,8 @@ public class Body
         this.velocity = velocity;
         this.acceleration = acceleration;
         this.mass = mass;
-        this.parent = parent;
+
+        this.parent = Simulation.simulation.universe;
 
         guid = Guid.NewGuid().ToString();
     }
