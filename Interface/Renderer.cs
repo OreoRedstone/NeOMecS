@@ -45,6 +45,15 @@ class Renderer
             DrawLine(gl, body.position, body.position + body.velocity * 0.25);
             DrawText(gl, body);
         }
+
+        var paths = SimulationPhysics.CalculateOrbits(Simulation.simulation);
+        foreach (var entry in paths)
+        {
+            for (int i = 1; i < entry.Value.Count; i++)
+            {
+                DrawLine(gl, entry.Value[i - 1], entry.Value[i]);
+            }
+        }
     }
 
     public void OnResize(object sender, OpenGLRoutedEventArgs args)

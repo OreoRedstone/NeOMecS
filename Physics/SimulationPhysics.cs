@@ -82,4 +82,30 @@ public static class SimulationPhysics
 
         return state;
     }
+
+    public static Dictionary<Body, List<Vector2>> CalculateOrbits(SimState state)
+    {
+        Dictionary<Body, List<Vector2>> paths = new();
+        foreach (Body body in state.universe.bodies)
+        {
+            if (body.parent.GetType() == typeof(Body))
+            {
+                var parent = (Body)body.parent;
+                var orbitalVelocity = body.velocity - parent.velocity;
+                var orbitalPosition = body.position - parent.position;
+                var orbitEnergy = (orbitalVelocity.Magnitude * orbitalVelocity.Magnitude / 2) - (state.universe.gravitationalConstant * (body.mass + parent.mass) / orbitalPosition.Magnitude);
+                var l = body.mass * orbitalPosition.Magnitude * orbitalVelocity.Magnitude * Math.Sin(Vector2.Angle(orbitalPosition, orbitalVelocity));
+                var eccentricity = Math.Sqrt(1 + (2 * orbitEnergy * l * l) / (body.mass * body.mass * body.mass * state.universe.gravitationalConstant * state.universe.gravitationalConstant * parent.mass * parent.mass));
+                List<Vector2> positions = new();
+                for (int i = 0; i < 360; i++)
+                {
+                    var r = (l * l) / ((body.mass * body.mass * parent.mass * state.universe.gravitationalConstant) * (1 + eccentricity * Math.Cos(i * Math.PI / 180)));
+                    positions.Add(Vector2.PolarToVector2(r, i * Math.PI / 180, parent.position));
+                }
+                paths.Add(body, positions);
+            }
+        }
+
+        return paths;
+    }
 }
