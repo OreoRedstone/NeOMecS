@@ -53,6 +53,7 @@ class Renderer
             {
                 DrawLine(gl, entry.Value[i - 1], entry.Value[i]);
             }
+            DrawLine(gl, entry.Value[entry.Value.Count - 1], entry.Value[0]);
         }
     }
 

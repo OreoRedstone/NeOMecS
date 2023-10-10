@@ -76,7 +76,7 @@ public static class SimulationPhysics
                 if (greatestAccel.Value == null) greatestAccel = entry;
                 if (entry.Value.Magnitude > greatestAccel.Value.Magnitude) greatestAccel = entry;
             }
-            if (greatestAccel.Value.Magnitude / totalAccel.Magnitude > 0.99) body.parent = greatestAccel.Key;
+            if (greatestAccel.Value.Magnitude / totalAccel.Magnitude > 0.99 && totalAccel.Magnitude / body.mass > 0.000001) body.parent = greatestAccel.Key;
             else body.parent = Simulation.simulation.universe;
         }
 
@@ -95,9 +95,9 @@ public static class SimulationPhysics
                 var orbitalPosition = body.position - parent.position;
                 var orbitEnergy = (orbitalVelocity.Magnitude * orbitalVelocity.Magnitude / 2) - (state.universe.gravitationalConstant * (body.mass + parent.mass) / orbitalPosition.Magnitude);
                 var l = body.mass * orbitalPosition.Magnitude * orbitalVelocity.Magnitude * Math.Sin(Vector2.Angle(orbitalPosition, orbitalVelocity));
-                var eccentricity = Math.Sqrt(1 + (2 * orbitEnergy * l * l) / (body.mass * body.mass * body.mass * state.universe.gravitationalConstant * state.universe.gravitationalConstant * parent.mass * parent.mass));
+                var eccentricity = Math.Sqrt(1 + ((2 * orbitEnergy * l * l) / (body.mass * body.mass * body.mass * state.universe.gravitationalConstant * state.universe.gravitationalConstant * parent.mass * parent.mass)));
                 List<Vector2> positions = new();
-                for (int i = 0; i < 360; i++)
+                for (int i = 0; i <= 360; i++)
                 {
                     var r = (l * l) / ((body.mass * body.mass * parent.mass * state.universe.gravitationalConstant) * (1 + eccentricity * Math.Cos(i * Math.PI / 180)));
                     positions.Add(Vector2.PolarToVector2(r, i * Math.PI / 180, parent.position));
