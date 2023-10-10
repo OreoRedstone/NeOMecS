@@ -41,8 +41,8 @@ class Renderer
         foreach (Body body in Simulation.simulation.universe.bodies)
         {
             DrawCircle(gl, body, 100);
-            DrawLine(gl, body.position, body.position + body.acceleration * 0.1);
-            DrawLine(gl, body.position, body.position + body.velocity * 0.25);
+            DrawLine(gl, body.position, body.position + body.acceleration * 0.1, body.colour);
+            DrawLine(gl, body.position, body.position + body.velocity * 0.25, body.colour);
             DrawText(gl, body);
         }
 
@@ -51,9 +51,9 @@ class Renderer
         {
             for (int i = 1; i < entry.Value.Count; i++)
             {
-                DrawLine(gl, entry.Value[i - 1], entry.Value[i]);
+                DrawLine(gl, entry.Value[i - 1], entry.Value[i], entry.Key.colour);
             }
-            DrawLine(gl, entry.Value[entry.Value.Count - 1], entry.Value[0]);
+            DrawLine(gl, entry.Value[^1], entry.Value[0], entry.Key.colour);
         }
     }
 
@@ -81,7 +81,12 @@ class Renderer
 
     public void DrawLine(OpenGL gl, Vector2 start, Vector2 end)
     {
-        gl.Color(new Colour(1, 1, 1).GetAsFloatArray());
+        DrawLine(gl, start, end, new Colour(1, 1, 1));
+    }
+
+    public void DrawLine(OpenGL gl, Vector2 start, Vector2 end, Colour colour)
+    {
+        gl.Color(colour.GetAsFloatArray());
         gl.Begin(OpenGL.GL_LINES);
         gl.Vertex(start.x, start.y);
         gl.Vertex(end.x, end.y);

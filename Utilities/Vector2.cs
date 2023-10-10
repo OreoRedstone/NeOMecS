@@ -131,7 +131,8 @@ public class Vector2 : IEquatable<Vector2>
 
     public static double Angle(Vector2 a, Vector2 b)
     {
-        return Math.Acos(DotProduct(a, b) / (a.Magnitude / b.Magnitude));
+        var angle = Math.Acos(DotProduct(a, b) / (a.Magnitude * b.Magnitude));
+        return angle;
     }
 
     public static Vector2 PolarToVector2(double r, double theta)
