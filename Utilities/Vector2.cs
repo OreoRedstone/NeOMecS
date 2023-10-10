@@ -9,6 +9,8 @@ public class Vector2 : IEquatable<Vector2>
     public Vector2 Normalised => GetNormalised(this);
     public double Magnitude => GetMagnitude(this);
 
+    public double Theta => Angle(this, Vector2.Right);
+
     /// <summary>
     /// The default initialiser for Vector2.
     /// </summary>
