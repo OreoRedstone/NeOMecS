@@ -94,14 +94,12 @@ public static class SimulationPhysics
                 var gravitationalParameter = state.universe.gravitationalConstant * (parent.mass + body.mass);
                 var orbitalVelocity = body.velocity - parent.velocity;
                 var orbitalPosition = body.position - parent.position;
-                var orbitEnergy = (orbitalVelocity.Magnitude * orbitalVelocity.Magnitude / 2) - (gravitationalParameter / orbitalPosition.Magnitude);
                 var h = orbitalPosition.Magnitude * orbitalVelocity.Magnitude * Math.Sin(Vector2.Angle(orbitalPosition, orbitalVelocity));
-                var eccentricity = Math.Sqrt(1 + (2 * orbitEnergy * h * h / Math.Pow(gravitationalParameter, 2)));
                 var eccentricityVector = (((orbitalVelocity.Magnitude * orbitalVelocity.Magnitude / gravitationalParameter) - (1 / orbitalPosition.Magnitude)) * orbitalPosition) - (Vector2.DotProduct(orbitalPosition, orbitalVelocity) / gravitationalParameter * orbitalVelocity);
                 List <Vector2> positions = new();
                 for (double theta = 0; theta <= 4 * Math.PI; theta += 0.01)
                 {
-                    var r = (h * h) / (state.universe.gravitationalConstant * (parent.mass + body.mass) * (1 + eccentricity * Math.Cos(theta)));
+                    var r = (h * h) / (state.universe.gravitationalConstant * (parent.mass + body.mass) * (1 + eccentricityVector.Magnitude * Math.Cos(theta)));
                     positions.Add(Vector2.PolarToVector2(r, theta + Vector2.Angle(eccentricityVector, Vector2.Right), parent.position));
                 }
                 paths.Add(body, positions);
