@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NeOMecS.Interface;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,5 +40,48 @@ public class Universe : ParentableObject
     public void AddBody(Body body)
     {
         bodies.Add(body);
+    }
+
+    public List<Body> GetBodiesOrdered()
+    {
+        var orderedBodies = bodies.OrderBy(x => x.GetParentNestingCount(this)).ToList();
+        List<Body> newList = new();
+        foreach (var item in orderedBodies)
+        {
+            newList.Add(item);
+        }
+        foreach (var body in orderedBodies)
+        {
+            if(body.parent == this)
+            {
+                newList = BringChildrenUp(newList, body);
+            }
+        }
+
+        return newList;
+    }
+
+    private List<Body> BringChildrenUp(List<Body> list, Body parent)
+    {
+        if (GetBodyChildren(parent).Count > 0)
+        {
+            foreach (var child in GetBodyChildren(parent))
+            {
+                list.Remove(child);
+                list.Insert(list.FindIndex(b => b == parent) + 1, child);
+                list = BringChildrenUp(list, child);
+            }
+        }
+        return list;
+    }
+
+    private List<Body> GetBodyChildren(Body body)
+    {
+        var children = new List<Body>();
+        foreach( Body b in bodies)
+        {
+            if(b.parent == body) children.Add(b);
+        }
+        return children;
     }
 }

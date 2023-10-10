@@ -89,4 +89,23 @@ public class Body : ParentableObject
             position = centralPoint - (bodyToOther * distanceFromCentralPoint);
         }
     }
+
+    public int GetParentNestingCount(ParentableObject universe)
+    {
+        Body body = this;
+        int layers = -1;
+        while(body != universe)
+        {
+            layers++;
+            if(body.parent.GetType() == typeof(Body))
+            {
+                body = (Body)body.parent;
+            }
+            else if(body.parent.GetType() == typeof(Universe))
+            {
+                break;
+            }
+        }
+        return layers;
+    }
 }

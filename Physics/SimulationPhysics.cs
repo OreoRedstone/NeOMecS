@@ -45,7 +45,7 @@ public static class SimulationPhysics
         return state;
     }
 
-    public static SimState CalculateAccelerations(SimState state)
+    public static SimState CalculateAccelerations(SimState state, SimulationWindow simWindow)
     {
         foreach (Body body in state.universe.bodies)
         {
@@ -70,6 +70,7 @@ public static class SimulationPhysics
             }
             body.UpdateAcceleration(totalAccel);
 
+            var previousParent = body.parent;
             var greatestAccel = new KeyValuePair<Body, Vector2>();
             foreach (var entry in accelerations)
             {
@@ -78,6 +79,8 @@ public static class SimulationPhysics
             }
             if (greatestAccel.Value.Magnitude / totalAccel.Magnitude > 0.99 && totalAccel.Magnitude / body.mass > 0.000001) body.parent = greatestAccel.Key;
             else body.parent = Simulation.simulation.universe;
+
+            if (body.parent != previousParent) simWindow.UpdateBodySidebar(state.universe.bodies);
         }
 
         return state;
@@ -90,6 +93,7 @@ public static class SimulationPhysics
         {
             if (body.parent.GetType() == typeof(Body))
             {
+                if (Double.IsNaN(body.acceleration.Magnitude)) continue;
                 var parent = (Body)body.parent;
                 var gravitationalParameter = state.universe.gravitationalConstant * (parent.mass + body.mass);
                 var orbitalVelocity = body.velocity - parent.velocity;

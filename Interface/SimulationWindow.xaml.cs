@@ -74,7 +74,7 @@ public partial class SimulationWindow : Window
 
     private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
     {
-        Simulation.simulation = SimulationPhysics.CalculateAccelerations(Simulation.simulation);
+        Simulation.simulation = SimulationPhysics.CalculateAccelerations(Simulation.simulation, this);
         Vector2 cameraMoveAmount = Vector2.Zero;
         if(RenderWindow.IsKeyboardFocused || RenderWindow.IsMouseOver)
         {
@@ -142,6 +142,7 @@ public partial class SimulationWindow : Window
         BodySidebarGrid.Children.Clear();
         BodySidebarGrid.RowDefinitions.Clear();
         int i = 0;
+        bodies = Simulation.simulation.universe.GetBodiesOrdered();
         foreach (Body body in bodies)
         {
             if (body == null) continue;
@@ -161,7 +162,7 @@ public partial class SimulationWindow : Window
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Tag = body.guid,
                 Style = (Style)FindResource("LeftPanelBodyButton"),
-                Margin = new Thickness(1),
+                Margin = new Thickness(body.GetParentNestingCount(Simulation.simulation.universe) * 10, 1, 1, 1),
             };
             bodyEntry.Click += new RoutedEventHandler(LeftPanelBodyButtonCall);
             BodySidebarGrid.Children.Add(bodyEntry);
@@ -235,12 +236,24 @@ public partial class SimulationWindow : Window
             InfoSidebarVelocityX.SetValue(Border.BorderThicknessProperty, new Thickness(1));
             InfoSidebarVelocityY.SetValue(Border.BorderThicknessProperty, new Thickness(1));
 
-            body.name = InfoSidebarTitle.Text;
-            body.mass = Convert.ToDouble(InfoSidebarMass.Text);
-            body.position.x = Convert.ToDouble(InfoSidebarPositionX.Text);
-            body.position.y = Convert.ToDouble(InfoSidebarPositionY.Text);
-            body.velocity.x = Convert.ToDouble(InfoSidebarVelocityX.Text);
-            body.velocity.y = Convert.ToDouble(InfoSidebarVelocityY.Text);
+            InfoSidebarSpeed.Text = Math.Round(Vector2.GetMagnitude(body.velocity), 1).ToString();
+            InfoSidebarAccelerationX.Text = Math.Round(body.acceleration.x, 1).ToString();
+            InfoSidebarAccelerationY.Text = Math.Round(body.acceleration.y, 1).ToString();
+            InfoSidebarParent.Text = body.parent.name;
+
+            try
+            {
+                body.name = InfoSidebarTitle.Text;
+                body.mass = Convert.ToDouble(InfoSidebarMass.Text);
+                body.position.x = Convert.ToDouble(InfoSidebarPositionX.Text);
+                body.position.y = Convert.ToDouble(InfoSidebarPositionY.Text);
+                body.velocity.x = Convert.ToDouble(InfoSidebarVelocityX.Text);
+                body.velocity.y = Convert.ToDouble(InfoSidebarVelocityY.Text);
+            }
+            catch (Exception)
+            {
+
+            }
 
             bool shouldUpdate = false;
             foreach (var currentBody in Simulation.simulation.universe.bodies)
