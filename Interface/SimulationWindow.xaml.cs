@@ -69,7 +69,7 @@ public partial class SimulationWindow : Window
     private void dispatcherTimer_Tick(object? sender, EventArgs e)
     {
         if(playState != SimulationPlayState.Playing) return;
-        Simulation.simulation = SimulationPhysics.SimulateStep(Simulation.simulation, 10);
+        Simulation.simulation = SimulationPhysics.SimulateStep(Simulation.simulation);
     }
 
     private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)

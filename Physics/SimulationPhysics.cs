@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,7 +13,9 @@ namespace NeOMecS.Physics;
 
 public static class SimulationPhysics
 {
-    public static SimState SimulateStep(SimState state, long elapsedMilliseconds)
+    private static Stopwatch stepTimer = new();
+
+    public static SimState SimulateStep(SimState state)
     {
         for (int i = 0; i < state.universe.bodies.Count - 1; i++)
         {
@@ -22,9 +25,8 @@ public static class SimulationPhysics
                 if (j <= i) continue;
                 var other = state.universe.bodies[j];
 
-                body.UpdatePosition(elapsedMilliseconds / 1000.0 / state.simSpeed);
-                other.UpdatePosition(elapsedMilliseconds / 1000.0 / state.simSpeed);
-                
+                body.UpdatePosition(stepTimer.ElapsedMilliseconds / 1000.0 / state.simSpeed);
+                other.UpdatePosition(stepTimer.ElapsedMilliseconds / 1000.0 / state.simSpeed);
                 
                 if (Vector2.GetDistance(body.position, other.position) - (body.radius + other.radius) < 1)
                 {
@@ -38,11 +40,11 @@ public static class SimulationPhysics
                     continue;
                 }
                 
-                body.UpdateVelocity(elapsedMilliseconds / 1000.0 / state.simSpeed);
-                other.UpdateVelocity(elapsedMilliseconds / 1000.0 / state.simSpeed);
+                body.UpdateVelocity(stepTimer.ElapsedMilliseconds / 1000.0 / state.simSpeed);
+                other.UpdateVelocity(stepTimer.ElapsedMilliseconds / 1000.0 / state.simSpeed);
             }
         }
-
+        stepTimer.Restart();
         return state;
     }
 
