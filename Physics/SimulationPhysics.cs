@@ -13,10 +13,11 @@ namespace NeOMecS.Physics;
 
 public static class SimulationPhysics
 {
-    private static Stopwatch stepTimer = new();
+    private static Stopwatch stepTimer = Stopwatch.StartNew();
 
     public static SimState SimulateStep(SimState state)
     {
+        double elapsedSeconds = ((double)stepTimer.ElapsedTicks / (double)Stopwatch.Frequency) / state.simSpeed;
         for (int i = 0; i < state.universe.bodies.Count - 1; i++)
         {
             var body = state.universe.bodies[i];
@@ -25,8 +26,8 @@ public static class SimulationPhysics
                 if (j <= i) continue;
                 var other = state.universe.bodies[j];
 
-                body.UpdatePosition(stepTimer.ElapsedMilliseconds / 1000.0 / state.simSpeed);
-                other.UpdatePosition(stepTimer.ElapsedMilliseconds / 1000.0 / state.simSpeed);
+                body.UpdatePosition(elapsedSeconds);
+                other.UpdatePosition(elapsedSeconds);
                 
                 if (Vector2.GetDistance(body.position, other.position) - (body.radius + other.radius) < 1)
                 {
@@ -40,8 +41,8 @@ public static class SimulationPhysics
                     continue;
                 }
                 
-                body.UpdateVelocity(stepTimer.ElapsedMilliseconds / 1000.0 / state.simSpeed);
-                other.UpdateVelocity(stepTimer.ElapsedMilliseconds / 1000.0 / state.simSpeed);
+                body.UpdateVelocity(elapsedSeconds);
+                other.UpdateVelocity(elapsedSeconds);
             }
         }
         stepTimer.Restart();
@@ -107,7 +108,12 @@ public static class SimulationPhysics
                 for (double theta = 0; theta <= 4 * Math.PI; theta += 0.01)
                 {
                     var r = (h * h) / (state.universe.gravitationalConstant * (parent.mass + body.mass) * (1 + eccentricityVector.Magnitude * Math.Cos(theta)));
-                    positions.Add(Vector2.PolarToVector2(r, theta + Vector2.Angle(eccentricityVector, Vector2.Right), parent.position));
+                    var newPos = Vector2.PolarToVector2(r, theta + Vector2.Angle(eccentricityVector, Vector2.Right), parent.position);
+                    if(positions.Count > 1 && Vector2.GetDistance(newPos, positions[^1]) > Vector2.GetDistance(positions[^1], positions[^2]) * 5)
+                    {
+                        continue;
+                    }
+                    positions.Add(newPos);
                 }
                 paths.Add(body, positions);
             }
