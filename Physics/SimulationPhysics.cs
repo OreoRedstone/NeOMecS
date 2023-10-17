@@ -24,7 +24,8 @@ public static class SimulationPhysics
 
                 body.UpdatePosition(elapsedMilliseconds / 1000.0 / state.simSpeed);
                 other.UpdatePosition(elapsedMilliseconds / 1000.0 / state.simSpeed);
-
+                
+                
                 if (Vector2.GetDistance(body.position, other.position) - (body.radius + other.radius) < 1)
                 {
                     // COLLISION HANDLING
@@ -33,10 +34,10 @@ public static class SimulationPhysics
                     double impulse = Vector2.DotProduct(-(1 + coefficientOfRestitution) * (body.velocity - other.velocity), normalVector) / Vector2.DotProduct(normalVector, normalVector * ((1 / body.mass) + (1 / other.mass)));
                     body.ApplyImpulse(impulse * normalVector);
                     other.ApplyImpulse(-impulse * normalVector);
-
+                    
                     continue;
                 }
-
+                
                 body.UpdateVelocity(elapsedMilliseconds / 1000.0 / state.simSpeed);
                 other.UpdateVelocity(elapsedMilliseconds / 1000.0 / state.simSpeed);
             }
@@ -77,7 +78,7 @@ public static class SimulationPhysics
                 if (greatestAccel.Value == null) greatestAccel = entry;
                 if (entry.Value.Magnitude > greatestAccel.Value.Magnitude) greatestAccel = entry;
             }
-            if (greatestAccel.Value.Magnitude / totalAccel.Magnitude > 0.99 && totalAccel.Magnitude / body.mass > 0.000001) body.parent = greatestAccel.Key;
+            if (greatestAccel.Value.Magnitude / totalAccel.Magnitude > 0.99 && greatestAccel.Key.mass > body.mass) body.parent = greatestAccel.Key;
             else body.parent = Simulation.simulation.universe;
 
             if (body.parent != previousParent) simWindow.UpdateBodySidebar(state.universe.bodies);

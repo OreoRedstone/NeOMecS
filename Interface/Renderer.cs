@@ -37,7 +37,7 @@ class Renderer
         frameTimer.Restart();
 
         RecalculateMatrix(gl);
-
+        
         foreach (Body body in Simulation.simulation.universe.bodies)
         {
             DrawCircle(gl, body, 100);
@@ -45,7 +45,7 @@ class Renderer
             DrawLine(gl, body.position, body.position + body.velocity * 0.25, body.colour);
             DrawText(gl, body);
         }
-
+        
         var paths = SimulationPhysics.CalculateOrbits(Simulation.simulation);
         foreach (var entry in paths)
         {

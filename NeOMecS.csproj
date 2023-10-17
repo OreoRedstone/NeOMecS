@@ -9,9 +9,6 @@
 
   <ItemGroup>
     <None Remove="Images\jwstSpaceImage.jpg" />
-    <None Remove="Images\pauseImage.png" />
-    <None Remove="Images\playImage.png" />
-    <None Remove="Images\stopImage.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,9 +17,6 @@
 
   <ItemGroup>
     <Resource Include="Images\jwstSpaceImage.jpg" />
-    <Resource Include="Images\pauseImage.png" />
-    <Resource Include="Images\playImage.png" />
-    <Resource Include="Images\stopImage.png" />
   </ItemGroup>
 
 </Project>
