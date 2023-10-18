@@ -40,7 +40,7 @@ namespace NeOMecS.Interface
             };
             if (openFileDialog.ShowDialog() == true)
             {
-                var window = new SimulationWindow(SaveLoadSystem.Load(openFileDialog.FileName));
+                var window = new SimulationWindow(SaveLoadSystem.Decode(SaveLoadSystem.Load(openFileDialog.FileName)));
                 Application.Current.MainWindow = window;
                 window.Show();
                 Close();

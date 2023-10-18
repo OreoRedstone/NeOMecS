@@ -91,7 +91,7 @@
                 </Grid>
 
                 <Border Grid.Row="1" Margin="5" CornerRadius="8" BorderThickness="3" BorderBrush="Black" Background="Black">
-                    <sharpGL:OpenGLControl x:Name="RenderWindow" Focusable="True" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="False" FrameRate="144" Resized="OpenGLControl_Resized" MouseLeftButtonUp="RenderWindow_MouseLeftButtonUp"/>
+                    <sharpGL:OpenGLControl x:Name="RenderWindow"  Focusable="True" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="False" FrameRate="144" Resized="OpenGLControl_Resized" MouseLeftButtonUp="RenderWindow_MouseLeftButtonUp"/>
                 </Border>
             </Grid>
         </Border>

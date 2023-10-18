@@ -45,7 +45,7 @@ public partial class SimulationWindow : Window
         InitializeComponent();
 
         Simulation.simulation.universe.AddBody(new Body("Earth", 10, new Colour(0, 1, 0), new Vector2(1000, 0), new Vector2(0, 300), Vector2.Zero, 100000000));
-        Simulation.simulation.universe.AddBody(new Body("The Sun", 100, new Colour(1, 0, 0), new Vector2(0, 0), Vector2.Zero, Vector2.Zero, 10000000000));
+        Simulation.simulation.universe.AddBody(new Body("The Sun", 100, new Colour(1, 0, 0), new Vector2(0, 0), Vector2.Zero, Vector2.Zero, -10000000000));
 
         var bodies = Simulation.simulation.universe.bodies;
         UpdateBodySidebar(bodies);
@@ -243,7 +243,9 @@ public partial class SimulationWindow : Window
             try
             {
                 body.name = InfoSidebarTitle.Text;
-                body.mass = Convert.ToDouble(InfoSidebarMass.Text);
+                var mass = Convert.ToDouble(InfoSidebarMass.Text);
+                if (mass == 0) throw new Exception();
+                body.mass = mass;
                 body.position.x = Convert.ToDouble(InfoSidebarPositionX.Text);
                 body.position.y = Convert.ToDouble(InfoSidebarPositionY.Text);
                 body.velocity.x = Convert.ToDouble(InfoSidebarVelocityX.Text);
