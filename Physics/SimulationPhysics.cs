@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using NeOMecS.Interface;
 using NeOMecS.Utilities;
 
@@ -13,17 +8,16 @@ namespace NeOMecS.Physics;
 
 public static class SimulationPhysics
 {
-    private static Stopwatch stepTimer = Stopwatch.StartNew();
+    public static readonly Stopwatch stepTimer = Stopwatch.StartNew();
 
     public static SimState SimulateStep(SimState state)
     {
-        double elapsedSeconds = ((double)stepTimer.ElapsedTicks / (double)Stopwatch.Frequency) / state.simSpeed;
-        for (int i = 0; i < state.universe.bodies.Count - 1; i++)
+        double elapsedSeconds = stepTimer.ElapsedTicks / (double)Stopwatch.Frequency / state.simSpeed;
+        for (int i = 1; i < state.universe.bodies.Count; i++)
         {
             var body = state.universe.bodies[i];
-            for (int j = 1; j < state.universe.bodies.Count; j++)
+            for (int j = 0; j < i; j++)
             {
-                if (j <= i) continue;
                 var other = state.universe.bodies[j];
 
                 body.UpdatePosition(elapsedSeconds);

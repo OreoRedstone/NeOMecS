@@ -41,8 +41,7 @@ public partial class SimulationWindow : Window
     {
         renderer =  new Renderer();
         followButtons = new();
-        timeSinceLastFrame = new();
-        timeSinceLastFrame.Start();
+        timeSinceLastFrame = Stopwatch.StartNew();
         InitializeComponent();
 
         Simulation.simulation.universe.AddBody(new Body("Earth", 10, new Colour(0, 1, 0), new Vector2(1000, 0), new Vector2(0, 300), Vector2.Zero, 100000000));
@@ -108,7 +107,7 @@ public partial class SimulationWindow : Window
             }
             followedObject = null;
 
-            renderer.cameraTargetPosition += Vector2.GetNormalised(cameraMoveAmount) * timeSinceLastFrame.ElapsedMilliseconds * renderer.targetScale * 0.5;
+            renderer.cameraTargetPosition += Vector2.GetNormalised(cameraMoveAmount) * timeSinceLastFrame.ElapsedTicks * renderer.targetScale * 0.0001;
         }
         else
         {
@@ -357,6 +356,7 @@ public partial class SimulationWindow : Window
     {
         if(playState == SimulationPlayState.Stopped)
         {
+            SimulationPhysics.stepTimer.Restart();
             Simulation.simulation.cameraPosition = renderer.cameraTargetPosition;
             stoppedState = new SimState(Simulation.simulation);
         }
