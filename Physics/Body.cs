@@ -21,7 +21,7 @@ public class Body : ParentableObject
     public Vector2 acceleration;
     public double mass;
 
-    public Body(string name, double radius, Colour colour, Vector2 position, Vector2 velocity, Vector2 acceleration, double mass)
+    public Body(string name, double radius, Colour colour, Vector2 position, Vector2 velocity, Vector2 acceleration, double mass, ParentableObject parent)
     {
         this.name = name;
         this.radius = radius;
@@ -30,8 +30,7 @@ public class Body : ParentableObject
         this.velocity = velocity;
         this.acceleration = acceleration;
         this.mass = mass;
-
-        this.parent = Simulation.simulation.universe;
+        this.parent = parent;
 
         guid = Guid.NewGuid().ToString();
     }

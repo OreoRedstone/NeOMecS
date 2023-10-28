@@ -18,7 +18,7 @@ class Renderer
     public Vector2 cameraPosition = Vector2.Zero;
     public Vector2 cameraTargetPosition = Vector2.Zero;
 
-    public void RenderFrame(object sender, OpenGLRoutedEventArgs args)
+    public void RenderFrame(object sender, OpenGLRoutedEventArgs args, SimState state)
     {
         if (!frameTimer.IsRunning) frameTimer.Start();
         OpenGL gl = args.OpenGL;
@@ -31,7 +31,7 @@ class Renderer
 
         RecalculateMatrix(gl);
         
-        foreach (Body body in Simulation.simulation.universe.bodies)
+        foreach (Body body in state.universe.bodies)
         {
             DrawCircle(gl, body, 100);
             DrawLine(gl, body.position, body.position + body.acceleration * 0.1, body.colour);
@@ -39,7 +39,7 @@ class Renderer
             DrawText(gl, body);
         }
         
-        var paths = SimulationPhysics.CalculateOrbits(Simulation.simulation);
+        var paths = SimulationPhysics.CalculateOrbits(state);
         foreach (var entry in paths)
         {
             for (int i = 1; i < entry.Value.Count; i++)

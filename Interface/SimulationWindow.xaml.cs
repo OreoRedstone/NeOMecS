@@ -26,6 +26,8 @@ namespace NeOMecS.Interface;
 /// </summary>
 public partial class SimulationWindow : Window
 {
+    private SimState simulation;
+
     Renderer renderer;
     private Body? selectedObject;
     public Body? followedObject;
@@ -44,10 +46,20 @@ public partial class SimulationWindow : Window
         timeSinceLastFrame = Stopwatch.StartNew();
         InitializeComponent();
 
+        simulation = state;
+
+        simulation.universe.AddBody(new Body("Earth", 10, new Colour(0, 1, 0), new Vector2(1000, 0), new Vector2(0, 300), Vector2.Zero, 100000000, simulation.universe));
+        simulation.universe.AddBody(new Body("The Sun", 100, new Colour(1, 0, 0), new Vector2(0, 0), Vector2.Zero, Vector2.Zero, 10000000000, simulation.universe));
+
+        var bodies = simulation.universe.bodies;
+
+        /*
         Simulation.simulation.universe.AddBody(new Body("Earth", 10, new Colour(0, 1, 0), new Vector2(1000, 0), new Vector2(0, 300), Vector2.Zero, 100000000));
         Simulation.simulation.universe.AddBody(new Body("The Sun", 100, new Colour(1, 0, 0), new Vector2(0, 0), Vector2.Zero, Vector2.Zero, -10000000000));
 
         var bodies = Simulation.simulation.universe.bodies;
+        */
+
         UpdateBodySidebar(bodies);
 
         if (bodies.Count > 0)
@@ -68,12 +80,12 @@ public partial class SimulationWindow : Window
     private void dispatcherTimer_Tick(object? sender, EventArgs e)
     {
         if(playState != SimulationPlayState.Playing) return;
-        Simulation.simulation = SimulationPhysics.SimulateStep(Simulation.simulation);
+        simulation = SimulationPhysics.SimulateStep(simulation);
     }
 
     private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
     {
-        Simulation.simulation = SimulationPhysics.CalculateAccelerations(Simulation.simulation, this);
+        simulation = SimulationPhysics.CalculateAccelerations(simulation, this);
         Vector2 cameraMoveAmount = Vector2.Zero;
         if(RenderWindow.IsKeyboardFocused || RenderWindow.IsMouseOver)
         {
@@ -118,12 +130,8 @@ public partial class SimulationWindow : Window
             }
         }
 
-        if(!(timeSinceLastFrame.ElapsedMilliseconds > 1000))
-        {
-            //Simulation.SimulateStep(timeSinceLastFrame.ElapsedMilliseconds);
-        }
         UpdateInfoSidebar(selectedObject);
-        renderer.RenderFrame(sender, args);
+        renderer.RenderFrame(sender, args, simulation);
         timeSinceLastFrame.Restart();
     }
 
@@ -141,7 +149,7 @@ public partial class SimulationWindow : Window
         BodySidebarGrid.Children.Clear();
         BodySidebarGrid.RowDefinitions.Clear();
         int i = 0;
-        bodies = Simulation.simulation.universe.GetBodiesOrdered();
+        bodies = simulation.universe.GetBodiesOrdered();
         foreach (Body body in bodies)
         {
             if (body == null) continue;
@@ -161,7 +169,7 @@ public partial class SimulationWindow : Window
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Tag = body.guid,
                 Style = (Style)FindResource("LeftPanelBodyButton"),
-                Margin = new Thickness(body.GetParentNestingCount(Simulation.simulation.universe) * 10, 1, 1, 1),
+                Margin = new Thickness(body.GetParentNestingCount(simulation.universe) * 10, 1, 1, 1),
             };
             bodyEntry.Click += new RoutedEventHandler(LeftPanelBodyButtonCall);
             BodySidebarGrid.Children.Add(bodyEntry);
@@ -190,7 +198,7 @@ public partial class SimulationWindow : Window
     private void LeftPanelBodyButtonCall(object sender, RoutedEventArgs e)
     {
         Button block = (Button)sender;
-        Body body = Simulation.simulation.universe.bodies.Single(b => b.guid == block.Tag.ToString());
+        Body body = simulation.universe.bodies.Single(b => b.guid == block.Tag.ToString());
         selectedObject = body;
     }
 
@@ -201,7 +209,7 @@ public partial class SimulationWindow : Window
             if(button == sender)
             {
                 button.Visibility = Visibility.Hidden;
-                Body body = Simulation.simulation.universe.bodies.Single(b => b.guid == button.Tag.ToString());
+                Body body = simulation.universe.bodies.Single(b => b.guid == button.Tag.ToString());
                 followedObject = body;
             }
             else
@@ -257,7 +265,7 @@ public partial class SimulationWindow : Window
             }
 
             bool shouldUpdate = false;
-            foreach (var currentBody in Simulation.simulation.universe.bodies)
+            foreach (var currentBody in simulation.universe.bodies)
             {
                 bool currentBodyHasMatch = false;
                 foreach (var displayedBodyButton in BodySidebarGrid.Children)
@@ -270,7 +278,7 @@ public partial class SimulationWindow : Window
 
             if(shouldUpdate)
             {
-                UpdateBodySidebar(Simulation.simulation.universe.bodies);
+                UpdateBodySidebar(simulation.universe.bodies);
             }
         }
         else
@@ -349,7 +357,7 @@ public partial class SimulationWindow : Window
     {
         if (Application.Current.Windows.Cast<Window>().OfType<AddBodyWindow>().Any()) return;
 
-        AddBodyWindow window = new();
+        AddBodyWindow window = new AddBodyWindow(simulation);
         window.Show();
         window.Activate();
     }
@@ -359,8 +367,8 @@ public partial class SimulationWindow : Window
         if(playState == SimulationPlayState.Stopped)
         {
             SimulationPhysics.stepTimer.Restart();
-            Simulation.simulation.cameraPosition = renderer.cameraTargetPosition;
-            stoppedState = new SimState(Simulation.simulation);
+            simulation.cameraPosition = renderer.cameraTargetPosition;
+            stoppedState = new SimState(simulation);
         }
         playState = SimulationPlayState.Playing;
     }
@@ -372,8 +380,8 @@ public partial class SimulationWindow : Window
 
     private void StopButton_Click(object sender, RoutedEventArgs e)
     {
-        Simulation.simulation = stoppedState;
-        renderer.cameraTargetPosition = Simulation.simulation.cameraPosition;
+        simulation = stoppedState;
+        renderer.cameraTargetPosition = simulation.cameraPosition;
         playState = SimulationPlayState.Stopped;
     }
 }

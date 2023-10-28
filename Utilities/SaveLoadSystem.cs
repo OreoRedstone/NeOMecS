@@ -57,7 +57,7 @@ namespace NeOMecS.Utilities
                 var position = new Vector2(Convert.ToDouble(match.Groups[5].Value), Convert.ToDouble(match.Groups[6].Value));
                 var velocity = new Vector2(Convert.ToDouble(match.Groups[7].Value), Convert.ToDouble(match.Groups[8].Value));
                 var mass = Convert.ToDouble(match.Groups[9].Value);
-                state.universe.AddBody(new Physics.Body(name, radius, colour, position, velocity, Vector2.Zero, mass));
+                state.universe.AddBody(new Physics.Body(name, radius, colour, position, velocity, Vector2.Zero, mass, state.universe));
             }
 
             return state;

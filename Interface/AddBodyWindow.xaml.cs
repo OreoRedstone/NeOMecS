@@ -21,9 +21,12 @@ namespace NeOMecS.Interface
     /// </summary>
     public partial class AddBodyWindow : Window
     {
-        public AddBodyWindow()
+        private SimState simulation;
+
+        public AddBodyWindow(SimState simulation)
         {
             InitializeComponent();
+            this.simulation = simulation;
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
@@ -38,9 +41,9 @@ namespace NeOMecS.Interface
                 var acceleration = Vector2.Zero;
                 var mass = Convert.ToDouble(BodyMassBox.Text);
 
-                var body = new Body(name, radius, colour, position, velocity, acceleration, mass);
-                Simulation.simulation.universe.AddBody(body);
-                ((SimulationWindow)Application.Current.MainWindow).UpdateBodySidebar(Simulation.simulation.universe.bodies);
+                var body = new Body(name, radius, colour, position, velocity, acceleration, mass, simulation.universe);
+                simulation.universe.AddBody(body);
+                ((SimulationWindow)Application.Current.MainWindow).UpdateBodySidebar(simulation.universe.bodies);
                 Close();
             }
             catch (FormatException)
