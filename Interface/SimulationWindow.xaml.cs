@@ -1,22 +1,15 @@
-﻿using NeOMecS.Physics;
+﻿using Microsoft.Win32;
+using NeOMecS.Physics;
 using NeOMecS.Utilities;
-using SharpGL;
 using SharpGL.WPF;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace NeOMecS.Interface;
@@ -28,7 +21,7 @@ public partial class SimulationWindow : Window
 {
     private SimState simulation;
 
-    Renderer renderer;
+    private Renderer renderer;
     private Body? selectedObject;
     public Body? followedObject;
     private List<Button> followButtons;
@@ -38,27 +31,21 @@ public partial class SimulationWindow : Window
     private SimState stoppedState { get; set; }
 
     private Body previouslySelectedBody;
+    private string currentFilePath;
 
-    public SimulationWindow(SimState state)
+    public SimulationWindow(SimState state, string filePath)
     {
-        renderer =  new Renderer();
-        followButtons = new();
-        timeSinceLastFrame = Stopwatch.StartNew();
         InitializeComponent();
 
         simulation = state;
 
-        simulation.universe.AddBody(new Body("Earth", 10, new Colour(0, 1, 0), new Vector2(1000, 0), new Vector2(0, 300), Vector2.Zero, 100000000, simulation.universe));
-        simulation.universe.AddBody(new Body("The Sun", 100, new Colour(1, 0, 0), new Vector2(0, 0), Vector2.Zero, Vector2.Zero, 10000000000, simulation.universe));
+        currentFilePath = filePath;
+
+        renderer =  new Renderer();
+        followButtons = new();
+        timeSinceLastFrame = Stopwatch.StartNew();
 
         var bodies = simulation.universe.bodies;
-
-        /*
-        Simulation.simulation.universe.AddBody(new Body("Earth", 10, new Colour(0, 1, 0), new Vector2(1000, 0), new Vector2(0, 300), Vector2.Zero, 100000000));
-        Simulation.simulation.universe.AddBody(new Body("The Sun", 100, new Colour(1, 0, 0), new Vector2(0, 0), Vector2.Zero, Vector2.Zero, -10000000000));
-
-        var bodies = Simulation.simulation.universe.bodies;
-        */
 
         UpdateBodySidebar(bodies);
 
@@ -383,6 +370,30 @@ public partial class SimulationWindow : Window
         simulation = stoppedState;
         renderer.cameraTargetPosition = simulation.cameraPosition;
         playState = SimulationPlayState.Stopped;
+    }
+
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        if(currentFilePath == "") SaveAsButton_Click(sender, e);
+        else
+        {
+            SaveLoadSystem.Save(SaveLoadSystem.Encode(simulation), currentFilePath);
+        }
+    }
+
+    private void SaveAsButton_Click(object sender, RoutedEventArgs e)
+    {
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.DefaultExt = "txt";
+        saveFileDialog.ShowDialog();
+        if (saveFileDialog.FileName != "")
+        {
+            var stream = saveFileDialog.OpenFile();
+            var streamWriter = new StreamWriter(stream);
+            streamWriter.Write(SaveLoadSystem.Encode(simulation));
+            streamWriter.Flush();
+            stream.Close();
+        }
     }
 }
 

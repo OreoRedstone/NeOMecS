@@ -29,8 +29,8 @@
             <MenuItem Header="File">
                 <MenuItem Header="New"/>
                 <MenuItem Header="Open"/>
-                <MenuItem Header="Save"/>
-                <MenuItem Header="Save As"/>
+                <MenuItem x:Name="SaveButton" Header="Save" Click="SaveButton_Click"/>
+                <MenuItem x:Name="SaveAsButton" Header="Save As" Click="SaveAsButton_Click"/>
                 <Separator/>
                 <MenuItem Header="Exit"/>
             </MenuItem>

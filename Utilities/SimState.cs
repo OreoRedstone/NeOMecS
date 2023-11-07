@@ -1,37 +1,31 @@
 ﻿using NeOMecS.Physics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NeOMecS.Utilities
+namespace NeOMecS.Utilities;
+
+public class SimState
 {
-    public class SimState
+    public double simSpeed;
+    public Vector2 cameraPosition;
+    public Universe universe;
+
+    public SimState()
     {
-        public double simSpeed;
-        public Vector2 cameraPosition;
-        public Universe universe;
+        simSpeed = 1;
+        cameraPosition = Vector2.Zero;
+        universe = new Universe();
+    }
 
-        public SimState()
-        {
-            simSpeed = 1;
-            cameraPosition = Vector2.Zero;
-            universe = new Universe();
-        }
+    public SimState(double simSpeed, Universe universe, Vector2 cameraPosition)
+    {
+        this.simSpeed = simSpeed;
+        this.cameraPosition = cameraPosition;
+        this.universe = universe;
+    }
 
-        public SimState(double simSpeed, Universe universe, Vector2 cameraPosition)
-        {
-            this.simSpeed = simSpeed;
-            this.cameraPosition = cameraPosition;
-            this.universe = universe;
-        }
-
-        public SimState(SimState other)
-        {
-            simSpeed = other.simSpeed;
-            cameraPosition = other.cameraPosition;
-            universe = new Universe(other.universe);
-        }
+    public SimState(SimState other)
+    {
+        simSpeed = other.simSpeed;
+        cameraPosition = other.cameraPosition;
+        universe = new Universe(other.universe);
     }
 }

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeOMecS.Physics
+namespace NeOMecS.Physics;
+
+public abstract class ParentableObject
 {
-    public abstract class ParentableObject
-    {
-        public string name;
-    }
+    public string name;
 }
