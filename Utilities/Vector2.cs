@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 
 namespace NeOMecS.Utilities;
 
@@ -9,7 +10,7 @@ public class Vector2 : IEquatable<Vector2>
     public Vector2 Normalised => GetNormalised(this);
     public double Magnitude => GetMagnitude(this);
 
-    public double Theta => Angle(this, Vector2.Right);
+    public double Theta => GetArgument(this);
 
     /// <summary>
     /// The default initialiser for Vector2.
@@ -135,6 +136,34 @@ public class Vector2 : IEquatable<Vector2>
     {
         var angle = Math.Acos(DotProduct(a, b) / (a.Magnitude * b.Magnitude));
         return angle;
+    }
+
+    public static double GetArgument(Vector2 vector)
+    {
+        double x = vector.x;
+        double y = vector.y;
+        if(x >= 0)
+        {
+            if (y >= 0)
+            {
+                return Math.Atan(y / x);
+            }
+            else
+            {
+                return -Math.Atan(-y / x);
+            }
+        }
+        else
+        {
+            if (y >= 0)
+            {
+                return Math.PI - Math.Atan(y / -x);
+            }
+            else
+            {
+                return Math.Atan(-y / -x) - Math.PI;
+            }
+        }
     }
 
     public static Vector2 PolarToVector2(double r, double theta)

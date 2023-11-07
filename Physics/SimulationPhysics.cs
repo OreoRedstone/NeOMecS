@@ -102,11 +102,13 @@ public static class SimulationPhysics
                 for (double theta = 0; theta <= 4 * Math.PI; theta += 0.01)
                 {
                     var r = (h * h) / (state.universe.gravitationalConstant * (parent.mass + body.mass) * (1 + eccentricityVector.Magnitude * Math.Cos(theta)));
-                    var newPos = Vector2.PolarToVector2(r, theta + Vector2.Angle(eccentricityVector, Vector2.Right), parent.position);
+                    var newPos = Vector2.PolarToVector2(r, theta + eccentricityVector.Theta, parent.position);
+                    
                     if(positions.Count > 1 && Vector2.GetDistance(newPos, positions[^1]) > Vector2.GetDistance(positions[^1], positions[^2]) * 5)
                     {
                         continue;
                     }
+                    
                     positions.Add(newPos);
                 }
                 paths.Add(body, positions);
