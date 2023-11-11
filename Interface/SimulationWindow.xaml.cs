@@ -390,7 +390,6 @@ public partial class SimulationWindow : Window
         SaveFileDialog saveFileDialog = new SaveFileDialog();
         saveFileDialog.DefaultExt = "txt";
         saveFileDialog.AddExtension = true;
-        saveFileDialog.Filter = "txt";
         saveFileDialog.ShowDialog();
         if (saveFileDialog.FileName != "")
         {

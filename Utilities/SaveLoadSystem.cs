@@ -37,7 +37,7 @@ public static class SaveLoadSystem
     {
         SimState state = new SimState();
 
-        text = text.Replace("\n", "").Replace("\t", "");
+        text = text.Replace("\n", "").Replace("\t", "").Replace("\r", "");
 
         state.simSpeed = Convert.ToDouble(Regex.Match(text, @"<simSpeed>(.*?)<simSpeed/>").Groups[1].Value);
         state.universe.gravitationalConstant = Convert.ToDouble(Regex.Match(text, @"<gravitationalConstant>(.*?)<gravitationalConstant/>").Groups[1].Value);

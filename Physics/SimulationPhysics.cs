@@ -26,7 +26,7 @@ public static class SimulationPhysics
                 if (Vector2.GetDistance(body.position, other.position) - (body.radius + other.radius) < 1)
                 {
                     // COLLISION HANDLING
-                    double coefficientOfRestitution = 1;
+                    double coefficientOfRestitution = 0.8;
                     Vector2 normalVector = (other.position - body.position).Normalised;
                     double impulse = Vector2.DotProduct(-(1 + coefficientOfRestitution) * (body.velocity - other.velocity), normalVector) / Vector2.DotProduct(normalVector, normalVector * ((1 / body.mass) + (1 / other.mass)));
                     body.ApplyImpulse(impulse * normalVector);
