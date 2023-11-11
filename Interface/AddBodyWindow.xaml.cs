@@ -24,7 +24,7 @@ public partial class AddBodyWindow : Window
         {
             var name = BodyNameBox.Text;
             var radius = Convert.ToDouble(BodyRadiusBox.Text);
-            var colour = new Colour(1, 1, 1);
+            var colour = Colour.HexToColour(BodyColourBox.Text);
             var position = new Vector2(Convert.ToDouble(BodyPositionXBox.Text), Convert.ToDouble(BodyPositionYBox.Text));
             var velocity = new Vector2(Convert.ToDouble(BodyVelocityXBox.Text), Convert.ToDouble(BodyVelocityYBox.Text)); 
             var acceleration = Vector2.Zero;
