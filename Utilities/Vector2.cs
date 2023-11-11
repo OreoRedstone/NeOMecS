@@ -78,16 +78,16 @@ public class Vector2 : IEquatable<Vector2>
     {
         if (obj == null || GetType() != obj.GetType()) return false;
 
-        Vector2 vecObj = (Vector2)obj;
+        Vector2 typedObj = (Vector2)obj;
 
-        return x == vecObj.x && y == vecObj.y;
+        return Equals(typedObj);
     }
 
     public bool Equals(Vector2? other)
     {
         if(other == null) return false;
 
-        return x == other.x && y == other.y;
+        return x.Equals(other.x) && y.Equals(other.y);
     }
 
     // override object.GetHashCode

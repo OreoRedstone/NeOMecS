@@ -3,7 +3,7 @@ using System;
 
 namespace NeOMecS.Physics;
 
-public class Body : ParentableObject
+public class Body : ParentableObject, IEquatable<Body>
 {
     public string guid;
 
@@ -100,5 +100,21 @@ public class Body : ParentableObject
             }
         }
         return layers;
+    }
+
+    public bool Equals(Body? other)
+    {
+        if (other == null) return false;
+
+        return mass.Equals(other.mass) && radius.Equals(other.radius) && position.Equals(other.position) && velocity.Equals(other.velocity);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj == null || GetType() != obj.GetType()) return false;
+
+        Body typedObj = (Body)obj;
+
+        return Equals(typedObj);
     }
 }

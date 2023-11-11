@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NeOMecS.Physics;
 
-public class Universe : ParentableObject
+public class Universe : ParentableObject, IEquatable<Universe>
 {
     public List<Body> bodies;
     public double gravitationalConstant;
@@ -78,5 +79,21 @@ public class Universe : ParentableObject
             if(b.parent == body) children.Add(b);
         }
         return children;
+    }
+
+    public bool Equals(Universe? other)
+    {
+        if (other == null) return false;
+
+        return bodies.Equals(other.bodies) && gravitationalConstant.Equals(other.gravitationalConstant);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj == null || GetType() != obj.GetType()) return false;
+
+        Universe typedObj = (Universe)obj;
+
+        return Equals(typedObj);
     }
 }

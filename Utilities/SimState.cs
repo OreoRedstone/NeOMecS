@@ -1,8 +1,9 @@
 ﻿using NeOMecS.Physics;
+using System;
 
 namespace NeOMecS.Utilities;
 
-public class SimState
+public class SimState : IEquatable<SimState>
 {
     public double simSpeed;
     public Vector2 cameraPosition;
@@ -27,5 +28,21 @@ public class SimState
         simSpeed = other.simSpeed;
         cameraPosition = other.cameraPosition;
         universe = new Universe(other.universe);
+    }
+
+    public bool Equals(SimState? other)
+    {
+        if (other == null) return false;
+
+        return simSpeed.Equals(other.simSpeed) && cameraPosition.Equals(other.cameraPosition) && universe.Equals(other.universe);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj == null || GetType() != obj.GetType()) return false;
+
+        SimState typedObj = (SimState)obj;
+
+        return Equals(typedObj);
     }
 }
