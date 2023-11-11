@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeOMecS.Interface"
         mc:Ignorable="d"
         Title="Add New Body" Height="400" Width="250" ResizeMode="NoResize">
-    <Grid>
+    <Grid Background="#262626">
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
             <RowDefinition Height="2*"/>
@@ -35,35 +35,35 @@
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Text="Add Body" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Text="Add Body" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <TextBlock Grid.Column="1" Grid.Row="3" Text="Name:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox x:Name="BodyNameBox" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" MaxHeight="30" FontSize="20" VerticalContentAlignment="Center"/>
+        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="3" Text="Name:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="BodyNameBox" Background="#262626" Foreground="White" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" MaxHeight="30" FontSize="20" VerticalContentAlignment="Center"/>
 
-        <TextBlock Grid.Column="1" Grid.Row="5" Text="Mass:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox x:Name="BodyMassBox" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="5" MaxHeight="30" FontSize="20" VerticalContentAlignment="Center"/>
+        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="5" Text="Mass:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="BodyMassBox" Background="#262626" Foreground="White" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="5" MaxHeight="30" FontSize="20" VerticalContentAlignment="Center"/>
 
-        <TextBlock Grid.Column="1" Grid.Row="7" Grid.RowSpan="2" Text="Position:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Grid.Column="2" Grid.Row="7" Text="X:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Grid.Column="2" Grid.Row="8" Text="Y:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="7" Grid.RowSpan="2" Text="Position:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Foreground="White" Grid.Column="2" Grid.Row="7" Text="X:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Foreground="White" Grid.Column="2" Grid.Row="8" Text="Y:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <TextBox x:Name="BodyPositionXBox" Margin="0,0,0,1" Grid.Column="3" Grid.Row="7" MaxHeight="30" FontSize="13" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="BodyPositionYBox" Margin="0,1,0,0" Grid.Column="3" Grid.Row="8" MaxHeight="30" FontSize="13" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="BodyPositionXBox" Background="#262626" Foreground="White" Margin="0,0,0,1" Grid.Column="3" Grid.Row="7" MaxHeight="30" FontSize="13" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="BodyPositionYBox" Background="#262626" Foreground="White" Margin="0,1,0,0" Grid.Column="3" Grid.Row="8" MaxHeight="30" FontSize="13" VerticalContentAlignment="Center"/>
 
-        <TextBlock Grid.Column="1" Grid.Row="10" Grid.RowSpan="2" Text="Velocity:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Grid.Column="2" Grid.Row="10" Text="X:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Grid.Column="2" Grid.Row="11" Text="Y:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="10" Grid.RowSpan="2" Text="Velocity:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Foreground="White" Grid.Column="2" Grid.Row="10" Text="X:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Foreground="White" Grid.Column="2" Grid.Row="11" Text="Y:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <TextBox x:Name="BodyVelocityXBox" Margin="0,0,0,1" Grid.Column="3" Grid.Row="10" MaxHeight="30" FontSize="13" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="BodyVelocityYBox" Margin="0,1,0,0" Grid.Column="3" Grid.Row="11" MaxHeight="30" FontSize="13" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="BodyVelocityXBox" Background="#262626" Foreground="White" Margin="0,0,0,1" Grid.Column="3" Grid.Row="10" MaxHeight="30" FontSize="13" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="BodyVelocityYBox" Background="#262626" Foreground="White" Margin="0,1,0,0" Grid.Column="3" Grid.Row="11" MaxHeight="30" FontSize="13" VerticalContentAlignment="Center"/>
 
-        <TextBlock Grid.Column="1" Grid.Row="13" Text="Radius:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox x:Name="BodyRadiusBox" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="13" MaxHeight="30" FontSize="20" VerticalContentAlignment="Center"/>
+        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="13" Text="Radius:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="BodyRadiusBox" Background="#262626" Foreground="White" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="13" MaxHeight="30" FontSize="20" VerticalContentAlignment="Center"/>
 
-        <TextBlock Grid.Column="1" Grid.Row="15" Text="Colour:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox x:Name="BodyColourBox" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="15" MaxHeight="30" FontSize="20" VerticalContentAlignment="Center"/>
+        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="15" Text="Colour:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="BodyColourBox" Background="#262626" Foreground="White" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="15" MaxHeight="30" FontSize="20" VerticalContentAlignment="Center"/>
 
-        <Button x:Name="OKButton" Margin="3" Grid.Column="1" Grid.Row="17" Content="OK" Click="OKButton_Click" IsDefault="True"/>
-        <Button x:Name="CancelButton"  Margin="3" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="17" Content="Cancel" Click="CancelButton_Click"/>
+        <Button x:Name="OKButton" Background="#262626" Foreground="White" Margin="3" Grid.Column="1" Grid.Row="17" Content="OK" Click="OKButton_Click" IsDefault="True"/>
+        <Button x:Name="CancelButton" Background="#262626" Foreground="White" Margin="3" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="17" Content="Cancel" Click="CancelButton_Click"/>
     </Grid>
 </Window>
