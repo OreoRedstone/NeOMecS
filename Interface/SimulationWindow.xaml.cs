@@ -208,6 +208,8 @@ public partial class SimulationWindow : Window
 
     private void UpdateInfoSidebar(Body body)
     {
+        if (body == null) return;
+
         if(body != previouslySelectedBody)
         {
             UpdateInfoSidebarValues(body);
@@ -278,6 +280,8 @@ public partial class SimulationWindow : Window
 
     private void UpdateInfoSidebarValues(Body body)
     {
+        if(body == null) return;
+
         InfoSidebarTitle.SetValue(Border.BorderThicknessProperty, new Thickness(0));
         InfoSidebarMass.SetValue(Border.BorderThicknessProperty, new Thickness(0));
         InfoSidebarPositionX.SetValue(Border.BorderThicknessProperty, new Thickness(0));

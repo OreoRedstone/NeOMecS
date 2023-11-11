@@ -45,6 +45,7 @@ public static class SimulationPhysics
 
     public static SimState CalculateAccelerations(SimState state, SimulationWindow simWindow)
     {
+        if (state.universe.bodies.Count < 2) return state;
         foreach (Body body in state.universe.bodies)
         {
             var accelerations = new Dictionary<Body, Vector2>();
