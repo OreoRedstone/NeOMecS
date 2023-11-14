@@ -26,9 +26,10 @@ public class Colour
 
     public static Colour HexToColour(string hex)
     {
-        if (hex[0] == '#') hex = hex[1..];
+        Colour colour = new Colour(1, 1, 1);
 
-        Colour colour = new Colour(0, 0, 0);
+        if (hex.Length < 1) return colour;
+        if (hex[0] == '#') hex = hex[1..];
 
         if (hex.Length != 6) return colour;
 
