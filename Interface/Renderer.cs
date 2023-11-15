@@ -34,8 +34,8 @@ class Renderer
         foreach (Body body in state.universe.bodies)
         {
             DrawCircle(gl, body, 100);
-            DrawLine(gl, body.position, body.position + body.acceleration * 0.1, body.colour);
-            DrawLine(gl, body.position, body.position + body.velocity * 0.25, body.colour);
+            DrawArrow(gl, body.position, body.position + body.acceleration * 0.1, body.colour);
+            DrawArrow(gl, body.position, body.position + body.velocity * 0.25, body.colour);
             DrawText(gl, body);
         }
         
@@ -48,6 +48,16 @@ class Renderer
             }
             DrawLine(gl, entry.Value[^1], entry.Value[0], entry.Key.colour);
         }
+    }
+
+    private void DrawArrow(OpenGL gl, Vector2 start, Vector2 end, Colour colour)
+    {
+        DrawLine(gl, start, end, colour);
+        var vector = start - end;
+        var leftLine = new Vector2(Cos(PI / 4) * vector.Normalised.x - Sin(PI / 4) * vector.Normalised.y, Sin(PI / 4) * vector.Normalised.x + Cos(PI / 4) * vector.Normalised.y);
+        var rightLine = new Vector2(Cos(-PI / 4) * vector.Normalised.x - Sin(-PI / 4) * vector.Normalised.y, Sin(-PI / 4) * vector.Normalised.x + Cos(-PI / 4) * vector.Normalised.y);
+        DrawLine(gl, end, end + leftLine * vector.Magnitude * 0.1, colour);
+        DrawLine(gl, end, end + rightLine * vector.Magnitude * 0.1, colour);
     }
 
     public void OnResize(object sender, OpenGLRoutedEventArgs args)
