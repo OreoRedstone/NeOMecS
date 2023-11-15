@@ -74,7 +74,7 @@ class Renderer
         }
     }
 
-    public void DrawText(OpenGL gl, Body body)
+    private void DrawText(OpenGL gl, Body body)
     {
         int x = Convert.ToInt32(((body.position.x + body.radius * 1.1 - cameraPosition.x) / scale) + windowSize.x / 2);
         int y = Convert.ToInt32(((body.position.y - cameraPosition.y) / scale) + windowSize.y / 2);
@@ -82,12 +82,12 @@ class Renderer
         gl.DrawText(x, y, 1, 1, 1, "Segoe UI", 15, body.name);
     }
 
-    public void DrawLine(OpenGL gl, Vector2 start, Vector2 end)
+    private void DrawLine(OpenGL gl, Vector2 start, Vector2 end)
     {
         DrawLine(gl, start, end, new Colour(1, 1, 1));
     }
 
-    public void DrawLine(OpenGL gl, Vector2 start, Vector2 end, Colour colour)
+    private void DrawLine(OpenGL gl, Vector2 start, Vector2 end, Colour colour)
     {
         gl.Color(colour.GetAsFloatArray());
         gl.Begin(OpenGL.GL_LINES);
@@ -96,7 +96,7 @@ class Renderer
         gl.End();
     }
 
-    public void DrawCircle(OpenGL gl, Body body, int segments)
+    private void DrawCircle(OpenGL gl, Body body, int segments)
     {
         double x = body.position.x;
         double y = body.position.y;
