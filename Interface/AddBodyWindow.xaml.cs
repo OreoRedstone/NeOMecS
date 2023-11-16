@@ -121,7 +121,7 @@ public partial class AddBodyWindow : Window
 
         try
         {
-            ((SimulationWindow)Application.Current.MainWindow).UpdateBodySidebar(simulation.universe.bodies);
+            ((SimulationWindow)Application.Current.MainWindow).UpdateBodySidebar();
             Close();
         }
         catch (Exception)

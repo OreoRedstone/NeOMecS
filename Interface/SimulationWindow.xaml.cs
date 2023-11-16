@@ -47,7 +47,7 @@ public partial class SimulationWindow : Window
 
         var bodies = simulation.universe.bodies;
 
-        UpdateBodySidebar(bodies);
+        UpdateBodySidebar();
 
         if (bodies.Count > 0)
         {
@@ -130,25 +130,51 @@ public partial class SimulationWindow : Window
     /// <summary>
     /// This function updates the left sidebar of the main form to fit the array of bodies passed in.
     /// </summary>
-    public void UpdateBodySidebar(List<Body> bodies)
+    public void UpdateBodySidebar()
     {
         followButtons.Clear();
         BodySidebarGrid.Children.Clear();
         BodySidebarGrid.RowDefinitions.Clear();
         int i = 0;
-        bodies = simulation.universe.GetBodiesOrdered();
+        var bodies = simulation.universe.GetBodiesOrdered();
+
+        var universe = simulation.universe;
+
+        //Creates a new row, configuring it to the correct grid and height.
+        var row = new RowDefinition
+        {
+            Height = new GridLength(20)
+        };
+        BodySidebarGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(20) });
+
+        var bodyEntry = new Button
+        {
+            Content = "Universe",
+            Name = "Universe",
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Style = (Style)FindResource("LeftPanelBodyButton"),
+            Margin = new Thickness(0, 1, 1, 1),
+        };
+        bodyEntry.Click += new RoutedEventHandler(UniverseButtonCall);
+        BodySidebarGrid.Children.Add(bodyEntry);
+        bodyEntry.SetValue(Grid.RowProperty, i);
+
+        //Increases the row count.
+        i++;
+
         foreach (Body body in bodies)
         {
             if (body == null) continue;
 
             //Creates a new row, configuring it to the correct grid and height.
-            var row = new RowDefinition
+            row = new RowDefinition
             {
                 Height = new GridLength(20)
             };
             BodySidebarGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(20)});
 
-            var bodyEntry = new Button
+            bodyEntry = new Button
             {
                 Content = body.name,
                 Name = body.name.Replace(" ", "_"),
@@ -156,7 +182,7 @@ public partial class SimulationWindow : Window
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Tag = body.guid,
                 Style = (Style)FindResource("LeftPanelBodyButton"),
-                Margin = new Thickness(body.GetParentNestingCount(simulation.universe) * 10, 1, 1, 1),
+                Margin = new Thickness(body.GetParentNestingCount(simulation.universe) + 1 * 10, 1, 1, 1),
             };
             bodyEntry.Click += new RoutedEventHandler(LeftPanelBodyButtonCall);
             BodySidebarGrid.Children.Add(bodyEntry);
@@ -187,6 +213,11 @@ public partial class SimulationWindow : Window
         Button block = (Button)sender;
         Body body = simulation.universe.bodies.Single(b => b.guid == block.Tag.ToString());
         selectedObject = body;
+    }
+
+    private void UniverseButtonCall(object sender, RoutedEventArgs e)
+    {
+
     }
 
     private void FollowButtonClickCall(object sender, RoutedEventArgs e)
@@ -267,7 +298,7 @@ public partial class SimulationWindow : Window
 
             if(shouldUpdate)
             {
-                UpdateBodySidebar(simulation.universe.bodies);
+                UpdateBodySidebar();
             }
         }
         else

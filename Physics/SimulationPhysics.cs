@@ -79,7 +79,7 @@ public static class SimulationPhysics
             if (greatestAccel.Value.Magnitude / totalAccel.Magnitude > 0.99 && greatestAccel.Key.mass > body.mass) body.parent = greatestAccel.Key;
             else body.parent = state.universe;
 
-            if (body.parent != previousParent) simWindow.UpdateBodySidebar(state.universe.bodies);
+            if (body.parent != previousParent) simWindow.UpdateBodySidebar();
         }
 
         return state;
