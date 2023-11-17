@@ -3,12 +3,14 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
+using NeOMecS.Physics;
+using System.Windows.Shapes;
 
 namespace NeOMecS.Utilities;
 
 public static class SaveLoadSystem
 {
-    public static string Encode(SimState state)
+    public static string EncodeSimulation(SimState state)
     {
         var builder = new StringBuilder();
         builder.Append($"<simSpeed>{state.simSpeed}<simSpeed/>\n");
@@ -32,8 +34,8 @@ public static class SaveLoadSystem
 
         return text;
     }
-    
-    public static SimState Decode(string text)
+
+    public static SimState DecodeSimulation(string text)
     {
         SimState state = new SimState();
 
@@ -53,10 +55,40 @@ public static class SaveLoadSystem
             var position = new Vector2(Convert.ToDouble(match.Groups[6].Value), Convert.ToDouble(match.Groups[7].Value));
             var velocity = new Vector2(Convert.ToDouble(match.Groups[8].Value), Convert.ToDouble(match.Groups[9].Value));
             var mass = Convert.ToDouble(match.Groups[10].Value);
-            state.universe.AddBody(new Physics.Body(name, radius, colour, position, velocity, Vector2.Zero, mass, state.universe));
+            state.universe.AddBody(new Body(name, radius, colour, position, velocity, Vector2.Zero, mass, state.universe));
         }
 
         return state;
+    }
+
+    public static string EncodePreset(Body body)
+    {
+        var builder = new StringBuilder();
+
+        builder.Append("<body>\n");
+        builder.Append($"\t<name>{body.name}<name/>\n");
+        builder.Append($"\t<radius>{body.radius}<radius/>\n");
+        builder.Append($"\t<colour>{body.colour.red}, {body.colour.green}, {body.colour.blue}<colour/>\n");
+        builder.Append($"\t<position>{body.position.x}, {body.position.y}<position/>\n");
+        builder.Append($"\t<velocity>{body.velocity.x}, {body.position.y}<velocity/>\n");
+        builder.Append($"\t<mass>{body.mass}<mass/>\n");
+        builder.Append("<body/>");
+
+        return builder.ToString();
+    }
+   
+    public static Body DecodePreset(string text)
+    {
+        var match = Regex.Match(text.Replace("\n", "").Replace("\t", "").Replace("\r", ""), @"<body><name>(.*?)<name/><radius>(.*?)<radius/><colour>(.*?), (.*?), (.*?)<colour/><position>(.*?), (.*?)<position/><velocity>(.*?), (.*?)<velocity/><mass>(.*?)<mass/><body/>");
+
+        var name = match.Groups[1].Value;
+        var radius = Convert.ToDouble(match.Groups[2].Value);
+        var colour = new Colour(Convert.ToInt32(match.Groups[3].Value), Convert.ToInt32(match.Groups[4].Value), Convert.ToInt32(match.Groups[5].Value));
+        var position = new Vector2(Convert.ToDouble(match.Groups[6].Value), Convert.ToDouble(match.Groups[7].Value));
+        var velocity = new Vector2(Convert.ToDouble(match.Groups[8].Value), Convert.ToDouble(match.Groups[9].Value));
+        var mass = Convert.ToDouble(match.Groups[10].Value);
+
+        return new Body(name, radius, colour, position, velocity, Vector2.Zero, mass, null);
     }
 
     public static int Save(string text, string path)

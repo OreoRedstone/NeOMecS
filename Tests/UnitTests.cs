@@ -22,7 +22,7 @@ public class UnitTests
         var expectedResult = "<simSpeed>1<simSpeed/>\n<gravitationalConstant>1<gravitationalConstant/>\n<cameraPosition>0, 0<cameraPosition/>\n<bodies>\n<bodies/>";
 
         //Act
-        var result = SaveLoadSystem.Encode(state);
+        var result = SaveLoadSystem.EncodeSimulation(state);
 
         //Assert1
         Assert.Equal(expectedResult, result);
@@ -43,7 +43,7 @@ public class UnitTests
         var expectedResult = "<simSpeed>1<simSpeed/>\n<gravitationalConstant>1<gravitationalConstant/>\n<cameraPosition>0, 0<cameraPosition/>\n<bodies>\n\t<body>\n\t\t<name>Earth<name/>\n\t\t<radius>10<radius/>\n\t\t<colour>1, 1, 1<colour/>\n\t\t<position>0, 0<position/>\n\t\t<velocity>0, 0<velocity/>\n\t\t<mass>1<mass/>\n\t<body/>\n<bodies/>";
 
         //Act
-        var result = SaveLoadSystem.Encode(state);
+        var result = SaveLoadSystem.EncodeSimulation(state);
 
         //Assert1
         Assert.Equal(expectedResult, result);
@@ -60,7 +60,7 @@ public class UnitTests
         var text = "<simSpeed>1<simSpeed/>\n<gravitationalConstant>1<gravitationalConstant/>\n<cameraPosition>0, 0<cameraPosition/>\n<bodies>\n<bodies/>";
 
         //Act
-        var result = SaveLoadSystem.Decode(text);
+        var result = SaveLoadSystem.DecodeSimulation(text);
 
         //Assert1
         Assert.Equal(expectedResult, result);
@@ -81,7 +81,7 @@ public class UnitTests
         var text = "<simSpeed>1<simSpeed/>\n<gravitationalConstant>1<gravitationalConstant/>\n<cameraPosition>0, 0<cameraPosition/>\n<bodies>\n\t<body>\n\t\t<name>Earth<name/>\n\t\t<radius>10<radius/>\n\t\t<colour>1, 1, 1<colour/>\n\t\t<position>0, 0<position/>\n\t\t<velocity>0, 0<velocity/>\n\t\t<mass>1<mass/>\n\t<body/>\n<bodies/>";
 
         //Act
-        var result = SaveLoadSystem.Decode(text);
+        var result = SaveLoadSystem.DecodeSimulation(text);
 
         //Assert1
         Assert.Equal(expectedResult, result);
