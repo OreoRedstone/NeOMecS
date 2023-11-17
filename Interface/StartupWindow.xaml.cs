@@ -23,11 +23,13 @@ public partial class StartupWindow : Window
     {
         var openFileDialog = new OpenFileDialog
         {
-            Multiselect = false
+            Multiselect = false,
+            DefaultExt = "simulation",
+            Filter = "Simulation Files (*.simulation)|*.simulation|All files (*.*)|*.*"
         };
         if (openFileDialog.ShowDialog() == true)
         {
-            var window = new SimulationWindow(SaveLoadSystem.Decode(SaveLoadSystem.Load(openFileDialog.FileName)), openFileDialog.FileName);
+            var window = new SimulationWindow(SaveLoadSystem.DecodeSimulation(SaveLoadSystem.Load(openFileDialog.FileName)), openFileDialog.FileName);
             Application.Current.MainWindow = window;
             window.Show();
             Close();

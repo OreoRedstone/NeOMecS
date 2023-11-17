@@ -213,13 +213,16 @@ public partial class SimulationWindow : Window
         Button block = (Button)sender;
         Body body = simulation.universe.bodies.Single(b => b.guid == block.Tag.ToString());
         selectedObject = body;
+        UniverseGrid.Visibility = Visibility.Hidden;
+        BodyGrid.Visibility = Visibility.Visible;
     }
 
     private void UniverseButtonCall(object sender, RoutedEventArgs e)
     {
-
+        UniverseGrid.Visibility = Visibility.Visible;
+        BodyGrid.Visibility = Visibility.Hidden;
     }
-
+        
     private void FollowButtonClickCall(object sender, RoutedEventArgs e)
     {
         foreach (var button in followButtons)
@@ -240,6 +243,31 @@ public partial class SimulationWindow : Window
     private void UpdateInfoSidebar(Body body)
     {
         if (body == null) return;
+
+
+        if(UniverseGrid.Visibility == Visibility.Visible)
+        {
+            InfoSidebarGravitationalConstant.SetValue(TextBox.IsReadOnlyProperty, false);
+            InfoSidebarSimSpeed.SetValue(TextBox.IsReadOnlyProperty, false);
+
+            InfoSidebarGravitationalConstant.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+            InfoSidebarSimSpeed.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+
+            try
+            {
+                simulation.simSpeed = Convert.ToDouble(InfoSidebarSimSpeed.Text);
+                simulation.universe.gravitationalConstant = Convert.ToDouble(InfoSidebarGravitationalConstant.Text);
+            }
+            catch (Exception)
+            {
+
+            }
+
+            InfoSidebarGravitationalConstant.Text = simulation.universe.gravitationalConstant.ToString();
+            InfoSidebarSimSpeed.Text = simulation.simSpeed.ToString();
+
+            return;
+        }
 
         if(body != previouslySelectedBody)
         {
@@ -312,6 +340,23 @@ public partial class SimulationWindow : Window
     private void UpdateInfoSidebarValues(Body body)
     {
         if(body == null) return;
+
+        if(UniverseGrid.Visibility == Visibility.Visible)
+        {
+            InfoSidebarGravitationalConstant.SetValue(Border.BorderThicknessProperty, new Thickness(0));
+            InfoSidebarSimSpeed.SetValue(Border.BorderThicknessProperty, new Thickness(0));
+
+            InfoSidebarGravitationalConstant.SetValue(TextBox.IsReadOnlyProperty, false);
+            InfoSidebarSimSpeed.SetValue(TextBox.IsReadOnlyProperty, false);
+
+            InfoSidebarGravitationalConstant.Text = simulation.universe.gravitationalConstant.ToString();
+            InfoSidebarSimSpeed.Text = simulation.simSpeed.ToString();
+
+            InfoSidebarGravitationalConstant.SetValue(TextBox.IsReadOnlyProperty, true);
+            InfoSidebarSimSpeed.SetValue(TextBox.IsReadOnlyProperty, true);
+
+            return;
+        }
 
         InfoSidebarTitle.SetValue(Border.BorderThicknessProperty, new Thickness(0));
         InfoSidebarMass.SetValue(Border.BorderThicknessProperty, new Thickness(0));
@@ -412,25 +457,99 @@ public partial class SimulationWindow : Window
         if(currentFilePath == "") SaveAsButton_Click(sender, e);
         else
         {
-            SaveLoadSystem.Save(SaveLoadSystem.Encode(simulation), currentFilePath);
+            SaveLoadSystem.Save(SaveLoadSystem.EncodeSimulation(simulation), currentFilePath);
         }
     }
 
     private void SaveAsButton_Click(object sender, RoutedEventArgs e)
     {
-        SaveFileDialog saveFileDialog = new SaveFileDialog();
-        saveFileDialog.DefaultExt = "txt";
-        saveFileDialog.AddExtension = true;
+        SaveFileDialog saveFileDialog = new SaveFileDialog
+        {
+            DefaultExt = "simulation",
+            AddExtension = true,
+            Filter = "Simulation Files (*.simulation)|*.simulation|All files (*.*)|*.*"
+        };
         saveFileDialog.ShowDialog();
         if (saveFileDialog.FileName != "")
         {
             var stream = saveFileDialog.OpenFile();
             var streamWriter = new StreamWriter(stream);
-            streamWriter.Write(SaveLoadSystem.Encode(simulation));
+            streamWriter.Write(SaveLoadSystem.EncodeSimulation(simulation));
             streamWriter.Flush();
             stream.Close();
         }
         currentFilePath = saveFileDialog.FileName;
+    }
+
+    private void NewButton_Click(object sender, RoutedEventArgs e)
+    {
+        simulation = new SimState();
+        UpdateBodySidebar();
+        UpdateInfoSidebarValues(null);
+        UpdateInfoSidebar(null);
+        currentFilePath = "";
+        UniverseGrid.Visibility = Visibility.Visible;
+        BodyGrid.Visibility = Visibility.Hidden;
+    }
+
+    private void OpenButton_Click(object sender, RoutedEventArgs e)
+    {
+        var openFileDialog = new OpenFileDialog
+        {
+            Multiselect = false,
+            DefaultExt = "simulation",
+            Filter = "Simulation Files (*.simulation)|*.simulation|All files (*.*)|*.*"
+        };
+        if (openFileDialog.ShowDialog() == true)
+        {
+            simulation = SaveLoadSystem.DecodeSimulation(SaveLoadSystem.Load(openFileDialog.FileName));
+        }
+
+        UpdateBodySidebar();
+        UpdateInfoSidebarValues(null);
+        UpdateInfoSidebar(null);
+        currentFilePath = "";
+        UniverseGrid.Visibility = Visibility.Visible;
+        BodyGrid.Visibility = Visibility.Hidden;
+    }
+
+    private void SavePresetButton_Click(object sender, RoutedEventArgs e)
+    {
+        SaveFileDialog saveFileDialog = new SaveFileDialog
+        {
+            DefaultExt = "body",
+            AddExtension = true,
+            Filter = "Body Files (*.body)|*.body|All files (*.*)|*.*"
+        };
+        saveFileDialog.ShowDialog();
+        if (saveFileDialog.FileName != "")
+        {
+            var stream = saveFileDialog.OpenFile();
+            var streamWriter = new StreamWriter(stream);
+            streamWriter.Write(SaveLoadSystem.EncodePreset(selectedObject));
+            streamWriter.Flush();
+            stream.Close();
+        }
+    }
+
+    private void LoadPresetButton_Click(object sender, RoutedEventArgs e)
+    {
+        var openFileDialog = new OpenFileDialog
+        {
+            Multiselect = false,
+            DefaultExt = "body",
+            Filter = "Body Files (*.body)|*.body|All files (*.*)|*.*"
+        };
+        if (openFileDialog.ShowDialog() == true)
+        {
+            var body = SaveLoadSystem.DecodePreset(SaveLoadSystem.Load(openFileDialog.FileName));
+            body.parent = simulation.universe;
+            simulation.universe.AddBody(body);
+        }
+
+        UpdateBodySidebar();
+        UpdateInfoSidebarValues(null);
+        UpdateInfoSidebar(null);
     }
 }
 
