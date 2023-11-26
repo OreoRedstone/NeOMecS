@@ -19,9 +19,6 @@ public static class SimulationPhysics
             for (int j = 0; j < i; j++)
             {
                 var other = state.universe.bodies[j];
-
-                body.UpdatePosition(elapsedSeconds);
-                other.UpdatePosition(elapsedSeconds);
                 
                 if (Vector2.GetDistance(body.position, other.position) - (body.radius + other.radius) < 1)
                 {
@@ -34,11 +31,12 @@ public static class SimulationPhysics
                     
                     continue;
                 }
-                
-                body.UpdateVelocity(elapsedSeconds);
-                other.UpdateVelocity(elapsedSeconds);
             }
+            body.UpdateVelocity(elapsedSeconds);
+            body.UpdatePosition(elapsedSeconds);
         }
+        state.universe.bodies[0].UpdateVelocity(elapsedSeconds);
+        state.universe.bodies[0].UpdatePosition(elapsedSeconds);
         stepTimer.Restart();
         return state;
     }
