@@ -76,8 +76,6 @@ public partial class AddBodyWindow : Window
         try
         {
             velocity = new Vector2(Convert.ToDouble(BodyVelocityXBox.Text), Convert.ToDouble(BodyVelocityYBox.Text));
-            if (velocity.x > Int32.MaxValue * 0.5) throw new Exception();
-            if (velocity.y > Int32.MaxValue * 0.5) throw new Exception();
         }
         catch (Exception)
         {
@@ -88,7 +86,6 @@ public partial class AddBodyWindow : Window
         try
         {
             mass = Convert.ToDouble(BodyMassBox.Text);
-            if (mass > Int32.MaxValue * 0.5) throw new Exception();
         }
         catch (Exception)
         {
