@@ -242,10 +242,13 @@ public partial class SimulationWindow : Window
 
     private void UpdateInfoSidebar(Body body)
     {
-        if (body == null) return;
+        if(playState == SimulationPlayState.Playing)
+        {
+            UpdateInfoSidebarValues(body);
+            return;
+        }
 
-
-        if(UniverseGrid.Visibility == Visibility.Visible)
+        if (UniverseGrid.Visibility == Visibility.Visible)
         {
             InfoSidebarGravitationalConstant.SetValue(TextBox.IsReadOnlyProperty, false);
             InfoSidebarSimSpeed.SetValue(TextBox.IsReadOnlyProperty, false);
@@ -263,75 +266,66 @@ public partial class SimulationWindow : Window
 
             }
 
-            InfoSidebarGravitationalConstant.Text = simulation.universe.gravitationalConstant.ToString();
-            InfoSidebarSimSpeed.Text = simulation.simSpeed.ToString();
-
             return;
         }
 
-        if(body != previouslySelectedBody)
+        if (body == null) return;
+
+        if (body != previouslySelectedBody)
         {
             UpdateInfoSidebarValues(body);
         }
 
+        InfoSidebarTitle.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarMass.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarPositionX.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarPositionY.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarVelocityX.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarVelocityY.SetValue(TextBox.IsReadOnlyProperty, false);
 
-        if(playState == SimulationPlayState.Paused || playState == SimulationPlayState.Stopped)
+        InfoSidebarTitle.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+        InfoSidebarMass.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+        InfoSidebarPositionX.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+        InfoSidebarPositionY.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+        InfoSidebarVelocityX.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+        InfoSidebarVelocityY.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+
+        InfoSidebarSpeed.Text = Math.Round(Vector2.GetMagnitude(body.velocity), 1).ToString();
+        InfoSidebarAccelerationX.Text = Math.Round(body.acceleration.x, 1).ToString();
+        InfoSidebarAccelerationY.Text = Math.Round(body.acceleration.y, 1).ToString();
+        InfoSidebarParent.Text = body.parent.name;
+
+        try
         {
-            InfoSidebarTitle.SetValue(TextBox.IsReadOnlyProperty, false);
-            InfoSidebarMass.SetValue(TextBox.IsReadOnlyProperty, false);
-            InfoSidebarPositionX.SetValue(TextBox.IsReadOnlyProperty, false);
-            InfoSidebarPositionY.SetValue(TextBox.IsReadOnlyProperty, false);
-            InfoSidebarVelocityX.SetValue(TextBox.IsReadOnlyProperty, false);
-            InfoSidebarVelocityY.SetValue(TextBox.IsReadOnlyProperty, false);
-
-            InfoSidebarTitle.SetValue(Border.BorderThicknessProperty, new Thickness(1));
-            InfoSidebarMass.SetValue(Border.BorderThicknessProperty, new Thickness(1));
-            InfoSidebarPositionX.SetValue(Border.BorderThicknessProperty, new Thickness(1));
-            InfoSidebarPositionY.SetValue(Border.BorderThicknessProperty, new Thickness(1));
-            InfoSidebarVelocityX.SetValue(Border.BorderThicknessProperty, new Thickness(1));
-            InfoSidebarVelocityY.SetValue(Border.BorderThicknessProperty, new Thickness(1));
-
-            InfoSidebarSpeed.Text = Math.Round(Vector2.GetMagnitude(body.velocity), 1).ToString();
-            InfoSidebarAccelerationX.Text = Math.Round(body.acceleration.x, 1).ToString();
-            InfoSidebarAccelerationY.Text = Math.Round(body.acceleration.y, 1).ToString();
-            InfoSidebarParent.Text = body.parent.name;
-
-            try
-            {
-                body.name = InfoSidebarTitle.Text;
-                var mass = Convert.ToDouble(InfoSidebarMass.Text);
-                if (mass == 0) throw new Exception();
-                body.mass = mass;
-                body.position.x = Convert.ToDouble(InfoSidebarPositionX.Text);
-                body.position.y = Convert.ToDouble(InfoSidebarPositionY.Text);
-                body.velocity.x = Convert.ToDouble(InfoSidebarVelocityX.Text);
-                body.velocity.y = Convert.ToDouble(InfoSidebarVelocityY.Text);
-            }
-            catch (Exception)
-            {
-
-            }
-
-            bool shouldUpdate = false;
-            foreach (var currentBody in simulation.universe.bodies)
-            {
-                bool currentBodyHasMatch = false;
-                foreach (var displayedBodyButton in BodySidebarGrid.Children)
-                {
-                    var displayedBodyName = (string)((Button)displayedBodyButton).Content;
-                    if (displayedBodyName == currentBody.name) currentBodyHasMatch = true;
-                }
-                if (!currentBodyHasMatch) shouldUpdate = true;
-            }
-
-            if(shouldUpdate)
-            {
-                UpdateBodySidebar();
-            }
+            body.name = InfoSidebarTitle.Text;
+            var mass = Convert.ToDouble(InfoSidebarMass.Text);
+            if (mass == 0) throw new Exception();
+            body.mass = mass;
+            body.position.x = Convert.ToDouble(InfoSidebarPositionX.Text);
+            body.position.y = Convert.ToDouble(InfoSidebarPositionY.Text);
+            body.velocity.x = Convert.ToDouble(InfoSidebarVelocityX.Text);
+            body.velocity.y = Convert.ToDouble(InfoSidebarVelocityY.Text);
         }
-        else
+        catch (Exception)
         {
-            UpdateInfoSidebarValues(body);
+
+        }
+
+        bool shouldUpdate = false;
+        foreach (var currentBody in simulation.universe.bodies)
+        {
+            bool currentBodyHasMatch = false;
+            foreach (var displayedBodyButton in BodySidebarGrid.Children)
+            {
+                var displayedBodyName = (string)((Button)displayedBodyButton).Content;
+                if (displayedBodyName == currentBody.name) currentBodyHasMatch = true;
+            }
+            if (!currentBodyHasMatch) shouldUpdate = true;
+        }
+
+        if (shouldUpdate)
+        {
+            UpdateBodySidebar();
         }
 
         previouslySelectedBody = body;
@@ -339,8 +333,6 @@ public partial class SimulationWindow : Window
 
     private void UpdateInfoSidebarValues(Body body)
     {
-        if(body == null) return;
-
         if(UniverseGrid.Visibility == Visibility.Visible)
         {
             InfoSidebarGravitationalConstant.SetValue(Border.BorderThicknessProperty, new Thickness(0));
@@ -357,6 +349,8 @@ public partial class SimulationWindow : Window
 
             return;
         }
+
+        if (body == null) return;
 
         InfoSidebarTitle.SetValue(Border.BorderThicknessProperty, new Thickness(0));
         InfoSidebarMass.SetValue(Border.BorderThicknessProperty, new Thickness(0));
@@ -431,9 +425,9 @@ public partial class SimulationWindow : Window
 
     private void PlayButton_Click(object sender, RoutedEventArgs e)
     {
-        if(playState == SimulationPlayState.Stopped)
+        SimulationPhysics.stepTimer.Restart();
+        if (playState == SimulationPlayState.Stopped)
         {
-            SimulationPhysics.stepTimer.Restart();
             simulation.cameraPosition = renderer.cameraTargetPosition;
             stoppedState = new SimState(simulation);
         }
