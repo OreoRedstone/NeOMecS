@@ -24,7 +24,7 @@ public static class SaveLoadSystem
             builder.Append($"\t\t<radius>{body.radius}<radius/>\n");
             builder.Append($"\t\t<colour>{body.colour.red}, {body.colour.green}, {body.colour.blue}<colour/>\n");
             builder.Append($"\t\t<position>{body.position.x}, {body.position.y}<position/>\n");
-            builder.Append($"\t\t<velocity>{body.velocity.x}, {body.position.y}<velocity/>\n");
+            builder.Append($"\t\t<velocity>{body.velocity.x}, {body.velocity.y}<velocity/>\n");
             builder.Append($"\t\t<mass>{body.mass}<mass/>\n");
             builder.Append("\t<body/>\n");
         }
@@ -37,7 +37,7 @@ public static class SaveLoadSystem
 
     public static SimState DecodeSimulation(string text)
     {
-        SimState state = new SimState();
+        var state = new SimState();
 
         text = text.Replace("\n", "").Replace("\t", "").Replace("\r", "");
 
