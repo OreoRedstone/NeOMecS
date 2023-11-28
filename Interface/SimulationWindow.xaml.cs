@@ -61,7 +61,7 @@ public partial class SimulationWindow : Window
         dispatcherTimer.Interval = TimeSpan.FromMilliseconds(10);
         dispatcherTimer.Start();
 
-        UpdateInfoSidebarValues(selectedObject);
+        UpdateInfoSidebar(selectedObject);
     }
 
     private void dispatcherTimer_Tick(object? sender, EventArgs e)
@@ -299,7 +299,6 @@ public partial class SimulationWindow : Window
         {
             body.name = InfoSidebarTitle.Text;
             var mass = Convert.ToDouble(InfoSidebarMass.Text);
-            if (mass == 0) throw new Exception();
             body.mass = mass;
             body.position.x = Convert.ToDouble(InfoSidebarPositionX.Text);
             body.position.y = Convert.ToDouble(InfoSidebarPositionY.Text);
@@ -441,9 +440,10 @@ public partial class SimulationWindow : Window
 
     private void StopButton_Click(object sender, RoutedEventArgs e)
     {
-        simulation = stoppedState;
+        simulation = new SimState(stoppedState);
         renderer.cameraTargetPosition = simulation.cameraPosition;
         playState = SimulationPlayState.Stopped;
+        UpdateInfoSidebarValues(selectedObject);
     }
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
