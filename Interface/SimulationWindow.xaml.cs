@@ -258,8 +258,10 @@ public partial class SimulationWindow : Window
 
             try
             {
-                simulation.simSpeed = Convert.ToDouble(InfoSidebarSimSpeed.Text);
-                simulation.universe.gravitationalConstant = Convert.ToDouble(InfoSidebarGravitationalConstant.Text);
+                simulation.simSpeed = Math.Clamp(Convert.ToDouble(InfoSidebarSimSpeed.Text), -100, 100);
+                InfoSidebarSimSpeed.Text = simulation.simSpeed.ToString();
+                simulation.universe.gravitationalConstant = Math.Clamp(Convert.ToDouble(InfoSidebarGravitationalConstant.Text), 0, 10000);
+                InfoSidebarGravitationalConstant.Text = simulation.universe.gravitationalConstant.ToString();
             }
             catch (Exception)
             {
