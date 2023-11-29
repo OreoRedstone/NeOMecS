@@ -48,13 +48,7 @@ public partial class SimulationWindow : Window
         var bodies = simulation.universe.bodies;
 
         UpdateBodySidebar();
-
-        if (bodies.Count > 0)
-        {
-            selectedObject = bodies[0];
-            followedObject = bodies[0];
-            followButtons[0].Visibility = Visibility.Hidden;
-        }
+        UpdateInfoSidebarValues(null);
         
         var dispatcherTimer = new DispatcherTimer();
         dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
