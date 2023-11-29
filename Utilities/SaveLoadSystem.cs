@@ -70,7 +70,7 @@ public static class SaveLoadSystem
         builder.Append($"\t<radius>{body.radius}<radius/>\n");
         builder.Append($"\t<colour>{body.colour.red}, {body.colour.green}, {body.colour.blue}<colour/>\n");
         builder.Append($"\t<position>{body.position.x}, {body.position.y}<position/>\n");
-        builder.Append($"\t<velocity>{body.velocity.x}, {body.position.y}<velocity/>\n");
+        builder.Append($"\t<velocity>{body.velocity.x}, {body.velocity.y}<velocity/>\n");
         builder.Append($"\t<mass>{body.mass}<mass/>\n");
         builder.Append("<body/>");
 
