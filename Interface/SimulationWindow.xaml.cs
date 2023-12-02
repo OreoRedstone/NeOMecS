@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -225,7 +226,12 @@ public partial class SimulationWindow : Window
             {
                 button.Visibility = Visibility.Hidden;
                 Body body = simulation.universe.bodies.Single(b => b.guid == button.Tag.ToString());
+                renderer.targetScale = body.radius / 50;
                 followedObject = body;
+                if (simulation.universe.bodies.Count < 2)
+                    renderer.targetScale = Math.Clamp(renderer.targetScale, 1 / RenderWindow.ActualWidth * 1000, simulation.universe.bodies.MaxBy(b => b.radius).radius / RenderWindow.ActualWidth * 1000);
+                else
+                    renderer.targetScale = Math.Clamp(renderer.targetScale, simulation.universe.bodies.MinBy(b => b.radius).radius / RenderWindow.ActualWidth * 1000, simulation.universe.bodies.MaxBy(b => b.radius).radius / RenderWindow.ActualWidth * 1000);
             }
             else
             {
@@ -252,10 +258,8 @@ public partial class SimulationWindow : Window
 
             try
             {
-                simulation.simSpeed = Math.Clamp(Convert.ToDouble(InfoSidebarSimSpeed.Text), -100, 100);
-                InfoSidebarSimSpeed.Text = simulation.simSpeed.ToString();
-                simulation.universe.gravitationalConstant = Math.Clamp(Convert.ToDouble(InfoSidebarGravitationalConstant.Text), 0, 10000);
-                InfoSidebarGravitationalConstant.Text = simulation.universe.gravitationalConstant.ToString();
+                simulation.simSpeed = Convert.ToDouble(InfoSidebarSimSpeed.Text);
+                simulation.universe.gravitationalConstant = Convert.ToDouble(InfoSidebarGravitationalConstant.Text);
             }
             catch (Exception)
             {
@@ -278,6 +282,7 @@ public partial class SimulationWindow : Window
         InfoSidebarPositionY.SetValue(TextBox.IsReadOnlyProperty, false);
         InfoSidebarVelocityX.SetValue(TextBox.IsReadOnlyProperty, false);
         InfoSidebarVelocityY.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarRadius.SetValue(TextBox.IsReadOnlyProperty, false);
 
         InfoSidebarTitle.SetValue(Border.BorderThicknessProperty, new Thickness(1));
         InfoSidebarMass.SetValue(Border.BorderThicknessProperty, new Thickness(1));
@@ -285,6 +290,7 @@ public partial class SimulationWindow : Window
         InfoSidebarPositionY.SetValue(Border.BorderThicknessProperty, new Thickness(1));
         InfoSidebarVelocityX.SetValue(Border.BorderThicknessProperty, new Thickness(1));
         InfoSidebarVelocityY.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+        InfoSidebarRadius.SetValue(Border.BorderThicknessProperty, new Thickness(1));
 
         InfoSidebarSpeed.Text = Math.Round(Vector2.GetMagnitude(body.velocity), 1).ToString();
         InfoSidebarAccelerationX.Text = Math.Round(body.acceleration.x, 1).ToString();
@@ -293,13 +299,15 @@ public partial class SimulationWindow : Window
 
         try
         {
-            body.name = InfoSidebarTitle.Text;
-            var mass = Convert.ToDouble(InfoSidebarMass.Text);
+            var numberRegex = new Regex("[^0-9 . E -]");
+            body.name = Regex.Replace(InfoSidebarTitle.Text, @"[^A-Za-z0-9 \s]", "");
+            var mass = Convert.ToDouble(numberRegex.Replace(InfoSidebarMass.Text, ""));
             body.mass = mass;
-            body.position.x = Convert.ToDouble(InfoSidebarPositionX.Text);
-            body.position.y = Convert.ToDouble(InfoSidebarPositionY.Text);
-            body.velocity.x = Convert.ToDouble(InfoSidebarVelocityX.Text);
-            body.velocity.y = Convert.ToDouble(InfoSidebarVelocityY.Text);
+            body.position.x = Convert.ToDouble(numberRegex.Replace(InfoSidebarPositionX.Text, ""));
+            body.position.y = Convert.ToDouble(numberRegex.Replace(InfoSidebarPositionY.Text, ""));
+            body.velocity.x = Convert.ToDouble(numberRegex.Replace(InfoSidebarVelocityX.Text, ""));
+            body.velocity.y = Convert.ToDouble(numberRegex.Replace(InfoSidebarVelocityY.Text, ""));
+            body.radius = Convert.ToDouble(numberRegex.Replace(InfoSidebarRadius.Text, ""));
         }
         catch (Exception)
         {
@@ -353,6 +361,7 @@ public partial class SimulationWindow : Window
         InfoSidebarPositionY.SetValue(Border.BorderThicknessProperty, new Thickness(0));
         InfoSidebarVelocityX.SetValue(Border.BorderThicknessProperty, new Thickness(0));
         InfoSidebarVelocityY.SetValue(Border.BorderThicknessProperty, new Thickness(0));
+        InfoSidebarRadius.SetValue(Border.BorderThicknessProperty, new Thickness(0));
 
         InfoSidebarTitle.SetValue(TextBox.IsReadOnlyProperty, false);
         InfoSidebarMass.SetValue(TextBox.IsReadOnlyProperty, false);
@@ -360,6 +369,7 @@ public partial class SimulationWindow : Window
         InfoSidebarPositionY.SetValue(TextBox.IsReadOnlyProperty, false);
         InfoSidebarVelocityX.SetValue(TextBox.IsReadOnlyProperty, false);
         InfoSidebarVelocityY.SetValue(TextBox.IsReadOnlyProperty, false);
+        InfoSidebarRadius.SetValue(TextBox.IsReadOnlyProperty, false);
 
         InfoSidebarTitle.Text = body.name;
         InfoSidebarMass.Text = Math.Round(body.mass, 1).ToString();
@@ -371,6 +381,7 @@ public partial class SimulationWindow : Window
         InfoSidebarAccelerationX.Text = Math.Round(body.acceleration.x, 1).ToString();
         InfoSidebarAccelerationY.Text = Math.Round(body.acceleration.y, 1).ToString();
         InfoSidebarParent.Text = body.parent.name;
+        InfoSidebarRadius.Text = body.radius.ToString();
 
         InfoSidebarTitle.SetValue(TextBox.IsReadOnlyProperty, true);
         InfoSidebarMass.SetValue(TextBox.IsReadOnlyProperty, true);
@@ -378,6 +389,7 @@ public partial class SimulationWindow : Window
         InfoSidebarPositionY.SetValue(TextBox.IsReadOnlyProperty, true);
         InfoSidebarVelocityX.SetValue(TextBox.IsReadOnlyProperty, true);
         InfoSidebarVelocityY.SetValue(TextBox.IsReadOnlyProperty, true);
+        InfoSidebarRadius.SetValue(TextBox.IsReadOnlyProperty, true);
     }
 
     public Vector2 GetRenderWindowSize()
@@ -400,8 +412,14 @@ public partial class SimulationWindow : Window
     private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (!(RenderWindow.IsKeyboardFocused || RenderWindow.IsMouseOver)) return;
-        renderer.targetScale += e.Delta / -200.0;
-        if(renderer.targetScale < 1) renderer.targetScale = 1;
+        var changeInScale = e.Delta / -20000.0;
+        changeInScale *= followedObject == null ? 100 : followedObject.radius;
+        renderer.targetScale += changeInScale;
+        if (simulation.universe.bodies.Count < 1) return;
+        if(simulation.universe.bodies.Count < 2)
+            renderer.targetScale = Math.Clamp(renderer.targetScale, 1 / RenderWindow.ActualWidth * 1000, simulation.universe.bodies.MaxBy(b => b.radius).radius / RenderWindow.ActualWidth * 1000);
+        else
+            renderer.targetScale = Math.Clamp(renderer.targetScale, simulation.universe.bodies.MinBy(b => b.radius).radius / RenderWindow.ActualWidth * 1000, simulation.universe.bodies.MaxBy(b => b.radius).radius / RenderWindow.ActualWidth * 1000);
     }
 
     private void RenderWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -436,6 +454,7 @@ public partial class SimulationWindow : Window
 
     private void StopButton_Click(object sender, RoutedEventArgs e)
     {
+        if (playState == SimulationPlayState.Stopped) return;
         simulation = new SimState(stoppedState);
         renderer.cameraTargetPosition = simulation.cameraPosition;
         playState = SimulationPlayState.Stopped;
@@ -549,7 +568,12 @@ public partial class SimulationWindow : Window
         UniverseGrid.Visibility = Visibility.Visible;
         BodyGrid.Visibility = Visibility.Hidden;
         selectedObject = null;
-        UpdateInfoSidebar(null);
+        UpdateInfoSidebar(selectedObject);
+    }
+
+    private void RenderWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+
     }
 }
 

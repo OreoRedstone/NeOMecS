@@ -92,7 +92,7 @@
                 </Grid>
 
                 <Border Grid.Row="1" Margin="5" CornerRadius="8" BorderThickness="3" BorderBrush="Black" Background="Black">
-                    <sharpGL:OpenGLControl x:Name="RenderWindow"  Focusable="True" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="False" FrameRate="144" Resized="OpenGLControl_Resized" MouseLeftButtonUp="RenderWindow_MouseLeftButtonUp"/>
+                    <sharpGL:OpenGLControl x:Name="RenderWindow"  Focusable="True" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="False" FrameRate="144" Resized="OpenGLControl_Resized" MouseLeftButtonUp="RenderWindow_MouseLeftButtonUp" Loaded="RenderWindow_Loaded"/>
                 </Border>
             </Grid>
         </Border>
@@ -130,6 +130,8 @@
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="1" Text="Mass:"/>
@@ -153,6 +155,8 @@
                         <TextBlock Foreground="White" x:Name="InfoSidebarAccelerationY" Grid.Column="1" Grid.Row="11" Text="0.01" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="12" Text="Parent:" HorizontalAlignment="Left"/>
                         <TextBlock Foreground="White" x:Name="InfoSidebarParent" Grid.Column="1" Grid.Row="12" Text="Universe" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="13" Text="Radius:" HorizontalAlignment="Left"/>
+                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,1,0,0" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarRadius" Grid.Column="1" Grid.Row="13" Text="1" HorizontalAlignment="Right"/>
                     </Grid>
                 </ScrollViewer>
 
