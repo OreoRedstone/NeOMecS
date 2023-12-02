@@ -17,8 +17,6 @@
             <RowDefinition Height="4*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="4*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="4*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -63,8 +61,7 @@
 
         <Button x:Name="NewSimulationButton" Grid.Column="2" Grid.Row="3" Style="{DynamicResource MenuButton}" Content="New Simulation" Click="NewSimulationButton_Click"/>
         <Button x:Name="LoadSimulationButton" Grid.Column="2" Grid.Row="5" Style="{DynamicResource MenuButton}" Content="Load Simulation" Click="LoadSimulationButton_Click"/>
-        <Button x:Name="SettingsButton" Grid.Column="2" Grid.Row="7" Style="{DynamicResource MenuButton}" Content="Settings" Click="SettingsButton_Click"/>
-        <Button x:Name="ExitButton" Grid.Column="2" Grid.Row="9" Style="{DynamicResource MenuButton}" Content="Exit to Desktop" Click="ExitButton_Click"/>
+        <Button x:Name="ExitButton" Grid.Column="2" Grid.Row="7" Style="{DynamicResource MenuButton}" Content="Exit to Desktop" Click="ExitButton_Click"/>
     
     
     </Grid>
