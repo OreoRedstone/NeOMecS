@@ -62,8 +62,6 @@ class Renderer
 
     public void OnResize(object sender, OpenGLRoutedEventArgs args)
     {
-        OpenGL gl = args.OpenGL;
-
         try
         {
             windowSize = ((SimulationWindow)Application.Current.MainWindow).GetRenderWindowSize();
@@ -76,8 +74,12 @@ class Renderer
 
     private void DrawText(OpenGL gl, Body body)
     {
-        int x = Convert.ToInt32(((body.position.x + body.radius * 1.1 - cameraPosition.x) / scale) + windowSize.x / 2);
-        int y = Convert.ToInt32(((body.position.y - cameraPosition.y) / scale) + windowSize.y / 2);
+        var localPosition = new Vector2(body.position.x - cameraPosition.x + body.radius * 1.1, body.position.y - cameraPosition.y) / scale;
+
+        if(localPosition.x > int.MaxValue || localPosition.y > int.MaxValue || localPosition.x < int.MinValue || localPosition.y < int.MinValue) return;
+
+        int x = Convert.ToInt32(localPosition.x + (windowSize.x / 2));
+        int y = Convert.ToInt32(localPosition.y + (windowSize.y / 2));
 
         gl.DrawText(x, y, 1, 1, 1, "Segoe UI", 15, body.name);
     }

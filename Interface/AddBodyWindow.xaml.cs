@@ -21,13 +21,13 @@ public partial class AddBodyWindow : Window
     private void OKButton_Click(object sender, RoutedEventArgs e)
     {
         var body = new Body("", 1, new Colour(1, 1, 1), Vector2.Zero, Vector2.Zero, Vector2.Zero, 1, null);
-        string name = "";
-        double radius = 1;
-        Colour colour = new Colour(1, 1, 1);
-        Vector2 position = Vector2.Zero;
-        Vector2 velocity = Vector2.Zero;
+        string name;
+        double radius;
+        Colour colour;
+        Vector2 position;
+        Vector2 velocity;
         Vector2 acceleration = Vector2.Zero;
-        double mass = 1;
+        double mass;
 
         try
         {
@@ -42,7 +42,6 @@ public partial class AddBodyWindow : Window
         try
         {
             radius = Convert.ToDouble(BodyRadiusBox.Text);
-            if (radius > Int32.MaxValue * 0.5) throw new Exception();
             if (radius <= 0) throw new Exception();
         }
         catch (Exception)
@@ -64,8 +63,6 @@ public partial class AddBodyWindow : Window
         try
         {
             position = new Vector2(Convert.ToDouble(BodyPositionXBox.Text), Convert.ToDouble(BodyPositionYBox.Text));
-            if (position.x > Int32.MaxValue * 0.5) throw new Exception();
-            if (position.y > Int32.MaxValue * 0.5) throw new Exception();
         }
         catch (Exception)
         {
