@@ -110,7 +110,8 @@ public static class SimulationPhysics
                 var h = orbitalPosition.Magnitude * orbitalVelocity.Magnitude * Math.Sin(Vector2.Angle(orbitalPosition, orbitalVelocity));
                 var eccentricityVector = (((orbitalVelocity.Magnitude * orbitalVelocity.Magnitude / gravitationalParameter) - (1 / orbitalPosition.Magnitude)) * orbitalPosition) - (Vector2.DotProduct(orbitalPosition, orbitalVelocity) / gravitationalParameter * orbitalVelocity);
                 List <Vector2> positions = new();
-                for (double theta = 0; theta <= 4 * Math.PI; theta += 0.01)
+                var degrees = eccentricityVector.Magnitude > 1 ? 0 : 4 * Math.PI;
+                for (double theta = 0; theta <= degrees; theta += 0.01)
                 {
                     var r = (h * h) / (gravitationalParameter * (1 + eccentricityVector.Magnitude * Math.Cos(theta)));
                     var newPos = Vector2.PolarToVector2(r, theta + eccentricityVector.Theta, parent.position);
