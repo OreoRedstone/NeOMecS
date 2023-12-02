@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using NeOMecS.Interface;
 using NeOMecS.Utilities;
 
@@ -68,14 +69,25 @@ public static class SimulationPhysics
             body.UpdateAcceleration(totalAccel);
 
             var previousParent = body.parent;
-            var greatestAccel = new KeyValuePair<Body, Vector2>();
+            var modifiedAccelerations = new Dictionary<Body, Vector2>();
             foreach (var entry in accelerations)
             {
-                if (greatestAccel.Value == null) greatestAccel = entry;
-                if (entry.Value.Magnitude > greatestAccel.Value.Magnitude) greatestAccel = entry;
+                if(entry.Key.mass < body.mass) continue;
+                var newValue = entry.Value / Vector2.GetDistance(body.position, entry.Key.position);
+                modifiedAccelerations.Add(entry.Key, newValue);
             }
-            if (greatestAccel.Value.Magnitude / totalAccel.Magnitude > 0.8 && greatestAccel.Key.mass > body.mass) body.parent = greatestAccel.Key;
-            else body.parent = state.universe;
+
+            try
+            {
+                if(modifiedAccelerations.MaxBy(b => b.Value.Magnitude).Key.mass > body.mass)
+                    body.parent = modifiedAccelerations.MaxBy(b => b.Value.Magnitude).Key;
+                else
+                    body.parent = state.universe;
+            }
+            catch (Exception)
+            {
+                body.parent = state.universe;
+            }
 
             if (body.parent != previousParent) simWindow.UpdateBodySidebar();
         }

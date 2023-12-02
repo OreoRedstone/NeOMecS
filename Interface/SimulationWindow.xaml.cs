@@ -93,24 +93,34 @@ public partial class SimulationWindow : Window
             }
         }
 
-        if(Vector2.GetMagnitude(cameraMoveAmount) != 0 || followedObject == null)
+        if(followedObject == null)
         {
             foreach (var button in followButtons)
             {
                 button.Visibility = Visibility.Visible;
             }
-            followedObject = null;
+        }
 
+        if(Vector2.GetMagnitude(cameraMoveAmount) != 0)
+        {
             renderer.cameraTargetPosition += Vector2.GetNormalised(cameraMoveAmount) * timeSinceLastFrame.ElapsedTicks * renderer.targetScale * 0.0001;
+            followedObject = null;
         }
         else
         {
-            renderer.cameraTargetPosition = followedObject.position;
-            if (Vector2.GetDistance(renderer.cameraPosition, followedObject.position) < followedObject.velocity.Magnitude)
+            if(followedObject != null)
             {
-                renderer.cameraPosition = followedObject.position;
+                renderer.cameraTargetPosition = followedObject.position;
+                if (Vector2.GetDistance(renderer.cameraPosition, followedObject.position) / renderer.targetScale < followedObject.velocity.Magnitude)
+                    renderer.cameraPosition = followedObject.position;
             }
         }
+
+        if(followedObject == null)
+            if(simulation.universe.bodies.Count > 0)
+                renderer.targetScale = Math.Clamp(renderer.targetScale, simulation.universe.bodies.MaxBy(b => b.radius).radius / RenderWindow.ActualWidth * 10, simulation.universe.bodies.MaxBy(b => b.radius).radius / RenderWindow.ActualWidth * 1000);
+        else
+            renderer.targetScale = Math.Clamp(renderer.targetScale, followedObject.radius / RenderWindow.ActualWidth * 10, followedObject.radius * 1000 / RenderWindow.ActualWidth);
 
         UpdateInfoSidebar(selectedObject);
         renderer.RenderFrame(sender, args, simulation);
@@ -413,13 +423,8 @@ public partial class SimulationWindow : Window
     {
         if (!(RenderWindow.IsKeyboardFocused || RenderWindow.IsMouseOver)) return;
         var changeInScale = e.Delta / -20000.0;
-        changeInScale *= followedObject == null ? 100 : followedObject.radius;
+        changeInScale *= followedObject == null ? renderer.targetScale : followedObject.radius;
         renderer.targetScale += changeInScale;
-        if (simulation.universe.bodies.Count < 1) return;
-        if(simulation.universe.bodies.Count < 2)
-            renderer.targetScale = Math.Clamp(renderer.targetScale, 1 / RenderWindow.ActualWidth * 1000, simulation.universe.bodies.MaxBy(b => b.radius).radius / RenderWindow.ActualWidth * 1000);
-        else
-            renderer.targetScale = Math.Clamp(renderer.targetScale, simulation.universe.bodies.MinBy(b => b.radius).radius / RenderWindow.ActualWidth * 1000, simulation.universe.bodies.MaxBy(b => b.radius).radius / RenderWindow.ActualWidth * 1000);
     }
 
     private void RenderWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
