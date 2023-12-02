@@ -27,12 +27,20 @@ public partial class StartupWindow : Window
             DefaultExt = "simulation",
             Filter = "Simulation Files (*.simulation)|*.simulation|All files (*.*)|*.*"
         };
-        if (openFileDialog.ShowDialog() == true)
+
+        if (openFileDialog.ShowDialog() == false) return;
+        
+        try
         {
-            var window = new SimulationWindow(SaveLoadSystem.DecodeSimulation(SaveLoadSystem.Load(openFileDialog.FileName)), openFileDialog.FileName);
+            var simulation = SaveLoadSystem.DecodeSimulation(SaveLoadSystem.Load(openFileDialog.FileName));
+            var window = new SimulationWindow(simulation, openFileDialog.FileName);
             Application.Current.MainWindow = window;
             window.Show();
             Close();
+        }
+        catch (System.Exception)
+        {
+            MessageBox.Show("Error while loading file. The file may be unreadable.");
         }
     }
 
