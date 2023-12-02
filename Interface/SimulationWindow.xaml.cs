@@ -541,6 +541,16 @@ public partial class SimulationWindow : Window
         UpdateInfoSidebarValues(null);
         UpdateInfoSidebar(null);
     }
+
+    private void DeleteBodyButton_Click(object sender, RoutedEventArgs e)
+    {
+        simulation.universe.bodies.Remove(selectedObject);
+        UpdateBodySidebar();
+        UniverseGrid.Visibility = Visibility.Visible;
+        BodyGrid.Visibility = Visibility.Hidden;
+        selectedObject = null;
+        UpdateInfoSidebar(null);
+    }
 }
 
 public enum SimulationPlayState { Playing, Paused, Stopped }
