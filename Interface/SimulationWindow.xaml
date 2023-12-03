@@ -10,6 +10,18 @@
         mc:Ignorable="d" FontFamily="Segoe UI Light" FontSize="14" FontWeight="Bold"
         WindowStartupLocation="CenterScreen"
         Title="Newtonian Orbital Mechanics Simulation" Height="600" Width="1000" MinWidth="650" MinHeight="300" MouseWheel="Window_MouseWheel">
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="NewCommandBinding_Executed"/>
+        <CommandBinding Command="Open" Executed="OpenCommandBinding_Executed"/>
+        <CommandBinding Command="Save" Executed="SaveCommandBinding_Executed"/>
+        <CommandBinding Command="SaveAs" Executed="SaveAsCommandBinding_Executed"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="New"/>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="Open"/>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="Save"/>
+        <KeyBinding Key="S" Modifiers="Ctrl+Alt" Command="SaveAs"/>
+    </Window.InputBindings>
     <Grid Background="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0"/>
@@ -28,14 +40,14 @@
         <!--Menu-->
         <Border Margin="3, 0, 3, 0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="#262626" BorderBrush="#262626" CornerRadius="8">
             <Grid>
-                <Menu Margin="8, 0, 8, 0" Background="#262626" VerticalAlignment="Top">
+                <Menu Margin="8, 0, 8, 0" Background="#262626" VerticalAlignment="Center">
                     <MenuItem Background="#262626" Foreground="White" Header="File">
-                        <MenuItem x:Name="NewButton" Background="#262626" Foreground="White" Header="New" Click="NewButton_Click"/>
-                        <MenuItem x:Name="OpenButton" Background="#262626" Foreground="White" Header="Open" Click="OpenButton_Click"/>
-                        <MenuItem x:Name="SaveButton" Background="#262626" Foreground="White" Header="Save" Click="SaveButton_Click"/>
-                        <MenuItem x:Name="SaveAsButton" Background="#262626" Foreground="White" Header="Save As" Click="SaveAsButton_Click"/>
+                        <MenuItem x:Name="NewButton" Background="#262626" Foreground="White" Header="New" Command="New" InputGestureText="Crtl+N"/>
+                        <MenuItem x:Name="OpenButton" Background="#262626" Foreground="White" Header="Open" Command="Open" InputGestureText="Ctrl+O"/>
+                        <MenuItem x:Name="SaveButton" Background="#262626" Foreground="White" Header="Save" Command="Save" InputGestureText="Ctrl+S"/>
+                        <MenuItem x:Name="SaveAsButton" Background="#262626" Foreground="White" Header="Save As" Command="SaveAs" InputGestureText="Ctrl+Alt+S"/>
                         <Separator/>
-                        <MenuItem Header="Exit" Background="#262626" Foreground="White"/>
+                        <MenuItem Header="Exit" Background="#262626" Foreground="White" InputGestureText="Alt+F4"/>
                     </MenuItem>
                     <MenuItem Background="#262626" Foreground="White" Header="Edit">
                         <MenuItem x:Name="SavePresetButton" Header="Save Preset" Background="#262626" Foreground="White" Click="SavePresetButton_Click"/>
@@ -140,19 +152,19 @@
                         </Grid.RowDefinitions>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="1" Text="Mass:"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarMass" Grid.Column="1" Grid.Row="1" Text="5" HorizontalAlignment="Right"/>
+                        <TextBox CaretBrush="White" BorderBrush="#666666" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarMass" Grid.Column="1" Grid.Row="1" Text="5" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="2" Text="Speed:"/>
                         <TextBlock Foreground="White" x:Name="InfoSidebarSpeed" Grid.Column="1" Grid.Row="2" Text="10" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="3" Text="Position:"/>
                         <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="4" Text="X:" HorizontalAlignment="Left"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,0,0,1" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarPositionX" Grid.Column="1" Grid.Row="4" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,0,0,1" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarPositionX" Grid.Column="1" Grid.Row="4" Text="0.01" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="5" Text="Y:"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,1,0,0" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarPositionY" Grid.Column="1" Grid.Row="5" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,1,0,0" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarPositionY" Grid.Column="1" Grid.Row="5" Text="0.01" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="6" Text="Velocity:"/>
                         <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="7" Text="X:" HorizontalAlignment="Left"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,0,0,1" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarVelocityX" Grid.Column="1" Grid.Row="7" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,0,0,1" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarVelocityX" Grid.Column="1" Grid.Row="7" Text="0.01" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="8" Text="Y:"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,1,0,0" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarVelocityY" Grid.Column="1" Grid.Row="8" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,1,0,0" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarVelocityY" Grid.Column="1" Grid.Row="8" Text="0.01" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="9" Text="Acceleration:"/>
                         <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="10" Text="X:" HorizontalAlignment="Left"/>
                         <TextBlock Foreground="White" x:Name="InfoSidebarAccelerationX" Grid.Column="1" Grid.Row="10" Text="0.01" HorizontalAlignment="Right"/>
@@ -161,7 +173,7 @@
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="12" Text="Parent:" HorizontalAlignment="Left"/>
                         <TextBlock Foreground="White" x:Name="InfoSidebarParent" Grid.Column="1" Grid.Row="12" Text="Universe" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="13" Text="Radius:" HorizontalAlignment="Left"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,1,0,0" Background="Transparent" BorderThickness="0" Foreground="White" x:Name="InfoSidebarRadius" Grid.Column="1" Grid.Row="13" Text="1" HorizontalAlignment="Right"/>
+                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,1,0,0" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarRadius" Grid.Column="1" Grid.Row="13" Text="1" HorizontalAlignment="Right"/>
                     </Grid>
                 </ScrollViewer>
 
@@ -194,9 +206,9 @@
                         </Grid.RowDefinitions>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="1" Text="Simulation Speed:"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Background="Transparent" BorderThickness="1" Foreground="White" x:Name="InfoSidebarSimSpeed" Grid.Column="1" Grid.Row="1" Text="1" HorizontalAlignment="Right"/>
+                        <TextBox CaretBrush="White" BorderBrush="#666666" Background="#262626" BorderThickness="1" Foreground="White" x:Name="InfoSidebarSimSpeed" Grid.Column="1" Grid.Row="1" Text="1" HorizontalAlignment="Right"/>
                         <TextBlock Foreground="White" Grid.Column="1" Grid.Row="2" Text="Gravitational Constant:"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Background="Transparent" BorderThickness="1" Foreground="White" x:Name="InfoSidebarGravitationalConstant" Grid.Column="1" Grid.Row="2" Text="1" HorizontalAlignment="Right"/>
+                        <TextBox CaretBrush="White" BorderBrush="#666666" Background="#262626" BorderThickness="1" Foreground="White" x:Name="InfoSidebarGravitationalConstant" Grid.Column="1" Grid.Row="2" Text="1" HorizontalAlignment="Right"/>
                     </Grid>
                 </ScrollViewer>
             </Grid>

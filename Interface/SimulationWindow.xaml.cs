@@ -472,67 +472,6 @@ public partial class SimulationWindow : Window
         UpdateInfoSidebarValues(selectedObject);
     }
 
-    private void SaveButton_Click(object sender, RoutedEventArgs e)
-    {
-        if(currentFilePath == "") SaveAsButton_Click(sender, e);
-        else
-        {
-            SaveLoadSystem.Save(SaveLoadSystem.EncodeSimulation(simulation), currentFilePath);
-        }
-    }
-
-    private void SaveAsButton_Click(object sender, RoutedEventArgs e)
-    {
-        SaveFileDialog saveFileDialog = new SaveFileDialog
-        {
-            DefaultExt = "simulation",
-            AddExtension = true,
-            Filter = "Simulation Files (*.simulation)|*.simulation|All files (*.*)|*.*"
-        };
-        saveFileDialog.ShowDialog();
-        if (saveFileDialog.FileName != "")
-        {
-            var stream = saveFileDialog.OpenFile();
-            var streamWriter = new StreamWriter(stream);
-            streamWriter.Write(SaveLoadSystem.EncodeSimulation(simulation));
-            streamWriter.Flush();
-            stream.Close();
-        }
-        currentFilePath = saveFileDialog.FileName;
-    }
-
-    private void NewButton_Click(object sender, RoutedEventArgs e)
-    {
-        simulation = new SimState();
-        UpdateBodySidebar();
-        UpdateInfoSidebarValues(null);
-        UpdateInfoSidebar(null);
-        currentFilePath = "";
-        UniverseGrid.Visibility = Visibility.Visible;
-        BodyGrid.Visibility = Visibility.Hidden;
-    }
-
-    private void OpenButton_Click(object sender, RoutedEventArgs e)
-    {
-        var openFileDialog = new OpenFileDialog
-        {
-            Multiselect = false,
-            DefaultExt = "simulation",
-            Filter = "Simulation Files (*.simulation)|*.simulation|All files (*.*)|*.*"
-        };
-        if (openFileDialog.ShowDialog() == true)
-        {
-            simulation = SaveLoadSystem.DecodeSimulation(SaveLoadSystem.Load(openFileDialog.FileName));
-        }
-
-        UpdateBodySidebar();
-        UpdateInfoSidebarValues(null);
-        UpdateInfoSidebar(null);
-        currentFilePath = "";
-        UniverseGrid.Visibility = Visibility.Visible;
-        BodyGrid.Visibility = Visibility.Hidden;
-    }
-
     private void SavePresetButton_Click(object sender, RoutedEventArgs e)
     {
         SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -580,6 +519,67 @@ public partial class SimulationWindow : Window
         BodyGrid.Visibility = Visibility.Hidden;
         selectedObject = null;
         UpdateInfoSidebar(selectedObject);
+    }
+
+    private void NewCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        simulation = new SimState();
+        UpdateBodySidebar();
+        UpdateInfoSidebarValues(null);
+        UpdateInfoSidebar(null);
+        currentFilePath = "";
+        UniverseGrid.Visibility = Visibility.Visible;
+        BodyGrid.Visibility = Visibility.Hidden;
+    }
+
+    private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        var openFileDialog = new OpenFileDialog
+        {
+            Multiselect = false,
+            DefaultExt = "simulation",
+            Filter = "Simulation Files (*.simulation)|*.simulation|All files (*.*)|*.*"
+        };
+        if (openFileDialog.ShowDialog() == true)
+        {
+            simulation = SaveLoadSystem.DecodeSimulation(SaveLoadSystem.Load(openFileDialog.FileName));
+        }
+
+        UpdateBodySidebar();
+        UpdateInfoSidebarValues(null);
+        UpdateInfoSidebar(null);
+        currentFilePath = "";
+        UniverseGrid.Visibility = Visibility.Visible;
+        BodyGrid.Visibility = Visibility.Hidden;
+    }
+
+    private void SaveCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        if (currentFilePath == "") SaveAsCommandBinding_Executed(sender, e);
+        else
+        {
+            SaveLoadSystem.Save(SaveLoadSystem.EncodeSimulation(simulation), currentFilePath);
+        }
+    }
+
+    private void SaveAsCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        SaveFileDialog saveFileDialog = new SaveFileDialog
+        {
+            DefaultExt = "simulation",
+            AddExtension = true,
+            Filter = "Simulation Files (*.simulation)|*.simulation|All files (*.*)|*.*"
+        };
+        saveFileDialog.ShowDialog();
+        if (saveFileDialog.FileName != "")
+        {
+            var stream = saveFileDialog.OpenFile();
+            var streamWriter = new StreamWriter(stream);
+            streamWriter.Write(SaveLoadSystem.EncodeSimulation(simulation));
+            streamWriter.Flush();
+            stream.Close();
+        }
+        currentFilePath = saveFileDialog.FileName;
     }
 }
 
