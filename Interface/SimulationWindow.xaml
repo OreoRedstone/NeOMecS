@@ -12,36 +12,42 @@
         Title="Newtonian Orbital Mechanics Simulation" Height="600" Width="1000" MinWidth="650" MinHeight="300" MouseWheel="Window_MouseWheel">
     <Grid Background="Black">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="0"/>
             <ColumnDefinition Width="*" MinWidth="150"/>
             <ColumnDefinition Width="3*" MinWidth="300"/>
             <ColumnDefinition Width="*" MinWidth="150"/>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="0"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="3"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
 
         <!--Menu-->
-        <Menu Grid.Column="0" Grid.ColumnSpan="5" Background="#262626" Foreground="White">
-            <MenuItem Background="#262626" Foreground="White" Header="File">
-                <MenuItem x:Name="NewButton" Background="#262626" Foreground="White" Header="New" Click="NewButton_Click"/>
-                <MenuItem x:Name="OpenButton" Background="#262626" Foreground="White" Header="Open" Click="OpenButton_Click"/>
-                <MenuItem x:Name="SaveButton" Background="#262626" Foreground="White" Header="Save" Click="SaveButton_Click"/>
-                <MenuItem x:Name="SaveAsButton" Background="#262626" Foreground="White" Header="Save As" Click="SaveAsButton_Click"/>
-                <Separator/>
-                <MenuItem Header="Exit" Background="#262626" Foreground="White"/>
-            </MenuItem>
-            <MenuItem Background="#262626" Foreground="White" Header="Edit">
-                <MenuItem x:Name="SavePresetButton" Header="Save Preset" Background="#262626" Foreground="White" Click="SavePresetButton_Click"/>
-                <MenuItem x:Name="LoadPresetButton" Header="Load Preset" Background="#262626" Foreground="White" Click="LoadPresetButton_Click"/>
-            </MenuItem>
-        </Menu>
+        <Border Margin="3, 0, 3, 0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="#262626" BorderBrush="#262626" CornerRadius="8">
+            <Grid>
+                <Menu Margin="8, 0, 8, 0" Background="#262626" VerticalAlignment="Top">
+                    <MenuItem Background="#262626" Foreground="White" Header="File">
+                        <MenuItem x:Name="NewButton" Background="#262626" Foreground="White" Header="New" Click="NewButton_Click"/>
+                        <MenuItem x:Name="OpenButton" Background="#262626" Foreground="White" Header="Open" Click="OpenButton_Click"/>
+                        <MenuItem x:Name="SaveButton" Background="#262626" Foreground="White" Header="Save" Click="SaveButton_Click"/>
+                        <MenuItem x:Name="SaveAsButton" Background="#262626" Foreground="White" Header="Save As" Click="SaveAsButton_Click"/>
+                        <Separator/>
+                        <MenuItem Header="Exit" Background="#262626" Foreground="White"/>
+                    </MenuItem>
+                    <MenuItem Background="#262626" Foreground="White" Header="Edit">
+                        <MenuItem x:Name="SavePresetButton" Header="Save Preset" Background="#262626" Foreground="White" Click="SavePresetButton_Click"/>
+                        <MenuItem x:Name="LoadPresetButton" Header="Load Preset" Background="#262626" Foreground="White" Click="LoadPresetButton_Click"/>
+                    </MenuItem>
+                </Menu>
+            </Grid>
+        </Border>
+        
 
         <!--Left Panel-->
-        <Border Grid.Row="1" Grid.Column="1" Background="#262626" CornerRadius="8" Margin="3">
+        <Border Grid.Row="2" Grid.Column="1" Background="#262626" CornerRadius="8" Margin="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
@@ -65,10 +71,10 @@
             </Grid>
         </Border>
 
-        <GridSplitter Grid.Row ="1" Grid.Column="1" Background="Transparent" Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
+        <GridSplitter Grid.Row ="2" Grid.Column="1" Background="Transparent" Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
 
         <!--Center Panel-->
-        <Border Grid.Row="1" Grid.Column="2" Background="#262626" CornerRadius="8" Margin="3">
+        <Border Grid.Row="2" Grid.Column="2" Background="#262626" CornerRadius="8" Margin="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
@@ -96,10 +102,10 @@
             </Grid>
         </Border>
 
-        <GridSplitter Grid.Row ="1" Grid.Column="3" Background="Transparent" Width="5" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+        <GridSplitter Grid.Row ="2" Grid.Column="3" Background="Transparent" Width="5" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
 
         <!--Right Panel: Body-->
-        <Border x:Name="BodyGrid" Visibility="Hidden" Grid.Row="1" Grid.Column="3" Background="#262626" CornerRadius="8" Margin="3">
+        <Border x:Name="BodyGrid" Visibility="Hidden" Grid.Row="2" Grid.Column="3" Background="#262626" CornerRadius="8" Margin="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>
@@ -164,7 +170,7 @@
         </Border>
 
         <!--Right Panel: Universe-->
-        <Border x:Name="UniverseGrid" Visibility="Visible" Grid.Row="1" Grid.Column="3" Background="#262626" CornerRadius="8" Margin="3">
+        <Border x:Name="UniverseGrid" Visibility="Visible" Grid.Row="2" Grid.Column="3" Background="#262626" CornerRadius="8" Margin="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>
