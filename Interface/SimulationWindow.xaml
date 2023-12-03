@@ -35,7 +35,6 @@
                 <MenuItem Header="Exit" Background="#262626" Foreground="White"/>
             </MenuItem>
             <MenuItem Background="#262626" Foreground="White" Header="Edit">
-                <MenuItem Header="Create" Background="#262626" Foreground="White"/>
                 <MenuItem x:Name="SavePresetButton" Header="Save Preset" Background="#262626" Foreground="White" Click="SavePresetButton_Click"/>
                 <MenuItem x:Name="LoadPresetButton" Header="Load Preset" Background="#262626" Foreground="White" Click="LoadPresetButton_Click"/>
             </MenuItem>
