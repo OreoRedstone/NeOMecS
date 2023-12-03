@@ -322,7 +322,7 @@ public partial class SimulationWindow : Window
             var numberRegex = new Regex("[^0-9 . E -]");
             body.name = Regex.Replace(InfoSidebarTitle.Text, @"[^A-Za-z0-9 \s]", "");
             var mass = Convert.ToDouble(numberRegex.Replace(InfoSidebarMass.Text, ""));
-            body.mass = mass;
+            body.mass = mass <= 0 ? 1: mass;
             body.position.x = Convert.ToDouble(numberRegex.Replace(InfoSidebarPositionX.Text, ""));
             body.position.y = Convert.ToDouble(numberRegex.Replace(InfoSidebarPositionY.Text, ""));
             body.velocity.x = Convert.ToDouble(numberRegex.Replace(InfoSidebarVelocityX.Text, ""));

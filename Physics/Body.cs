@@ -1,5 +1,7 @@
 ﻿using NeOMecS.Utilities;
 using System;
+using System.Collections.Generic;
+using System.Windows.Documents;
 
 namespace NeOMecS.Physics;
 
@@ -85,6 +87,7 @@ public class Body : ParentableObject
 
     public int GetParentNestingCount(ParentableObject universe)
     {
+        var parents = new List<ParentableObject>();
         Body body = this;
         int layers = -1;
         while(body != universe)
@@ -93,6 +96,8 @@ public class Body : ParentableObject
             if(body.parent.GetType() == typeof(Body))
             {
                 body = (Body)body.parent;
+                if (parents.Contains(body)) break;
+                parents.Add(body);
             }
             else if(body.parent.GetType() == typeof(Universe))
             {

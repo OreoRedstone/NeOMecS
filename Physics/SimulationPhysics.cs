@@ -79,6 +79,8 @@ public static class SimulationPhysics
 
             try
             {
+                if (body.mass == 0) throw new Exception();
+
                 if(modifiedAccelerations.MaxBy(b => b.Value.Magnitude).Key.mass > body.mass)
                     body.parent = modifiedAccelerations.MaxBy(b => b.Value.Magnitude).Key;
                 else
