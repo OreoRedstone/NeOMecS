@@ -120,17 +120,7 @@ public partial class SimulationWindow : Window
 
         renderer.cameraPosition += (renderer.cameraTargetPosition - renderer.cameraPosition) * 0.0000008 * renderer.frameTimer.ElapsedTicks;
 
-        if (followedObject == null)
-        {
-            if (simulation.universe.bodies.Count > 0)
-            {
-                renderer.targetScale = Math.Clamp(renderer.targetScale, simulation.universe.bodies.MaxBy(b => b.radius).radius / RenderWindow.ActualWidth * 10, simulation.universe.bodies.MaxBy(b => b.radius).radius / RenderWindow.ActualWidth * 1000);
-            }
-        }
-        else
-        {
-            renderer.targetScale = Math.Clamp(renderer.targetScale, followedObject.radius / RenderWindow.ActualWidth * 10, followedObject.radius * 1000 / RenderWindow.ActualWidth);
-        }
+        if (renderer.targetScale <= 0) renderer.targetScale = 1;
 
         UpdateInfoSidebar(selectedObject);
         renderer.RenderFrame(sender, args, simulation);
@@ -534,6 +524,7 @@ public partial class SimulationWindow : Window
         currentFilePath = "";
         UniverseGrid.Visibility = Visibility.Visible;
         BodyGrid.Visibility = Visibility.Hidden;
+        stoppedState = new SimState(simulation);
     }
 
     private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -555,6 +546,7 @@ public partial class SimulationWindow : Window
         currentFilePath = "";
         UniverseGrid.Visibility = Visibility.Visible;
         BodyGrid.Visibility = Visibility.Hidden;
+        stoppedState = new SimState(simulation);
     }
 
     private void SaveCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)

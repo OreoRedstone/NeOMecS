@@ -18,24 +18,26 @@ public class Colour
     public float[] GetAsFloatArray()
     {
         float[] colour = new float[3];
-        colour[0] = red;
-        colour[1] = green;
-        colour[2] = blue;
+        colour[0] = (float)red / 255;
+        colour[1] = (float)green / 255;
+        colour[2] = (float)blue / 255;
         return colour;
     }
 
     public static Colour HexToColour(string hex)
     {
-        Colour colour = new Colour(1, 1, 1);
+        Colour colour = new Colour(255, 255, 255);
 
         if (hex.Length < 1) return colour;
         if (hex[0] == '#') hex = hex[1..];
 
         if (hex.Length != 6) return colour;
 
-        colour.red = (hexConverter[hex[0]] * 16 + hexConverter[hex[1]]) / 255;
-        colour.green = (hexConverter[hex[2]] * 16 + hexConverter[hex[3]]) / 255;
-        colour.blue = (hexConverter[hex[4]] * 16 + hexConverter[hex[5]]) / 255;
+        hex = hex.ToLower();
+
+        colour.red = hexConverter[hex[0]] * 16 + hexConverter[hex[1]];
+        colour.green = hexConverter[hex[2]] * 16 + hexConverter[hex[3]];
+        colour.blue = hexConverter[hex[4]] * 16 + hexConverter[hex[5]];
 
         return colour;
     }
