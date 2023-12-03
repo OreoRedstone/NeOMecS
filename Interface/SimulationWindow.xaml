@@ -9,12 +9,12 @@
         xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF"
         mc:Ignorable="d" FontFamily="Segoe UI Light" FontSize="14" FontWeight="Bold"
         WindowStartupLocation="CenterScreen"
-        Title="Newtonian Orbital Mechanics Simulation" Height="450" Width="800" MinWidth="650" MinHeight="300" MouseWheel="Window_MouseWheel">
+        Title="Newtonian Orbital Mechanics Simulation" Height="600" Width="1000" MinWidth="650" MinHeight="300" MouseWheel="Window_MouseWheel">
     <Grid Background="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*" MinWidth="150"/>
-            <ColumnDefinition Width="*" MinWidth="300"/>
+            <ColumnDefinition Width="3*" MinWidth="300"/>
             <ColumnDefinition Width="*" MinWidth="150"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
