@@ -11,7 +11,7 @@ namespace NeOMecS.Interface;
 
 class Renderer
 {
-    private Stopwatch frameTimer = new Stopwatch();
+    public Stopwatch frameTimer = new Stopwatch();
     private double scale = 1;
     public double targetScale = 1;
     private Vector2 windowSize = new Vector2();
@@ -26,7 +26,6 @@ class Renderer
         gl.ClearColor(0, 0, 0, 0);
 
         scale += (targetScale - scale) * 0.0000008 * frameTimer.ElapsedTicks;
-        cameraPosition += (cameraTargetPosition - cameraPosition) * 0.0000008 * frameTimer.ElapsedTicks;
         frameTimer.Restart();
 
         RecalculateMatrix(gl);
@@ -82,11 +81,6 @@ class Renderer
         int y = Convert.ToInt32(localPosition.y + (windowSize.y / 2));
 
         gl.DrawText(x, y, 1, 1, 1, "Segoe UI", 15, body.name);
-    }
-
-    private void DrawLine(OpenGL gl, Vector2 start, Vector2 end)
-    {
-        DrawLine(gl, start, end, new Colour(1, 1, 1));
     }
 
     private void DrawLine(OpenGL gl, Vector2 start, Vector2 end, Colour colour)

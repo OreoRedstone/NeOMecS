@@ -111,10 +111,14 @@ public partial class SimulationWindow : Window
             if(followedObject != null)
             {
                 renderer.cameraTargetPosition = followedObject.position;
-                if (Vector2.GetDistance(renderer.cameraPosition, followedObject.position) / renderer.targetScale < followedObject.velocity.Magnitude)
+                if (Vector2.GetDistance(renderer.cameraPosition, renderer.cameraTargetPosition) / renderer.targetScale < followedObject.velocity.Magnitude)
+                {
                     renderer.cameraPosition = followedObject.position;
+                }
             }
         }
+
+        renderer.cameraPosition += (renderer.cameraTargetPosition - renderer.cameraPosition) * 0.0000008 * renderer.frameTimer.ElapsedTicks;
 
         if (followedObject == null)
         {
