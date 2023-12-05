@@ -22,7 +22,7 @@
         <KeyBinding Key="S" Modifiers="Ctrl" Command="Save"/>
         <KeyBinding Key="S" Modifiers="Ctrl+Alt" Command="SaveAs"/>
     </Window.InputBindings>
-    <Grid Background="Black">
+    <Grid Background="{StaticResource Background}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0"/>
             <ColumnDefinition Width="*" MinWidth="150"/>
@@ -38,20 +38,20 @@
         </Grid.RowDefinitions>
 
         <!--Menu-->
-        <Border Margin="3, 0, 3, 0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="#262626" BorderBrush="#262626" CornerRadius="8">
+        <Border Margin="3, 0, 3, 0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="{StaticResource BackgroundPanel}" BorderBrush="{StaticResource BackgroundPanel}" CornerRadius="8">
             <Grid>
-                <Menu Margin="8, 0, 8, 0" Background="#262626" VerticalAlignment="Center">
-                    <MenuItem Background="#262626" Foreground="White" Header="File">
-                        <MenuItem x:Name="NewButton" Background="#262626" Foreground="White" Header="New" Command="New" InputGestureText="Crtl+N"/>
-                        <MenuItem x:Name="OpenButton" Background="#262626" Foreground="White" Header="Open" Command="Open" InputGestureText="Ctrl+O"/>
-                        <MenuItem x:Name="SaveButton" Background="#262626" Foreground="White" Header="Save" Command="Save" InputGestureText="Ctrl+S"/>
-                        <MenuItem x:Name="SaveAsButton" Background="#262626" Foreground="White" Header="Save As" Command="SaveAs" InputGestureText="Ctrl+Alt+S"/>
+                <Menu Margin="8, 0, 8, 0" Background="{StaticResource BackgroundPanel}" VerticalAlignment="Center">
+                    <MenuItem Style="{DynamicResource MenuItem}" Header="File">
+                        <MenuItem x:Name="NewButton" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="New" Command="New" InputGestureText="Crtl+N"/>
+                        <MenuItem x:Name="OpenButton" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Open" Command="Open" InputGestureText="Ctrl+O"/>
+                        <MenuItem x:Name="SaveButton" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Save" Command="Save" InputGestureText="Ctrl+S"/>
+                        <MenuItem x:Name="SaveAsButton" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Save As" Command="SaveAs" InputGestureText="Ctrl+Alt+S"/>
                         <Separator/>
-                        <MenuItem Header="Exit" Background="#262626" Foreground="White" InputGestureText="Alt+F4"/>
+                        <MenuItem Header="Exit" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" InputGestureText="Alt+F4"/>
                     </MenuItem>
-                    <MenuItem Background="#262626" Foreground="White" Header="Edit">
-                        <MenuItem x:Name="SavePresetButton" Header="Save Preset" Background="#262626" Foreground="White" Click="SavePresetButton_Click"/>
-                        <MenuItem x:Name="LoadPresetButton" Header="Load Preset" Background="#262626" Foreground="White" Click="LoadPresetButton_Click"/>
+                    <MenuItem Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Edit">
+                        <MenuItem x:Name="SavePresetButton" Header="Save Preset" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Click="SavePresetButton_Click"/>
+                        <MenuItem x:Name="LoadPresetButton" Header="Load Preset" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Click="LoadPresetButton_Click"/>
                     </MenuItem>
                 </Menu>
             </Grid>
@@ -59,7 +59,7 @@
         
 
         <!--Left Panel-->
-        <Border Grid.Row="2" Grid.Column="1" Background="#262626" CornerRadius="8" Margin="3">
+        <Border Grid.Row="2" Grid.Column="1" Background="{StaticResource BackgroundPanel}" CornerRadius="8" Margin="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
@@ -67,7 +67,7 @@
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Foreground="White" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Text="Celestial Bodies"/>
+                <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Text="Celestial Bodies"/>
 
                 <ScrollViewer Grid.Row="1" Margin="0, 5, 0, 5" VerticalScrollBarVisibility="Auto">
                     <Grid x:Name="BodySidebarGrid">
@@ -86,7 +86,7 @@
         <GridSplitter Grid.Row ="2" Grid.Column="1" Background="Transparent" Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
 
         <!--Center Panel-->
-        <Border Grid.Row="2" Grid.Column="2" Background="#262626" CornerRadius="8" Margin="3">
+        <Border Grid.Row="2" Grid.Column="2" Background="{StaticResource BackgroundPanel}" CornerRadius="8" Margin="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
@@ -101,14 +101,14 @@
                         <ColumnDefinition Width="30"/>
                         <ColumnDefinition Width="2"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" FontWeight="SemiBold" Text="System"/>
+                    <TextBlock Foreground="{StaticResource ForegroundDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" FontWeight="SemiBold" Text="System"/>
 
                     <Button x:Name="PlayButton" Grid.Column="1" Style="{DynamicResource PlayButton}"  Margin="3,6,3,0" VerticalAlignment="Stretch" Click="PlayButton_Click"/>
                     <Button x:Name="PauseButton" Grid.Column="2" Style="{DynamicResource PauseButton}" Margin="3,6,3,0" VerticalAlignment="Stretch" Click="PauseButton_Click"/>
                     <Button x:Name="StopButton" Grid.Column="3" Style="{DynamicResource StopButton}" Margin="3,6,3,0" VerticalAlignment="Stretch" Click="StopButton_Click"/>
                 </Grid>
 
-                <Border Grid.Row="1" Margin="5" CornerRadius="8" BorderThickness="3" BorderBrush="Black" Background="Black">
+                <Border Grid.Row="1" Margin="5" CornerRadius="8" BorderThickness="3" BorderBrush="{StaticResource Background}" Background="{StaticResource Background}">
                     <sharpGL:OpenGLControl x:Name="RenderWindow"  Focusable="True" OpenGLDraw="OpenGLControl_OpenGLDraw" DrawFPS="False" FrameRate="144" Resized="OpenGLControl_Resized" MouseLeftButtonUp="RenderWindow_MouseLeftButtonUp"/>
                 </Border>
             </Grid>
@@ -117,14 +117,14 @@
         <GridSplitter Grid.Row ="2" Grid.Column="3" Background="Transparent" Width="5" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
 
         <!--Right Panel: Body-->
-        <Border x:Name="BodyGrid" Visibility="Hidden" Grid.Row="2" Grid.Column="3" Background="#262626" CornerRadius="8" Margin="3">
+        <Border x:Name="BodyGrid" Visibility="Hidden" Grid.Row="2" Grid.Column="3" Background="{StaticResource BackgroundPanel}" CornerRadius="8" Margin="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBox Background="Transparent" BorderThickness="0" x:Name="InfoSidebarTitle" Grid.Row="0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Stretch" FontSize="18" Text="Venus" VerticalContentAlignment="Center"/>
+                <TextBox Background="Transparent" BorderThickness="0" x:Name="InfoSidebarTitle" Grid.Row="0" Foreground="{StaticResource ForegroundDefault}" HorizontalAlignment="Center" VerticalAlignment="Stretch" FontSize="18" Text="Venus" VerticalContentAlignment="Center"/>
 
                 <ScrollViewer Grid.Row="1" Margin="0, 5, 0, 5" VerticalScrollBarVisibility="Auto">
                     <Grid>
@@ -150,30 +150,30 @@
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
-                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="1" Text="Mass:"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarMass" Grid.Column="1" Grid.Row="1" Text="5" HorizontalAlignment="Right"/>
-                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="2" Text="Speed:"/>
-                        <TextBlock Foreground="White" x:Name="InfoSidebarSpeed" Grid.Column="1" Grid.Row="2" Text="10" HorizontalAlignment="Right"/>
-                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="3" Text="Position:"/>
-                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="4" Text="X:" HorizontalAlignment="Left"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,0,0,1" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarPositionX" Grid.Column="1" Grid.Row="4" Text="0.01" HorizontalAlignment="Right"/>
-                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="5" Text="Y:"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,1,0,0" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarPositionY" Grid.Column="1" Grid.Row="5" Text="0.01" HorizontalAlignment="Right"/>
-                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="6" Text="Velocity:"/>
-                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="7" Text="X:" HorizontalAlignment="Left"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,0,0,1" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarVelocityX" Grid.Column="1" Grid.Row="7" Text="0.01" HorizontalAlignment="Right"/>
-                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="8" Text="Y:"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,1,0,0" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarVelocityY" Grid.Column="1" Grid.Row="8" Text="0.01" HorizontalAlignment="Right"/>
-                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="9" Text="Acceleration:"/>
-                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="10" Text="X:" HorizontalAlignment="Left"/>
-                        <TextBlock Foreground="White" x:Name="InfoSidebarAccelerationX" Grid.Column="1" Grid.Row="10" Text="0.01" HorizontalAlignment="Right"/>
-                        <TextBlock Foreground="White" Padding="50,0,0,0" Grid.Column="1" Grid.Row="11" Text="Y:"/>
-                        <TextBlock Foreground="White" x:Name="InfoSidebarAccelerationY" Grid.Column="1" Grid.Row="11" Text="0.01" HorizontalAlignment="Right"/>
-                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="12" Text="Parent:" HorizontalAlignment="Left"/>
-                        <TextBlock Foreground="White" x:Name="InfoSidebarParent" Grid.Column="1" Grid.Row="12" Text="Universe" HorizontalAlignment="Right"/>
-                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="13" Text="Radius:" HorizontalAlignment="Left"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Margin="0,1,0,0" Background="#262626" BorderThickness="0" Foreground="White" x:Name="InfoSidebarRadius" Grid.Column="1" Grid.Row="13" Text="1" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Column="1" Grid.Row="1" Text="Mass:"/>
+                        <TextBox CaretBrush="{StaticResource ForegroundDefault}" BorderBrush="{StaticResource BorderDefault}" Background="{StaticResource BackgroundPanel}" BorderThickness="0" Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarMass" Grid.Column="1" Grid.Row="1" Text="5" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Column="1" Grid.Row="2" Text="Speed:"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarSpeed" Grid.Column="1" Grid.Row="2" Text="10" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Column="1" Grid.Row="3" Text="Position:"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Padding="50,0,0,0" Grid.Column="1" Grid.Row="4" Text="X:" HorizontalAlignment="Left"/>
+                        <TextBox CaretBrush="{StaticResource ForegroundDefault}" BorderBrush="{StaticResource BorderDefault}" Margin="0,0,0,1" Background="{StaticResource BackgroundPanel}" BorderThickness="0" Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarPositionX" Grid.Column="1" Grid.Row="4" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Padding="50,0,0,0" Grid.Column="1" Grid.Row="5" Text="Y:"/>
+                        <TextBox CaretBrush="{StaticResource ForegroundDefault}" BorderBrush="{StaticResource BorderDefault}" Margin="0,1,0,0" Background="{StaticResource BackgroundPanel}" BorderThickness="0" Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarPositionY" Grid.Column="1" Grid.Row="5" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Column="1" Grid.Row="6" Text="Velocity:"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Padding="50,0,0,0" Grid.Column="1" Grid.Row="7" Text="X:" HorizontalAlignment="Left"/>
+                        <TextBox CaretBrush="{StaticResource ForegroundDefault}" BorderBrush="{StaticResource BorderDefault}" Margin="0,0,0,1" Background="{StaticResource BackgroundPanel}" BorderThickness="0" Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarVelocityX" Grid.Column="1" Grid.Row="7" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Padding="50,0,0,0" Grid.Column="1" Grid.Row="8" Text="Y:"/>
+                        <TextBox CaretBrush="{StaticResource ForegroundDefault}" BorderBrush="{StaticResource BorderDefault}" Margin="0,1,0,0" Background="{StaticResource BackgroundPanel}" BorderThickness="0" Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarVelocityY" Grid.Column="1" Grid.Row="8" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Column="1" Grid.Row="9" Text="Acceleration:"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Padding="50,0,0,0" Grid.Column="1" Grid.Row="10" Text="X:" HorizontalAlignment="Left"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarAccelerationX" Grid.Column="1" Grid.Row="10" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Padding="50,0,0,0" Grid.Column="1" Grid.Row="11" Text="Y:"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarAccelerationY" Grid.Column="1" Grid.Row="11" Text="0.01" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Column="1" Grid.Row="12" Text="Parent:" HorizontalAlignment="Left"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarParent" Grid.Column="1" Grid.Row="12" Text="Universe" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Column="1" Grid.Row="13" Text="Radius:" HorizontalAlignment="Left"/>
+                        <TextBox CaretBrush="{StaticResource ForegroundDefault}" BorderBrush="{StaticResource BorderDefault}" Margin="0,1,0,0" Background="{StaticResource BackgroundPanel}" BorderThickness="0" Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarRadius" Grid.Column="1" Grid.Row="13" Text="1" HorizontalAlignment="Right"/>
                     </Grid>
                 </ScrollViewer>
 
@@ -182,14 +182,14 @@
         </Border>
 
         <!--Right Panel: Universe-->
-        <Border x:Name="UniverseGrid" Visibility="Visible" Grid.Row="2" Grid.Column="3" Background="#262626" CornerRadius="8" Margin="3">
+        <Border x:Name="UniverseGrid" Visibility="Visible" Grid.Row="2" Grid.Column="3" Background="{StaticResource BackgroundPanel}" CornerRadius="8" Margin="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Background="Transparent" Grid.Row="0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Stretch" FontSize="18" Text="Universe"/>
+                <TextBlock Background="Transparent" Grid.Row="0" Foreground="{StaticResource ForegroundDefault}" HorizontalAlignment="Center" VerticalAlignment="Stretch" FontSize="18" Text="Universe"/>
 
                 <ScrollViewer Grid.Row="1" Margin="0, 5, 0, 5" VerticalScrollBarVisibility="Auto">
                     <Grid>
@@ -204,11 +204,11 @@
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
-                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="1" Text="Simulation Speed:"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Background="#262626" BorderThickness="1" Foreground="White" x:Name="InfoSidebarSimSpeed" Grid.Column="1" Grid.Row="1" Text="1" HorizontalAlignment="Right"/>
-                        <TextBlock Foreground="White" Grid.Column="1" Grid.Row="2" Text="Gravitational Constant:"/>
-                        <TextBox CaretBrush="White" BorderBrush="#666666" Background="#262626" BorderThickness="1" Foreground="White" x:Name="InfoSidebarGravitationalConstant" Grid.Column="1" Grid.Row="2" Text="1" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Column="1" Grid.Row="0" Text="Information" HorizontalAlignment="Center"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Column="1" Grid.Row="1" Text="Simulation Speed:"/>
+                        <TextBox CaretBrush="{StaticResource ForegroundDefault}" BorderBrush="{StaticResource BorderDefault}" Background="{StaticResource BackgroundPanel}" BorderThickness="1" Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarSimSpeed" Grid.Column="1" Grid.Row="1" Text="1" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="{StaticResource ForegroundDefault}" Grid.Column="1" Grid.Row="2" Text="Gravitational Constant:"/>
+                        <TextBox CaretBrush="{StaticResource ForegroundDefault}" BorderBrush="{StaticResource BorderDefault}" Background="{StaticResource BackgroundPanel}" BorderThickness="1" Foreground="{StaticResource ForegroundDefault}" x:Name="InfoSidebarGravitationalConstant" Grid.Column="1" Grid.Row="2" Text="1" HorizontalAlignment="Right"/>
                     </Grid>
                 </ScrollViewer>
             </Grid>
@@ -219,15 +219,15 @@
         <Style x:Key="ButtonBlackOutline" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Foreground" Value="{StaticResource Background}"/>
+                    <Setter Property="Background" Value="{StaticResource ForegroundDefault}"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundDefault}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ForegroundDefault}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -250,15 +250,15 @@
         <Style x:Key="AddBodyButton" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="#777777"/>
+                    <Setter Property="Foreground" Value="{StaticResource Background}"/>
+                    <Setter Property="Background" Value="{StaticResource BackgroundHighlight}"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
-            <Setter Property="Background" Value="#444444"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundButton}"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundDefault}"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="#666666"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderDefault}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -283,15 +283,15 @@
         <Style x:Key="DeleteBodyButton" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="#777777"/>
+                    <Setter Property="Foreground" Value="{StaticResource Background}"/>
+                    <Setter Property="Background" Value="{StaticResource BackgroundHighlight}"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
-            <Setter Property="Background" Value="#444444"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundButton}"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundDefault}"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="#666666"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderDefault}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -316,15 +316,15 @@
         <Style x:Key="PlayButton" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="#777777"/>
+                    <Setter Property="Foreground" Value="{StaticResource Background}"/>
+                    <Setter Property="Background" Value="{StaticResource BackgroundHighlight}"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
-            <Setter Property="Background" Value="#444444"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundButton}"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundDefault}"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="#666666"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderDefault}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -345,15 +345,15 @@
         <Style x:Key="PauseButton" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="#777777"/>
+                    <Setter Property="Foreground" Value="{StaticResource Background}"/>
+                    <Setter Property="Background" Value="{StaticResource BackgroundHighlight}"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
-            <Setter Property="Background" Value="#444444"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundButton}"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundDefault}"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="#666666"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderDefault}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -382,15 +382,15 @@
         <Style x:Key="StopButton" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="#777777"/>
+                    <Setter Property="Foreground" Value="{StaticResource Background}"/>
+                    <Setter Property="Background" Value="{StaticResource BackgroundHighlight}"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
-            <Setter Property="Background" Value="#444444"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundButton}"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundDefault}"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="#666666"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderDefault}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -411,15 +411,15 @@
         <Style x:Key="LeftPanelBodyButton" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="#777777"/>
+                    <Setter Property="Foreground" Value="{StaticResource Background}"/>
+                    <Setter Property="Background" Value="{StaticResource BackgroundHighlight}"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
-            <Setter Property="Background" Value="#444444"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundButton}"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundDefault}"/>
             <Setter Property="BorderThickness" Value=".5"/>
-            <Setter Property="BorderBrush" Value="#666666"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderDefault}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -436,6 +436,43 @@
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+        <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}">
+            <Setter Property="Background" Value="{StaticResource BackgroundPanel}"/>
+            <Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MenuFontFamilyKey}}"/>
+            <Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MenuFontSizeKey}}"/>
+            <Setter Property="FontStyle" Value="{DynamicResource {x:Static SystemFonts.MenuFontStyleKey}}"/>
+            <Setter Property="FontWeight" Value="{DynamicResource {x:Static SystemFonts.MenuFontWeightKey}}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.MenuTextBrushKey}}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Menu}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MenuItem" TargetType="{x:Type MenuItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuItem}">
+                        <Border Background="{StaticResource BackgroundPanel}">
+                            <TextBlock Text=""/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter Property="Background"  Value="{StaticResource BackgroundHighlight}"/>
+                                <Setter Property="Foreground"  Value="{StaticResource Background}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundDefault}"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundPanel}"/>
         </Style>
     </Window.Resources>
 </Window>

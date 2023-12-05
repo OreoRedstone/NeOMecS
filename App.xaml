@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:NeOMecS"
              Startup="Application_Startup">
     <Application.Resources>
-         
+        <SolidColorBrush x:Key="BackgroundPanel" Color="#262626"/>
+        <SolidColorBrush x:Key="ForegroundDefault" Color="#ffffff"/>
+        <SolidColorBrush x:Key="BackgroundHighlight" Color="#777777"/>
+        <SolidColorBrush x:Key="BackgroundButton" Color="#444444"/>
+        <SolidColorBrush x:Key="BorderDefault" Color="#666666"/>
+        <SolidColorBrush x:Key="Background" Color="#000000"/>
     </Application.Resources>
 </Application>
