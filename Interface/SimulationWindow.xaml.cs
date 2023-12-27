@@ -62,7 +62,7 @@ public partial class SimulationWindow : Window
     private void dispatcherTimer_Tick(object? sender, EventArgs e)
     {
         if(playState != SimulationPlayState.Playing) return;
-        simulation = SimulationPhysics.SimulateStep(simulation);
+        simulation = SimulationPhysics.SimulateStep(simulation, 0);
     }
 
     private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
@@ -576,6 +576,15 @@ public partial class SimulationWindow : Window
             stream.Close();
         }
         currentFilePath = saveFileDialog.FileName;
+    }
+
+    private void ProgressTimeButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (Application.Current.Windows.Cast<Window>().OfType<ProgressTimeWindow>().Any()) return;
+
+        ProgressTimeWindow window = new ProgressTimeWindow(simulation);
+        window.Show();
+        window.Activate();
     }
 }
 

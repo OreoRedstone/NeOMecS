@@ -1,0 +1,53 @@
+﻿<Window x:Class="NeOMecS.Interface.ProgressTimeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeOMecS.Interface"
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        Title="ProgressTimeWindow" Height="200" Width="250">
+    <Grid Background="{StaticResource BackgroundPanel}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="*" MinHeight="30"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" Text="Progress Time" FontSize="25" Foreground="{StaticResource ForegroundDefault}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="Time Period (s):" Foreground="{StaticResource ForegroundDefault}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
+        <TextBox x:Name="TimePeriodEntry" Grid.Row="3" Grid.Column="2" Foreground="{StaticResource ForegroundDefault}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Background="Transparent" FontSize="15"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="Frequency:" Foreground="{StaticResource ForegroundDefault}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
+        <TextBox x:Name="FrequencyEntry" Grid.Row="5" Grid.Column="2" Foreground="{StaticResource ForegroundDefault}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Background="Transparent" FontSize="15"/>
+
+        <Button x:Name="ConfirmButton" Grid.Row="7" Grid.Column="1" Margin="5" Style="{DynamicResource ConfirmButtons}" Content="Confirm" Click="ConfirmButton_Click"/>
+        <Button x:Name="CancelButton" Grid.Row="7" Grid.Column="2" Margin="5" Style="{DynamicResource ConfirmButtons}" Content="Cancel" Click="CancelButton_Click"/>
+    </Grid>
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="ConfirmButtons">
+            <Setter Property="Background" Value="{StaticResource BackgroundButton}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderDefault}"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundDefault}"/>
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding }" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+</Window>

@@ -11,9 +11,10 @@ public static class SimulationPhysics
 {
     public static readonly Stopwatch stepTimer = Stopwatch.StartNew();
 
-    public static SimState SimulateStep(SimState state)
+    public static SimState SimulateStep(SimState state, double elapsedSeconds)
     {
-        double elapsedSeconds = stepTimer.ElapsedTicks / (double)Stopwatch.Frequency * state.simSpeed;
+        if(elapsedSeconds == 0)
+            elapsedSeconds = stepTimer.ElapsedTicks / (double)Stopwatch.Frequency * state.simSpeed;
         for (int i = 1; i < state.universe.bodies.Count; i++)
         {
             var body = state.universe.bodies[i];

@@ -45,16 +45,19 @@
                 </Grid.RowDefinitions>
                 <Menu Style="{DynamicResource MainMenu}" Grid.Row="0" Background="{StaticResource BackgroundPanel}" Margin="8, 0, 8, 0">
                     <MenuItem Style="{DynamicResource LeftmostTopLevelMenuItem}" Header="File">
-                        <MenuItem x:Name="NewButton" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="New" Command="New" InputGestureText="Crtl+N"/>
-                        <MenuItem x:Name="OpenButton" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Open" Command="Open" InputGestureText="Ctrl+O"/>
-                        <MenuItem x:Name="SaveButton" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Save" Command="Save" InputGestureText="Ctrl+S"/>
-                        <MenuItem x:Name="SaveAsButton" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Save As" Command="SaveAs" InputGestureText="Ctrl+Alt+S"/>
+                        <MenuItem x:Name="NewButton" Style="{DynamicResource ChildMenuItem}" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="New" Command="New" InputGestureText="Crtl+N"/>
+                        <MenuItem x:Name="OpenButton" Style="{DynamicResource ChildMenuItem}" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Open" Command="Open" InputGestureText="Ctrl+O"/>
+                        <MenuItem x:Name="SaveButton" Style="{DynamicResource ChildMenuItem}" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Save" Command="Save" InputGestureText="Ctrl+S"/>
+                        <MenuItem x:Name="SaveAsButton" Style="{DynamicResource ChildMenuItem}" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Save As" Command="SaveAs" InputGestureText="Ctrl+Alt+S"/>
                         <Separator/>
-                        <MenuItem Header="Exit" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" InputGestureText="Alt+F4"/>
+                        <MenuItem Header="Exit" Style="{DynamicResource ChildMenuItem}" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" InputGestureText="Alt+F4"/>
                     </MenuItem>
                     <MenuItem Style="{DynamicResource TopLevelMenuItem}" Header="Edit">
-                        <MenuItem x:Name="SavePresetButton" Header="Save Preset" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Click="SavePresetButton_Click"/>
-                        <MenuItem x:Name="LoadPresetButton" Header="Load Preset" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Click="LoadPresetButton_Click"/>
+                        <MenuItem x:Name="SavePresetButton" Style="{DynamicResource ChildMenuItem}" Header="Save Preset" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Click="SavePresetButton_Click"/>
+                        <MenuItem x:Name="LoadPresetButton" Style="{DynamicResource ChildMenuItem}" Header="Load Preset" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Click="LoadPresetButton_Click"/>
+                    </MenuItem>
+                    <MenuItem Style="{DynamicResource TopLevelMenuItem}" Header="Run">
+                        <MenuItem x:Name="ProgressTimeButton" Style="{DynamicResource ChildMenuItem}" Header="Progress Time" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Click="ProgressTimeButton_Click"/>
                     </MenuItem>
                 </Menu>
             </Grid>
@@ -472,17 +475,38 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type MenuItem}">
-                        <Grid>
+                        <Grid Background="Transparent">
                             <Border x:Name="Border" CornerRadius="8,0,0,8" Background="{StaticResource BackgroundButton}" Width="Auto" Height="Auto" BorderThickness="0.5" BorderBrush="{StaticResource BorderDefault}">
                                 <ContentPresenter x:Name="ContentPresenter" Margin="8,0,8,0" Content="{TemplateBinding Header}"/>
                             </Border>
                             <Popup IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}">
-                                <Border>
+                                <Border BorderBrush="{StaticResource BackgroundPanel}" Background="{StaticResource BackgroundPanel}" CornerRadius="8">
                                     <Grid>
                                         <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="true" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle"/>
                                     </Grid>
                                 </Border>
                             </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter Property="Background" TargetName="Border" Value="{StaticResource BackgroundHighlight}"/>
+                                <Setter TargetName="ContentPresenter" Property="TextBlock.Foreground" Value="{StaticResource Background}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundDefault}"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundPanel}"/>
+        </Style>
+        <Style x:Key="ChildMenuItem" TargetType="{x:Type MenuItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuItem}">
+                        <Grid Margin="5">
+                            <Border x:Name="Border" Background="{StaticResource BackgroundButton}" Width="Auto" Height="Auto" BorderThickness="0.5" BorderBrush="{StaticResource BorderDefault}">
+                                <ContentPresenter x:Name="ContentPresenter" Margin="8,0,8,0" Content="{TemplateBinding Header}"/>
+                            </Border>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
