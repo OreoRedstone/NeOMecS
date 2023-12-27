@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace NeOMecS.Interface
 {
@@ -66,28 +67,34 @@ namespace NeOMecS.Interface
         private void worker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
             var simWindow = (SimulationWindow)Application.Current.MainWindow;
+            simWindow.simulation = new SimState(simulation);
             simWindow.UpdateBodySidebar();
-            Close();
+            CurrentItemCount.Text = "Finished.";
+            //Close();
         }
 
         private void worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
             ProgressBar.Value = e.ProgressPercentage;
+            //CurrentItemCount.Text = e.UserState.ToString();
         }
 
         private void worker_DoWork(object? sender, DoWorkEventArgs e)
         {
+            var localSim = new SimState(simulation);
+            var localFrequency = frequency;
             var worker = sender as BackgroundWorker;
             double length = frequency * timePeriod;
-            worker.ReportProgress(0);
-            for (double i = 0; i < length; i++)
+            CurrentItemCount.Text = "Working...";
+            for (int i = 0; i < length; i++)
             {
-                simulation = SimulationPhysics.SimulateStep(simulation, 1 / frequency);
+                localSim = SimulationPhysics.SimulateStep(localSim, 1 / localFrequency);
                 //Thread.Sleep(1);
-                double progress = i / length * 100;
-                worker.ReportProgress((int)progress);
+                //double progress = i / length * 100;
+
+                //worker.ReportProgress(Convert.ToInt32(progress));
             }
-            worker.ReportProgress(100);
+            simulation = new SimState(localSim);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

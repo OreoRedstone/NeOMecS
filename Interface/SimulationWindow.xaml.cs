@@ -20,7 +20,7 @@ namespace NeOMecS.Interface;
 /// </summary>
 public partial class SimulationWindow : Window
 {
-    private SimState simulation;
+    public SimState simulation;
 
     private Renderer renderer;
     private Body? selectedObject;
