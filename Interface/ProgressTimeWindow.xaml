@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeOMecS.Interface"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="ProgressTimeWindow" Height="300" Width="250">
+        Title="Progress Time" Height="300" Width="250">
     <Grid Background="{StaticResource BackgroundPanel}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>

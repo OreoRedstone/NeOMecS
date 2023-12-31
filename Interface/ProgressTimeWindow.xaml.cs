@@ -66,7 +66,6 @@ namespace NeOMecS.Interface
             worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             worker.RunWorkerAsync();
-            CurrentItemCount.Text = "Working...";
         }
 
         private void worker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
@@ -90,6 +89,12 @@ namespace NeOMecS.Interface
         private void worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
             ProgressBar.Value = e.ProgressPercentage;
+            TimeSpan? etaNullable = e.UserState as TimeSpan?;
+            if(etaNullable.HasValue)
+            {
+                TimeSpan eta = etaNullable.Value;
+                CurrentItemCount.Text = "ETA: " + eta.Days.ToString() + "d " + eta.Hours.ToString() + "h " + eta.Minutes.ToString() + "m " + eta.Seconds.ToString() + "s";
+            }
         }
 
         private void worker_DoWork(object? sender, DoWorkEventArgs e)
@@ -107,9 +112,13 @@ namespace NeOMecS.Interface
                 }
 
                 localSim = SimulationPhysics.SimulateStep(localSim, 1 / localFrequency);
-                double progress = i / length * 100;
 
-                if(sw.ElapsedTicks % 1000 == 0) worker.ReportProgress(Convert.ToInt32(progress));
+                if (sw.ElapsedTicks % 1000 == 0)
+                {
+                    TimeSpan eta = (sw.Elapsed / i) * (length - i);
+                    double progress = i / length * 100;
+                    worker.ReportProgress(Convert.ToInt32(progress), eta);
+                }
             }
             if(!worker.CancellationPending) simulation = new SimState(localSim);
             sw.Stop();
