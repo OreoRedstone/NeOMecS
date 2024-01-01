@@ -67,7 +67,9 @@ public partial class SimulationWindow : Window
 
     private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
     {
-        simulation = SimulationPhysics.CalculateAccelerations(simulation, this);
+        if(playState != SimulationPlayState.Playing)
+            simulation = SimulationPhysics.CalculateAccelerations(simulation, this);
+
         Vector2 cameraMoveAmount = Vector2.Zero;
         if(RenderWindow.IsKeyboardFocused || RenderWindow.IsMouseOver)
         {
