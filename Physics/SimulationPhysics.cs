@@ -11,11 +11,8 @@ public static class SimulationPhysics
 {
     public static readonly Stopwatch stepTimer = Stopwatch.StartNew();
 
-    public static SimState SimulateStep(SimState state, double elapsedSeconds)
+    public static SimState SimulateStepForFixedProgress(SimState state, double elapsedSeconds)
     {
-        if(elapsedSeconds == 0)
-            elapsedSeconds = stepTimer.ElapsedTicks / (double)Stopwatch.Frequency * state.simSpeed;
-
         foreach (Body body in state.universe.bodies)
         {
             var accelerations = new Dictionary<Body, Vector2>();
@@ -39,6 +36,16 @@ public static class SimulationPhysics
             }
             body.UpdateAcceleration(totalAccel);
         }
+
+        return SimulateStep(state, elapsedSeconds);
+    }
+
+    public static SimState SimulateStep(SimState state, double elapsedSeconds)
+    {
+        if(elapsedSeconds == 0)
+            elapsedSeconds = stepTimer.ElapsedTicks / (double)Stopwatch.Frequency * state.simSpeed;
+
+        if (state.universe.bodies.Count == 0) return state;
 
         for (int i = 1; i < state.universe.bodies.Count; i++)
         {
