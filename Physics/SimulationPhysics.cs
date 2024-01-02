@@ -16,6 +16,8 @@ public static class SimulationPhysics
         if(elapsedSeconds == 0)
             elapsedSeconds = stepTimer.ElapsedTicks / (double)Stopwatch.Frequency * state.simSpeed;
 
+        if (state.universe.bodies.Count == 0) return state;
+
         foreach (Body body in state.universe.bodies)
         {
             var accelerations = new Dictionary<Body, Vector2>();
