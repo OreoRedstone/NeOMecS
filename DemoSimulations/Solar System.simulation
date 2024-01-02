@@ -1,0 +1,85 @@
+<simSpeed>1000000<simSpeed/>
+<gravitationalConstant>6.67408E-11<gravitationalConstant/>
+<cameraPosition>17921484878.41127, 161407917578.99854<cameraPosition/>
+<bodies>
+	<body>
+		<name>The Sun<name/>
+		<radius>695508000<radius/>
+		<colour>255, 0, 0<colour/>
+		<position>0, 0<position/>
+		<velocity>0, 0<velocity/>
+		<mass>1.989E+30<mass/>
+	<body/>
+	<body>
+		<name>The Earth<name/>
+		<radius>6371000<radius/>
+		<colour>0, 255, 0<colour/>
+		<position>150000000000, 0<position/>
+		<velocity>0, 29782.7<velocity/>
+		<mass>5.972E+24<mass/>
+	<body/>
+	<body>
+		<name>The Moon<name/>
+		<radius>1737400<radius/>
+		<colour>255, 255, 255<colour/>
+		<position>150384399000, 0<position/>
+		<velocity>0, 30804.7<velocity/>
+		<mass>7.342E+22<mass/>
+	<body/>
+	<body>
+		<name>Mercury<name/>
+		<radius>2439700<radius/>
+		<colour>238, 238, 238<colour/>
+		<position>57909000000, 0<position/>
+		<velocity>0, 47360<velocity/>
+		<mass>3.301E+23<mass/>
+	<body/>
+	<body>
+		<name>Venus<name/>
+		<radius>6051800<radius/>
+		<colour>187, 17, 0<colour/>
+		<position>108210000000, 0<position/>
+		<velocity>0, 35020<velocity/>
+		<mass>4.8673E+24<mass/>
+	<body/>
+	<body>
+		<name>Mars<name/>
+		<radius>3389500<radius/>
+		<colour>153, 51, 0<colour/>
+		<position>227956000000, 0<position/>
+		<velocity>0, 24080<velocity/>
+		<mass>6.4169E+23<mass/>
+	<body/>
+	<body>
+		<name>Jupiter<name/>
+		<radius>69911000<radius/>
+		<colour>200, 139, 58<colour/>
+		<position>778479000000, 0<position/>
+		<velocity>0, 13060<velocity/>
+		<mass>1.89813E+27<mass/>
+	<body/>
+	<body>
+		<name>Saturn<name/>
+		<radius>58232000<radius/>
+		<colour>164, 155, 114<colour/>
+		<position>1432041000000, 0<position/>
+		<velocity>0, 9670<velocity/>
+		<mass>5.6832E+26<mass/>
+	<body/>
+	<body>
+		<name>Uranus<name/>
+		<radius>25362000<radius/>
+		<colour>147, 184, 190<colour/>
+		<position>2867043000000, 0<position/>
+		<velocity>0, 6790<velocity/>
+		<mass>8.6811E+25<mass/>
+	<body/>
+	<body>
+		<name>Neptune<name/>
+		<radius>24622000<radius/>
+		<colour>41, 144, 181<colour/>
+		<position>4514953000000, 0<position/>
+		<velocity>0, 5450<velocity/>
+		<mass>1.02409E+26<mass/>
+	<body/>
+<bodies/>
