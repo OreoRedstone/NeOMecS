@@ -51,9 +51,4 @@ public partial class StartupWindow : Window
         window.Show();
         Close();
     }
-
-    private void SettingsButton_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
 }
