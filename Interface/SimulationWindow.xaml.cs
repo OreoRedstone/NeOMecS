@@ -464,6 +464,7 @@ public partial class SimulationWindow : Window
         simulation = new SimState(stoppedState);
         renderer.cameraTargetPosition = simulation.cameraPosition;
         playState = SimulationPlayState.Stopped;
+        UniverseGrid.Visibility = Visibility.Visible;
         UpdateInfoSidebarValues(selectedObject);
     }
 
