@@ -66,25 +66,6 @@ public class Body : ParentableObject
         position += deltaPosition;
     }
 
-    public void UpdatePositionForCollision(Body other)
-    {
-        if(position == other.position)
-        {
-            position += Vector2.GetNormalised(velocity) * radius / -2;
-        }
-        else
-        {
-            velocity = Vector2.Zero;
-            acceleration = Vector2.Zero;
-
-            Vector2 centralPoint = (position + other.position) / 2;
-            var distanceFromCentralPoint = (radius + other.radius) / 2;
-            var bodyToOther = Vector2.GetNormalised(other.position - position);
-
-            position = centralPoint - (bodyToOther * distanceFromCentralPoint);
-        }
-    }
-
     public int GetParentNestingCount(ParentableObject universe)
     {
         var parents = new List<ParentableObject>();
