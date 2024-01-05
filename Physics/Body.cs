@@ -66,6 +66,7 @@ public class Body : ParentableObject
         position += deltaPosition;
     }
 
+    //Gets the number of graph nodes this body has above it, before the root is reached.
     public int GetParentNestingCount(ParentableObject universe)
     {
         var parents = new List<ParentableObject>();
