@@ -1,21 +1,8 @@
 ﻿using NeOMecS.Physics;
 using NeOMecS.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.ComponentModel;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Threading;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
 
 namespace NeOMecS.Interface
@@ -23,12 +10,12 @@ namespace NeOMecS.Interface
     /// <summary>
     /// Interaction logic for ProgressTimeWindow.xaml
     /// </summary>
-    public partial class ProgressTimeWindow : Window
+    public partial class ProgressTimeWindow
     {
         SimState simulation;
 
-        double frequency = 0;
-        double timePeriod = 0;
+        double frequency;
+        double timePeriod;
 
         BackgroundWorker worker;
 
@@ -59,9 +46,11 @@ namespace NeOMecS.Interface
                 return;
             }
 
-            worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
-            worker.WorkerSupportsCancellation = true;
+            worker = new()
+            {
+                WorkerSupportsCancellation = true,
+                WorkerReportsProgress = true
+            };
             worker.DoWork += worker_DoWork;
             worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
@@ -74,7 +63,6 @@ namespace NeOMecS.Interface
 
             if (e.Cancelled)
             {
-                
                 return;
             }
 
@@ -83,33 +71,28 @@ namespace NeOMecS.Interface
             simWindow.UpdateBodySidebar();
             CurrentItemCount.Text = "Finished.";
             ProgressBar.Value = 100;
-            //Close();
         }
 
         private void worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
             ProgressBar.Value = e.ProgressPercentage;
-            if(e.UserState.GetType() == typeof(TimeSpan))
+            switch(e.UserState)
             {
-                TimeSpan? etaNullable = e.UserState as TimeSpan?;
-                if (etaNullable.HasValue)
-                {
-                    TimeSpan eta = etaNullable.Value;
-                    CurrentItemCount.Text = "ETA: " + eta.Days.ToString() + "d " + eta.Hours.ToString() + "h " + eta.Minutes.ToString() + "m " + eta.Seconds.ToString() + "s";
-                }
-            }
-            else if(e.UserState.GetType() == typeof(string))
-            {
-                CurrentItemCount.Text = e.UserState.ToString();
+                case TimeSpan timeSpanState:
+                    CurrentItemCount.Text = "ETA: " + timeSpanState.Days + "d " + timeSpanState.Hours + "h " + timeSpanState.Minutes + "m " + timeSpanState.Seconds + "s";
+                    break;
+                case string stringState:
+                    CurrentItemCount.Text = stringState;
+                    break;
             }
         }
 
         private void worker_DoWork(object? sender, DoWorkEventArgs e)
         {
-            Stopwatch sw = Stopwatch.StartNew();
+            var sw = Stopwatch.StartNew();
             var localSim = new SimState(simulation);
             var localFrequency = frequency;
-            double length = frequency * timePeriod;
+            var length = frequency * timePeriod;
             for (int i = 0; i < length; i++)
             {
                 if (worker.CancellationPending)
@@ -120,20 +103,19 @@ namespace NeOMecS.Interface
 
                 localSim = SimulationPhysics.SimulateStepForFixedProgress(localSim, 1 / localFrequency);
 
-                if (sw.ElapsedTicks % 1000 == 0)
+                if (sw.ElapsedTicks % 1000 != 0)
+                    break;
+
+                try
                 {
-                    TimeSpan eta;
-                    try
-                    {
-                        eta = (sw.Elapsed / i) * (length - i);
-                        double progress = i / length * 100;
-                        worker.ReportProgress(Convert.ToInt32(progress), eta);
-                    }
-                    catch (Exception)
-                    {
-                        double progress = i / length * 100;
-                        worker.ReportProgress(Convert.ToInt32(progress), "ETA too large to be calculated.");
-                    }
+                    TimeSpan eta = (sw.Elapsed / i) * (length - i);
+                    double progress = i / length * 100;
+                    worker.ReportProgress(Convert.ToInt32(progress), eta);
+                }
+                catch (Exception)
+                {
+                    double progress = i / length * 100;
+                    worker.ReportProgress(Convert.ToInt32(progress), "ETA too large to be calculated.");
                 }
             }
             if(!worker.CancellationPending) simulation = new SimState(localSim);

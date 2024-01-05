@@ -580,6 +580,11 @@ public partial class SimulationWindow : Window
         currentFilePath = saveFileDialog.FileName;
     }
 
+    private void ExitCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        Close();
+    }
+
     private void ProgressTimeButton_Click(object sender, RoutedEventArgs e)
     {
         if (Application.Current.Windows.Cast<Window>().OfType<ProgressTimeWindow>().Any()) return;

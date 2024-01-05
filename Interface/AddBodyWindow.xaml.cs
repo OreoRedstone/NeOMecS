@@ -8,7 +8,7 @@ namespace NeOMecS.Interface;
 /// <summary>
 /// Interaction logic for AddBody.xaml
 /// </summary>
-public partial class AddBodyWindow : Window
+public partial class AddBodyWindow
 {
     private SimState simulation;
 
@@ -122,7 +122,6 @@ public partial class AddBodyWindow : Window
         {
             simulation.universe.bodies.Remove(body);
             MessageBox.Show("An error occured while adding the body to the simulation.");
-            return;
         }
     }
 
