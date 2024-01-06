@@ -4,7 +4,7 @@ using NeOMecS.Physics;
 
 namespace NeOMecS.Utilities;
 
-public static class Quicksort
+public static class QuickSort
 {
     public static List<Body> SortBodiesByNesting(List<Body> list)
     {

@@ -42,7 +42,7 @@ public class Universe : ParentableObject
     public List<Body> GetBodiesOrdered()
     {
         //var orderedBodies = bodies.OrderBy(x => x.GetParentNestingCount(this)).ToList();
-        var orderedBodies = Quicksort.SortBodiesByNesting(bodies);
+        var orderedBodies = QuickSort.SortBodiesByNesting(bodies);
         List<Body> newList = new();
         foreach (var item in orderedBodies)
         {
