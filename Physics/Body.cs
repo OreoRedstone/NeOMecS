@@ -67,12 +67,13 @@ public class Body : ParentableObject
     }
 
     //Gets the number of graph nodes this body has above it, before the root is reached.
-    public int GetParentNestingCount(ParentableObject universe)
+    public int GetParentNestingCount()
     {
         var parents = new List<ParentableObject>();
         Body body = this;
         int layers = -1;
-        while(body != universe)
+        var shouldContinue = true;
+        while(shouldContinue)
         {
             layers++;
             if(body.parent.GetType() == typeof(Body))
@@ -83,7 +84,7 @@ public class Body : ParentableObject
             }
             else if(body.parent.GetType() == typeof(Universe))
             {
-                break;
+                shouldContinue = false;
             }
         }
         return layers;

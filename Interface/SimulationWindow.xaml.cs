@@ -188,7 +188,7 @@ public partial class SimulationWindow : Window
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Tag = body.guid,
                 Style = (Style)FindResource("LeftPanelBodyButton"),
-                Margin = new Thickness((body.GetParentNestingCount(simulation.universe) + 1) * 10, 1, 1, 1),
+                Margin = new Thickness((body.GetParentNestingCount() + 1) * 10, 1, 1, 1),
             };
             bodyEntry.Click += new RoutedEventHandler(LeftPanelBodyButtonCall);
             BodySidebarGrid.Children.Add(bodyEntry);
