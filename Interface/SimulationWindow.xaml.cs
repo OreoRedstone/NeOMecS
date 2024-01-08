@@ -88,8 +88,6 @@ public partial class SimulationWindow : Window
                     case Key.A:
                         cameraMoveAmount += Vector2.Left;
                         break;
-                    default:
-                        break;
                 }
             }
         }

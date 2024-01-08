@@ -10,7 +10,7 @@ namespace NeOMecS.Interface
     /// <summary>
     /// Interaction logic for ProgressTimeWindow.xaml
     /// </summary>
-    public partial class ProgressTimeWindow
+    public partial class ProgressTimeWindow : Window
     {
         SimState simulation;
 

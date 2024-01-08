@@ -1,5 +1,4 @@
 ﻿using NeOMecS.Physics;
-using System;
 
 namespace NeOMecS.Utilities;
 

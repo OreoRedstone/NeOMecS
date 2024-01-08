@@ -8,7 +8,7 @@ namespace NeOMecS.Interface;
 /// <summary>
 /// Interaction logic for AddBody.xaml
 /// </summary>
-public partial class AddBodyWindow
+public partial class AddBodyWindow : Window
 {
     private SimState simulation;
 

@@ -1,7 +1,6 @@
 ﻿using NeOMecS.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Windows.Documents;
 
 namespace NeOMecS.Physics;
 
