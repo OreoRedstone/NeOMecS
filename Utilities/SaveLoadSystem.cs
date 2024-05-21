@@ -4,7 +4,6 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 using NeOMecS.Physics;
-using System.Windows.Shapes;
 
 namespace NeOMecS.Utilities;
 

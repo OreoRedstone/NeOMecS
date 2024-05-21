@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using NeOMecS.Utilities;
 
 namespace NeOMecS.Physics;
 
@@ -40,7 +39,8 @@ public class Universe : ParentableObject
 
     public List<Body> GetBodiesOrdered()
     {
-        var orderedBodies = bodies.OrderBy(x => x.GetParentNestingCount(this)).ToList();
+        //var orderedBodies = bodies.OrderBy(x => x.GetParentNestingCount(this)).ToList();
+        var orderedBodies = QuickSort.SortBodiesByNesting(bodies);
         List<Body> newList = new();
         foreach (var item in orderedBodies)
         {

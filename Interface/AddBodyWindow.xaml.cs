@@ -122,7 +122,6 @@ public partial class AddBodyWindow : Window
         {
             simulation.universe.bodies.Remove(body);
             MessageBox.Show("An error occured while adding the body to the simulation.");
-            return;
         }
     }
 

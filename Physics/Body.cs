@@ -1,7 +1,6 @@
 ﻿using NeOMecS.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Windows.Documents;
 
 namespace NeOMecS.Physics;
 
@@ -66,31 +65,14 @@ public class Body : ParentableObject
         position += deltaPosition;
     }
 
-    public void UpdatePositionForCollision(Body other)
-    {
-        if(position == other.position)
-        {
-            position += Vector2.GetNormalised(velocity) * radius / -2;
-        }
-        else
-        {
-            velocity = Vector2.Zero;
-            acceleration = Vector2.Zero;
-
-            Vector2 centralPoint = (position + other.position) / 2;
-            var distanceFromCentralPoint = (radius + other.radius) / 2;
-            var bodyToOther = Vector2.GetNormalised(other.position - position);
-
-            position = centralPoint - (bodyToOther * distanceFromCentralPoint);
-        }
-    }
-
-    public int GetParentNestingCount(ParentableObject universe)
+    //Gets the number of graph nodes this body has above it, before the root is reached.
+    public int GetParentNestingCount()
     {
         var parents = new List<ParentableObject>();
         Body body = this;
         int layers = -1;
-        while(body != universe)
+        var shouldContinue = true;
+        while(shouldContinue)
         {
             layers++;
             if(body.parent.GetType() == typeof(Body))
@@ -101,7 +83,7 @@ public class Body : ParentableObject
             }
             else if(body.parent.GetType() == typeof(Universe))
             {
-                break;
+                shouldContinue = false;
             }
         }
         return layers;

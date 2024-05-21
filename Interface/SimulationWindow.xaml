@@ -15,12 +15,14 @@
         <CommandBinding Command="Open" Executed="OpenCommandBinding_Executed"/>
         <CommandBinding Command="Save" Executed="SaveCommandBinding_Executed"/>
         <CommandBinding Command="SaveAs" Executed="SaveAsCommandBinding_Executed"/>
+        <CommandBinding Command="Close" Executed="ExitCommandBinding_Executed"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Key="N" Modifiers="Ctrl" Command="New"/>
         <KeyBinding Key="O" Modifiers="Ctrl" Command="Open"/>
         <KeyBinding Key="S" Modifiers="Ctrl" Command="Save"/>
         <KeyBinding Key="S" Modifiers="Ctrl+Alt" Command="SaveAs"/>
+        <KeyBinding Key="F4" Modifiers="Alt" Command="Close"/>
     </Window.InputBindings>
     <Grid Background="{StaticResource Background}">
         <Grid.ColumnDefinitions>
@@ -50,7 +52,7 @@
                         <MenuItem x:Name="SaveButton" Style="{DynamicResource ChildMenuItem}" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Save" Command="Save" InputGestureText="Ctrl+S"/>
                         <MenuItem x:Name="SaveAsButton" Style="{DynamicResource ChildMenuItem}" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Header="Save As" Command="SaveAs" InputGestureText="Ctrl+Alt+S"/>
                         <Separator/>
-                        <MenuItem Header="Exit" Style="{DynamicResource ChildMenuItem}" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" InputGestureText="Alt+F4"/>
+                        <MenuItem Header="Exit" Style="{DynamicResource ChildMenuItem}" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Command="Close" InputGestureText="Alt+F4"/>
                     </MenuItem>
                     <MenuItem Style="{DynamicResource TopLevelMenuItem}" Header="Edit">
                         <MenuItem x:Name="SavePresetButton" Style="{DynamicResource ChildMenuItem}" Header="Save Preset" Background="{StaticResource BackgroundPanel}" Foreground="{StaticResource ForegroundDefault}" Click="SavePresetButton_Click"/>
