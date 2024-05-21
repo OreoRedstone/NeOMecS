@@ -423,8 +423,7 @@ public partial class SimulationWindow : Window
     private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (!(RenderWindow.IsKeyboardFocused || RenderWindow.IsMouseOver)) return;
-        var changeInScale = e.Delta / -20000.0;
-        changeInScale *= followedObject == null ? renderer.targetScale : followedObject.radius;
+        var changeInScale = e.Delta * renderer.targetScale / -2000.0;
         renderer.targetScale += changeInScale;
     }
 
