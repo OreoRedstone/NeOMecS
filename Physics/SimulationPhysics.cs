@@ -15,7 +15,6 @@ public static class SimulationPhysics
     {
         foreach (Body body in state.universe.bodies)
         {
-            var accelerations = new Dictionary<Body, Vector2>();
             var totalAccel = Vector2.Zero;
             foreach (Body other in state.universe.bodies)
             {
@@ -31,7 +30,6 @@ public static class SimulationPhysics
                 Vector2 thisAccel = direction * other.mass * state.universe.gravitationalConstant / distanceSquared;
 
                 //Adds the current acceleration onto the running total.
-                accelerations.Add(other, thisAccel);
                 totalAccel += thisAccel;
             }
             body.UpdateAcceleration(totalAccel);
